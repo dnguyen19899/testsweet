@@ -9,9 +9,14 @@ import Foundation
 
 class NightscoutController {
     
+    private var date: Date
+    private var timestamp = 0
     private var dateString = ""
-    private var date = 0
     
+    init (date: Date) {
+        self.date = date
+        print(self.date)
+    }
     
     // Make treatment and post it on the nighscout site, I can delete this but I am not ready to part with it until we know for sure.
     func makeTreatmentPostRequest(id: String, glucose: String, carbs: Double, protein: Double, fat: Double, insulin: Double, enteredBy: String ) {
