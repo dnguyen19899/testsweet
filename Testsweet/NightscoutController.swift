@@ -86,4 +86,8 @@ class NightscoutController {
 
         }.resume()
     }
+    
+    func duyPrint() {
+        print("testing branches")
+    }
 }
