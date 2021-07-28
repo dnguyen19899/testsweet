@@ -64,13 +64,9 @@ class NightscoutController {
         }
 
         var request = URLRequest(url: url)
-
         request.httpMethod = "POST"
-
         request.addValue("TandemDiabetes1", forHTTPHeaderField: "x-api-key")
-
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-
         request.httpBody = payload
 
 
