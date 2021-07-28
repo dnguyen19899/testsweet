@@ -86,14 +86,12 @@ class NightscoutController {
 
         }.resume()
     }
-<<<<<<< HEAD
+
     func thisIsATest(){
         print("this is a test.")
-=======
-    
+    }
     func duyPrint() {
         print("testing branches")
->>>>>>> 7bd318320f3edb2c127d018027848ea77ad3679e
     }
 }
 
