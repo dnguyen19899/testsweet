@@ -99,10 +99,10 @@
 			children = (
 				AE3FE95C26AF782800DC980E /* TestsweetApp.swift */,
 				AE3FE95E26AF782800DC980E /* ContentView.swift */,
+				AE93232B26B0BE98006DD1FA /* NightscoutController.swift */,
 				AE3FE96026AF782B00DC980E /* Assets.xcassets */,
 				AE3FE96526AF782B00DC980E /* Info.plist */,
 				AE3FE96226AF782B00DC980E /* Preview Content */,
-				AE93232B26B0BE98006DD1FA /* NightscoutController.swift */,
 			);
 			path = Testsweet;
 			sourceTree = "<group>";
