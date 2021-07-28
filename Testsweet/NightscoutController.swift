@@ -86,4 +86,8 @@ class NightscoutController {
 
         }.resume()
     }
+    func thisIsATest(){
+        print("this is a test.")
+    }
 }
+

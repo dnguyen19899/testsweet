@@ -23,7 +23,7 @@ struct ContentView: View {
 
         }, label:{
 
-            Text("Run make post Request")
+            Text("Run make post Request").bold()
 
         })
 
