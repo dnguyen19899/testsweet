@@ -19,9 +19,10 @@ class NightscoutController {
     }
     
     func formatDateString() {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "YYYY-MM-DD'T'HH:mm:ss.SSS'Z'"
-        self.dateString = dateFormatter.string(from: self.date)
+        
+        let iso8601DateFormatter = ISO8601DateFormatter()
+        iso8601DateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        self.dateString = iso8601DateFormatter.string(from: self.date)
         
         print(self.date)
         print(self.dateString)
