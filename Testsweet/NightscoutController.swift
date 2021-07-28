@@ -15,7 +15,16 @@ class NightscoutController {
     
     init (date: Date) {
         self.date = date
+        // print(self.date)
+    }
+    
+    func formatDateString() {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "YYYY-MM-DD'T'HH:mm:ss.SSS'Z'"
+        self.dateString = dateFormatter.string(from: self.date)
+        
         print(self.date)
+        print(self.dateString)
     }
     
     // Make treatment and post it on the nighscout site, I can delete this but I am not ready to part with it until we know for sure.
