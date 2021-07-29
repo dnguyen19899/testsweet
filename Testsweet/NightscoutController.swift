@@ -59,7 +59,7 @@ class NightscoutController {
     //deleteEntryRequest function deletes all entries
     func deleteEntryRequest() {
         print("deleting")
-        guard let url = URL(string: "https://test-sweet.herokuapp.com/api/v1/entries.json?find\\[sgv\\]=130&token=api-d1b60b0ce9c2dbae")
+        guard let url = URL(string: "https://test-sweet.herokuapp.com/api/v1/entries.json?find[sgv]=130&token=api-d1b60b0ce9c2dbae")
 
         else {
             print("else\\")

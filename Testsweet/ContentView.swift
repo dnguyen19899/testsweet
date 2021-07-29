@@ -25,7 +25,7 @@ struct ContentView: View {
                                 print("making post")
                                 let NSController = NightscoutController(date: date)
                                 //NSController.formatDateString()
-                                NSController.makeEntryPostRequest(dateString: "2021-07-28T20:57:49.051Z", date: 1627505869051 , sgv: 130, direction: "FLAT")
+                                NSController.makeEntryPostRequest(dateString: "2021-07-29T20:59:27.499Z", date: 1627592367499 , sgv: 130, direction: "FLAT")
                             }){
                                 Text("Create Entry")
                                 .bold()
