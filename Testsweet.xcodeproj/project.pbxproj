@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AE1B262D26B49C3E007F1794 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE1B262C26B49C3E007F1794 /* HeaderView.swift */; };
+		AE1B262F26B4A853007F1794 /* NumbersOnly.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE1B262E26B4A853007F1794 /* NumbersOnly.swift */; };
 		AE3FE95D26AF782800DC980E /* TestsweetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3FE95C26AF782800DC980E /* TestsweetApp.swift */; };
 		AE3FE95F26AF782800DC980E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3FE95E26AF782800DC980E /* ContentView.swift */; };
 		AE3FE96126AF782B00DC980E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AE3FE96026AF782B00DC980E /* Assets.xcassets */; };
@@ -34,6 +36,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AE1B262C26B49C3E007F1794 /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
+		AE1B262E26B4A853007F1794 /* NumbersOnly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumbersOnly.swift; sourceTree = "<group>"; };
 		AE3FE95926AF782800DC980E /* Testsweet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Testsweet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE3FE95C26AF782800DC980E /* TestsweetApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestsweetApp.swift; sourceTree = "<group>"; };
 		AE3FE95E26AF782800DC980E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -98,11 +102,13 @@
 			isa = PBXGroup;
 			children = (
 				AE3FE95C26AF782800DC980E /* TestsweetApp.swift */,
+				AE1B262C26B49C3E007F1794 /* HeaderView.swift */,
 				AE3FE95E26AF782800DC980E /* ContentView.swift */,
 				AE93232B26B0BE98006DD1FA /* NightscoutController.swift */,
 				AE3FE96026AF782B00DC980E /* Assets.xcassets */,
 				AE3FE96526AF782B00DC980E /* Info.plist */,
 				AE3FE96226AF782B00DC980E /* Preview Content */,
+				AE1B262E26B4A853007F1794 /* NumbersOnly.swift */,
 			);
 			path = Testsweet;
 			sourceTree = "<group>";
@@ -265,6 +271,8 @@
 				AE3FE95F26AF782800DC980E /* ContentView.swift in Sources */,
 				AE3FE95D26AF782800DC980E /* TestsweetApp.swift in Sources */,
 				AE93232C26B0BE98006DD1FA /* NightscoutController.swift in Sources */,
+				AE1B262D26B49C3E007F1794 /* HeaderView.swift in Sources */,
+				AE1B262F26B4A853007F1794 /* NumbersOnly.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
