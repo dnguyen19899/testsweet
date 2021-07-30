@@ -29,7 +29,7 @@ struct ContentView: View {
                             Button(action: {
                                 
                                 print("making post")
-                                NSController.makeEntryPostRequest(dateString: "2021-07-29T20:59:27.499Z", date: 1627592367499 , sgv: 130, direction: "FLAT")
+                                NSController.makeEntryPostRequest(dateString: NSController.getDateString(), date: NSController.getTimeStamp() , sgv: 130, direction: "FLAT")
                             }){
                                 Text("Create")
                                 .bold()
@@ -77,15 +77,17 @@ struct ContentView: View {
                         HStack {
                             Spacer()
                             Button(action: {
-                                
-                                print("making post")
-                                
-                                NSController.populateGraphWithTwoTimes(
-                                    dateStart: "2021-07-29T20:00:27.499Z",
-                                    epochStartTime: 1627592367499,
-                                    epochEndTime:   1627650037122)
-                                
-                                //NSController.makeEntryPostRequest(dateString: "2021-07-29T20:59:27.499Z", date: 1627592367499 , sgv: 130, direction: "FLAT")
+                                if startDate == endDate || startDate > endDate {
+                                    print("Please make sure start date is less than end and not equal")
+                                }
+                                else{
+                                    print("making post")
+                                    
+                                    NSController.populateGraphWithTwoTimes(
+                                        dateStart: NSController.getStartDateString(),
+                                        epochStartTime: NSController.getStartTimeStamp(),
+                                        epochEndTime:   NSController.getEndTimeStamp())
+                                }
                             }){
                                 Text("Create")
                                 .bold()

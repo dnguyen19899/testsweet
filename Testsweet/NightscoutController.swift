@@ -73,17 +73,18 @@ class NightscoutController {
     }
     
     func populateGraphWithTwoTimes (dateStart: String, epochStartTime: Int64, epochEndTime: Int64) {
-        var totalTime: Int64 = epochEndTime - epochStartTime
-        totalTime = Int64(totalTime/300000)
+        let totalTime = epochEndTime - epochStartTime
+        print (totalTime)
+        let TotalTime = totalTime/300000
         var newEpochStart = epochStartTime
-        for i in (1...totalTime){
+        for i in (0...TotalTime){
             newEpochStart = newEpochStart + 300000
             let dateStartnew = "2021-07-29T20:\(i * 5):27.499Z"
             let randNum = Int.random(in: 40...400)
             makeEntryPostRequest(dateString: dateStartnew, date: newEpochStart, sgv: randNum, direction: "FLAT")
         }
     }
-    
+    //for custom
     func getTimeStamp() -> Int64 {
         return timeStamp
     }
@@ -91,7 +92,7 @@ class NightscoutController {
     func getDateString() -> String {
         return dateString
     }
-    
+    //for two dates
     func getStartTimeStamp() -> Int64 {
         return startTimeStamp
     }
