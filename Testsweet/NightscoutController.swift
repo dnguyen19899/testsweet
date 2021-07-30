@@ -71,18 +71,32 @@ class NightscoutController {
         iso8601DateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
         return iso8601DateFormatter.string(from: self.date)
     }
+    
+    func populateGraphWithTwoTimes (dateStart: String, epochStartTime: Int, epochEndTime: Int) {
+        var totalTime: Int = epochEndTime - epochStartTime
+        totalTime = Int(totalTime/300000)
+        var newEpochStart = epochStartTime
+        for i in (1...totalTime){
+            newEpochStart = newEpochStart + 300000
+            let dateStartnew = "2021-07-29T20:\(i * 5):27.499Z"
+            let randNum = Int.random(in: 40...400)
+            makeEntryPostRequest(dateString: dateStartnew, date: newEpochStart, sgv: randNum, direction: "FLAT")
+        }
+    }
 
+    
+    
+    
+    
+    // ----------- CURL Requests ----------- //
+    
     // This posts the entrys that we input as parameters.
     func makeEntryPostRequest(dateString: String, date: Int, sgv: Int, direction: String) {
-
         guard let url = URL(string: "https://test-sweet.herokuapp.com/api/v1/entries?token=api-d1b60b0ce9c2dbae"),
-
             let payload = "[{\"type\":\"sgv\",\"dateString\":\"\(dateString)\",\"date\":\(date),\"sgv\":\(sgv),\"direction\":\"\(direction)\"}]".data(using: .utf8) else
-
         {
             return
         }
-
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.addValue("TandemDiabetes1", forHTTPHeaderField: "x-api-key")
@@ -103,10 +117,10 @@ class NightscoutController {
     //deleteEntryRequest function deletes all entries
     func deleteEntryRequest() {
         print("deleting")
-        guard let url = URL(string: "https://test-sweet.herokuapp.com/api/v1/entries.json?find[sgv]=130&token=api-d1b60b0ce9c2dbae")
+        guard let url = URL(string: "https://test-sweet.herokuapp.com/api/v1/entries.json?find[sgv][$gte]=0&token=api-d1b60b0ce9c2dbae")
 
         else {
-            print("else\\")
+            print("URL is not accepted")
             return
         }
 
@@ -117,8 +131,8 @@ class NightscoutController {
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             guard error == nil else { print(error!.localizedDescription); return }
             guard let data = data else { print("Empty data"); return }
-            if let str = String(data: data, encoding: .utf8) {
-                print(str)
+            if String(data: data, encoding: .utf8) != nil {
+                print("done")
             }
 
         }.resume()

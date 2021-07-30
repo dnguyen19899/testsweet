@@ -79,7 +79,13 @@ struct ContentView: View {
                             Button(action: {
                                 
                                 print("making post")
-                                // NSController.makeEntryPostRequest(dateString: "2021-07-29T20:59:27.499Z", date: 1627592367499 , sgv: 130, direction: "FLAT")
+                                
+                                NSController.populateGraphWithTwoTimes(
+                                    dateStart: "2021-07-29T20:00:27.499Z",
+                                    epochStartTime: 1627592367499,
+                                    epochEndTime:   1627650037122)
+                                
+                                //NSController.makeEntryPostRequest(dateString: "2021-07-29T20:59:27.499Z", date: 1627592367499 , sgv: 130, direction: "FLAT")
                             }){
                                 Text("Create")
                                 .bold()
@@ -99,7 +105,7 @@ struct ContentView: View {
                             Button(action: {
                                 
                                 print("making delete")
-                                // NSController.deleteEntryRequest()
+                                NSController.deleteEntryRequest()
                             }){
                                 Text("Delete")
                                 .bold()
