@@ -72,9 +72,9 @@ class NightscoutController {
         return iso8601DateFormatter.string(from: self.date)
     }
     
-    func populateGraphWithTwoTimes (dateStart: String, epochStartTime: Int, epochEndTime: Int) {
-        var totalTime: Int = epochEndTime - epochStartTime
-        totalTime = Int(totalTime/300000)
+    func populateGraphWithTwoTimes (dateStart: String, epochStartTime: Int64, epochEndTime: Int64) {
+        var totalTime: Int64 = epochEndTime - epochStartTime
+        totalTime = Int64(totalTime/300000)
         var newEpochStart = epochStartTime
         for i in (1...totalTime){
             newEpochStart = newEpochStart + 300000
@@ -83,15 +83,35 @@ class NightscoutController {
             makeEntryPostRequest(dateString: dateStartnew, date: newEpochStart, sgv: randNum, direction: "FLAT")
         }
     }
-
     
+    func getTimeStamp() -> Int64 {
+        return timeStamp
+    }
     
+    func getDateString() -> String {
+        return dateString
+    }
     
+    func getStartTimeStamp() -> Int64 {
+        return startTimeStamp
+    }
+    
+    func getEndTimeStamp() -> Int64 {
+        return endTimeStamp
+    }
+    
+    func getStartDateString() -> String {
+        return startDateString
+    }
+    
+    func getEndDateString() -> String {
+        return endDateString
+    }
     
     // ----------- CURL Requests ----------- //
     
     // This posts the entrys that we input as parameters.
-    func makeEntryPostRequest(dateString: String, date: Int, sgv: Int, direction: String) {
+    func makeEntryPostRequest(dateString: String, date: Int64, sgv: Int, direction: String) {
         guard let url = URL(string: "https://test-sweet.herokuapp.com/api/v1/entries?token=api-d1b60b0ce9c2dbae"),
             let payload = "[{\"type\":\"sgv\",\"dateString\":\"\(dateString)\",\"date\":\(date),\"sgv\":\(sgv),\"direction\":\"\(direction)\"}]".data(using: .utf8) else
         {
