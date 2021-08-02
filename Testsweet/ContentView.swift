@@ -23,18 +23,61 @@ extension Color {
     }
 }
 
+enum ActiveAlert {
+    case first, second, third
+}
+
 struct ContentView: View {
 
     @State private var date = Date()
     @State private var startDate = Date()
     @State private var endDate = Date()
     @State private var dateError = false
+    @State private var sgvError = false
+    @State private var checkError = false
     @State private var deleteAlert = false
+    @State private var showAlert = false
+    @State private var activeAlert: ActiveAlert = .first
     @ObservedObject var sgv = NumbersOnly()
+    @ObservedObject var sgv2 = NumbersOnly()
+    
+    @State private var deleteScreen = false
+    @State private var isAnimating = false
+    @State private var showProgress = false
+    
+    @State private var CGMPoints: Int64 = 0
+    @State private var button = false
+  
+    var foreverAnimation: Animation {
+        Animation.linear(duration: 2.0)
+            .repeatForever(autoreverses: false)
+    }
     
     var body: some View {
+        if deleteScreen {
+            ZStack{
+                Rectangle()
+                    .fill(Color.white)
+                    .frame(width: 1000, height: 1000)
+                VStack{
+                    Text("Deleting")
+                        .foregroundColor(Color.black)
+                        .font(.system(size: 60))
+                        .bold()
+                    Image(systemName: "arrow.2.circlepath")
+                        .font(.system(size: 56.0))
+                        .rotationEffect(Angle(degrees: self.isAnimating ? 360 : 0.0))
+                        .animation(self.isAnimating ? foreverAnimation : .default)
+                        .onAppear { self.isAnimating = true }
+                        .onDisappear { self.isAnimating = false }
+                        .onAppear { self.showProgress = true }
+                }
+            }
+                
+        }
         ZStack {
-            Color(hex:0xFFFAF1).ignoresSafeArea()
+            //Color(hex:0xFFFAF1).ignoresSafeArea()
+            Color(.white).ignoresSafeArea()
             
             ScrollView{
                 LazyVStack(alignment: .leading, spacing: 15, pinnedViews: [.sectionHeaders], content: {
@@ -43,7 +86,7 @@ struct ContentView: View {
                         Text("Make Custom Entries")
                             .font(.system(size: 20, weight: .heavy))
                             .padding(.leading, 20)
-                            .foregroundColor(.pink)
+                            .foregroundColor(.blue)
                         
                         // Datepicker for custom entries
                         DatePicker("Select date and time", selection: $date, displayedComponents: [.date, .hourAndMinute])
@@ -69,9 +112,22 @@ struct ContentView: View {
                         HStack {
                             Spacer()
                             Button(action: {
-
-                                print("making post")
-                                NSController.makeEntryPostRequest(dateString: NSController.getDateString(), date: NSController.getTimeStamp() , sgv: 130, direction: "FLAT")
+                               
+                                print("the value is \(sgv.value)")
+                                if sgv.value != "" {
+                                    if (Int(sgv.value)!) >= 0 && (Int(sgv.value)!) <= 500 {
+                                        print("making post")
+                                        NSController.makeEntryPostRequest(date: NSController.getTimeStamp() , sgv: Int(sgv.value)!, direction: "FLAT")
+                                    }
+                                    else{
+                                        print("chose a sgv value between 0 and 500")
+                                        sgvError = true
+                                    }
+                                }
+                                else{
+                                    print("must add a sgv value before proceeding")
+                                    sgvError = true
+                                }
                             }){
                                 Text("CREATE")
                                 .bold()
@@ -81,10 +137,10 @@ struct ContentView: View {
                                     .padding(.leading, 30)
                                     .padding(.trailing, 30)
                                 .foregroundColor(Color.white)
-                                .background(Color.green)
+                                .background(Color.black)
                                 .cornerRadius(12)
-                            }.alert(isPresented: $dateError) {
-                                Alert(title: Text("Error"), message: Text("Please enter the correct date"), dismissButton: .default(Text("OK")))
+                            }.alert(isPresented: $sgvError) {
+                                Alert(title: Text("Error"), message: Text("Please enter a value between 0 and 500"), dismissButton: .default(Text("OK")))
                             }
                             Spacer()
                         }
@@ -95,7 +151,7 @@ struct ContentView: View {
                         Text("Generate Entries within Range")
                             .font(.system(size: 20, weight: .heavy))
                             .padding(.leading, 20)
-                            .foregroundColor(.pink)
+                            .foregroundColor(.blue)
                         
                         // Start Date
                         DatePicker("Select a start date", selection: $startDate, displayedComponents: [.date, .hourAndMinute])
@@ -111,19 +167,91 @@ struct ContentView: View {
                         // initializer for backend
                         let NSController = NightscoutController(startDate: startDate, endDate: endDate)
                         
+                        //Check box slider thing
+                     
+                        HStack {
+                            Button(action: {
+                                button = false
+                            }){
+                                Text("Random Readings")
+                                    .bold()
+                                    .foregroundColor(button ? Color.blue : Color.white)
+                                    .padding()
+                                    .background(button ? Color.clear : Color.blue)
+                                    .cornerRadius(12)
+                            }
+                           
+                            Button(action: {
+                                button = true
+                            }){
+                                Text("Straight Readings")
+                                    .bold()
+                                    .foregroundColor(button ? Color.white : Color.blue)
+                                    .padding()
+                                    .background(button ? Color.blue : Color.clear)
+                                    .cornerRadius(12)
+                                
+                                
+                            }
+                            
+                            VStack{
+                                if button {
+                                    Text("BG Reading")
+                                        .padding(.leading, 20)
+                                    // SVG input field for custom entries
+                                    TextField("", text: $sgv2.value)
+                                                .keyboardType(.decimalPad)
+                                        .border(Color.gray)
+                                        .padding(.leading, 40)
+                                        .padding(.trailing, 20)
+                                }
+                            }.textFieldStyle(RoundedBorderTextFieldStyle())
+                        }
+                         .overlay(
+                            RoundedRectangle(cornerRadius: 10.0)
+                                .stroke(lineWidth: 2.0)
+                                
+                        )
+                        .padding()
+          
+                       
+                        
                         // CREATE button
                         HStack {
                             Spacer()
                             Button(action: {
                                 if startDate == endDate || startDate > endDate {
                                     print("Please make sure start date is less than end and not equal")
-                                    dateError = true
+                                    self.activeAlert = .third
+                                    self.showAlert = true
                                 }
                                 else {
-                                    print("making post")
+                                    if button == false{
+                                        print("making post; random")
+                                        CGMPoints = NSController.populateGraphWithTwoTimesRandom(epochStartTime: NSController.getStartTimeStamp(), epochEndTime: NSController.getEndTimeStamp())
+                                    }
+                                    else {
+                                        if sgv2.value != "" {
+                                            if (Int(sgv2.value)!) >= 0 && (Int(sgv2.value)!) <= 500  {
+                                                print("making post; straight")
+                                                CGMPoints = NSController.populateGraphWithTwoTimeStraight(sgv: (Int(sgv2.value)!), epochStartTime: NSController.getStartTimeStamp(), epochEndTime: NSController.getEndTimeStamp())
+                                            }
+                                            else{
+                                                print("chose a sgv value between 0 and 500")
+                                                self.activeAlert = .second
+                                                self.showAlert = true
+                                            }
+                                        }
+                                        else{
+                                            print("must add SGV value nerd")
+                                            self.activeAlert = .first
+                                            self.showAlert = true
+                                            
+                                            
+                                        }
+                                    }
                                 }
-        
-                                NSController.populateGraphWithTwoTimes(dateStart: NSController.getStartDateString(), epochStartTime: NSController.getStartTimeStamp(), epochEndTime: NSController.getEndTimeStamp())
+    
                             }){
                                 Text("CREATE")
                                 .bold()
@@ -133,10 +261,17 @@ struct ContentView: View {
                                     .padding(.leading, 30)
                                     .padding(.trailing, 30)
                                 .foregroundColor(Color.white)
-                                .background(Color.green)
+                                .background(Color.black)
                                 .cornerRadius(12)
-                            }.alert(isPresented: $dateError) {
-                                Alert(title: Text("Error"), message: Text("Please enter the correct date"), dismissButton: .default(Text("OK")))
+                            }.alert(isPresented: $showAlert) {
+                                switch activeAlert {
+                                case .first:
+                                    return Alert(title: Text("Error"), message: Text("Please enter an SGV value"), dismissButton: .default(Text("OK")))
+                                case .second:
+                                    return Alert(title: Text("Error"), message: Text("chose a sgv value between 0 and 500"), dismissButton: .default(Text("OK")))
+                                case .third:
+                                    return Alert(title: Text("Error"), message: Text("Please make sure start date is less than end and not equal"), dismissButton: .default(Text("OK")))
+                                }
                             }
                             Spacer()
                         }
@@ -146,8 +281,8 @@ struct ContentView: View {
                         Text("Delete All Entries")
                             .font(.system(size: 20, weight: .heavy))
                             .padding(.leading, 20)
-                            .foregroundColor(.pink)
-                        Text("Clear out all entries in NIghtscout server. This action cannot be undone.")
+                            .foregroundColor(.blue)
+                        Text("Clear out all entries in Nightscout server. This action cannot be undone.")
                             .font(.system(size: 15, weight: .regular))
                             .padding(.leading, 20.0)
                         HStack {
@@ -155,9 +290,8 @@ struct ContentView: View {
                             let NSController = NightscoutController(date: date)
                             Button(action: {
 
-                                print("making delete")
+                                print("delete button has been clicked waiting to see if canceled or not")
                                 deleteAlert = true
-                                NSController.deleteEntryRequest()
                             }){
                                 Text("DELETE")
                                 .bold()
@@ -174,24 +308,24 @@ struct ContentView: View {
                                     title: Text("Are you sure you want to delete all entries?"),
                                     message: Text("This action cannot be undone"),
                                     primaryButton: .destructive(Text("Delete")) {
-                                        print("Deleting...")
                                         NSController.deleteEntryRequest()
+                                        deleteScreen = true
+                                        let secondsToDelay = 5.0
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
+                                           print("The delete is truly done")
+                                           deleteScreen = false
+                                        }
                                     },
                                     secondaryButton: .cancel()
+                                    
                                 )
                             }
                             Spacer()
                         }
                     }
+                    Spacer()
                 })
             }
         }
     }
-}
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
-
 }

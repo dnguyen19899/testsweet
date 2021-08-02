@@ -105,10 +105,10 @@
 				AE1B262C26B49C3E007F1794 /* HeaderView.swift */,
 				AE3FE95E26AF782800DC980E /* ContentView.swift */,
 				AE93232B26B0BE98006DD1FA /* NightscoutController.swift */,
+				AE1B262E26B4A853007F1794 /* NumbersOnly.swift */,
 				AE3FE96026AF782B00DC980E /* Assets.xcassets */,
 				AE3FE96526AF782B00DC980E /* Info.plist */,
 				AE3FE96226AF782B00DC980E /* Preview Content */,
-				AE1B262E26B4A853007F1794 /* NumbersOnly.swift */,
 			);
 			path = Testsweet;
 			sourceTree = "<group>";
@@ -431,7 +431,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Testsweet/Preview Content\"";
-				DEVELOPMENT_TEAM = GRZSRH5723;
+				DEVELOPMENT_TEAM = 2W25U2U8T6;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Testsweet/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -442,7 +442,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "Duy-Nguyen.Testsweet";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -453,7 +453,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Testsweet/Preview Content\"";
-				DEVELOPMENT_TEAM = GRZSRH5723;
+				DEVELOPMENT_TEAM = 2W25U2U8T6;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Testsweet/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -464,7 +464,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "Duy-Nguyen.Testsweet";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

@@ -7,6 +7,8 @@
 
 import Foundation
 
+
+
 extension Date {
     var milliStamp:Int64 {
         return Int64((self.timeIntervalSince1970 * 1000.0).rounded())
@@ -15,7 +17,7 @@ extension Date {
 
 class NightscoutController {
     
-    private var debug = true
+    private var debug = false
     private var date: Date = Date()
     private var timeStamp:Int64 = 0
     private var dateString = ""
@@ -27,6 +29,8 @@ class NightscoutController {
     private var endDate: Date = Date()
     private var endTimeStamp:Int64 = 0
     private var endDateString = ""
+    
+    private var CGMCounter = 0
     
     
     init (date: Date) {
@@ -72,17 +76,30 @@ class NightscoutController {
         return iso8601DateFormatter.string(from: self.date)
     }
     
-    func populateGraphWithTwoTimes (dateStart: String, epochStartTime: Int64, epochEndTime: Int64) {
+    func populateGraphWithTwoTimesRandom (epochStartTime: Int64, epochEndTime: Int64) -> Int64  {
         let totalTime = epochEndTime - epochStartTime
         print (totalTime)
-        let TotalTime = totalTime/300000
+        let TotalTime = (totalTime/300000)
         var newEpochStart = epochStartTime
-        for i in (0...TotalTime){
-            newEpochStart = newEpochStart + 300000
-            let dateStartnew = "2021-07-29T20:\(i * 5):27.499Z"
+        for _ in (0...TotalTime){
             let randNum = Int.random(in: 40...400)
-            makeEntryPostRequest(dateString: dateStartnew, date: newEpochStart, sgv: randNum, direction: "FLAT")
+            makeEntryPostRequest(date: newEpochStart, sgv: randNum, direction: "FLAT")
+            newEpochStart = newEpochStart + 300000
+            
+            
         }
+        return TotalTime
+    }
+    func populateGraphWithTwoTimeStraight (sgv: Int, epochStartTime: Int64, epochEndTime: Int64) -> Int64 {
+        let totalTime = epochEndTime - epochStartTime
+        let TotalTime = (totalTime/300000)
+        var newEpochStart = epochStartTime
+        for _ in (0...TotalTime){
+            makeEntryPostRequest(date: newEpochStart, sgv: sgv, direction: "FLAT")
+            newEpochStart = newEpochStart + 300000
+            
+        }
+        return TotalTime
     }
     //for custom
     func getTimeStamp() -> Int64 {
@@ -112,9 +129,9 @@ class NightscoutController {
     // ----------- CURL Requests ----------- //
     
     // This posts the entrys that we input as parameters.
-    func makeEntryPostRequest(dateString: String, date: Int64, sgv: Int, direction: String) {
+    func makeEntryPostRequest(date: Int64, sgv: Int, direction: String) {
         guard let url = URL(string: "https://test-sweet.herokuapp.com/api/v1/entries?token=api-d1b60b0ce9c2dbae"),
-            let payload = "[{\"type\":\"sgv\",\"dateString\":\"\(dateString)\",\"date\":\(date),\"sgv\":\(sgv),\"direction\":\"\(direction)\"}]".data(using: .utf8) else
+            let payload = "[{\"type\":\"sgv\",\"date\":\(date),\"sgv\":\(sgv),\"direction\":\"\(direction)\"}]".data(using: .utf8) else
         {
             return
         }
@@ -157,7 +174,8 @@ class NightscoutController {
             }
 
         }.resume()
-        
+
     }
+    
 }
 
