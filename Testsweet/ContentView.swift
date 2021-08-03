@@ -42,6 +42,7 @@ struct ContentView: View {
     @ObservedObject var sgv2 = NumbersOnly()
     
     @State private var deleteScreen = false
+    @State private var addScreen = false
     @State private var isAnimating = false
     @State private var showProgress = false
     
@@ -54,6 +55,27 @@ struct ContentView: View {
     }
     
     var body: some View {
+        if addScreen {
+            ZStack{
+                Rectangle()
+                    .fill(Color.white)
+                    .frame(width: 1000, height: 1000)
+                VStack{
+                    Text("Adding CGM Readings")
+                        .foregroundColor(Color.black)
+                        .font(.system(size: 40))
+                        .bold()
+                    Image(systemName: "arrow.2.circlepath")
+                        .font(.system(size: 56.0))
+                        .rotationEffect(Angle(degrees: self.isAnimating ? 360 : 0.0))
+                        .animation(self.isAnimating ? foreverAnimation : .default)
+                        .onAppear { self.isAnimating = true }
+                        .onDisappear { self.isAnimating = false }
+                        .onAppear { self.showProgress = true }
+                    Text("Adding \(CGMPoints) points").padding()
+                }
+            }
+        }
         if deleteScreen {
             ZStack{
                 Rectangle()
@@ -73,7 +95,6 @@ struct ContentView: View {
                         .onAppear { self.showProgress = true }
                 }
             }
-                
         }
         ZStack {
             //Color(hex:0xFFFAF1).ignoresSafeArea()
@@ -117,7 +138,14 @@ struct ContentView: View {
                                 if sgv.value != "" {
                                     if (Int(sgv.value)!) >= 0 && (Int(sgv.value)!) <= 500 {
                                         print("making post")
+                                        addScreen = true
+                                        CGMPoints = 1
                                         NSController.makeEntryPostRequest(date: NSController.getTimeStamp() , sgv: Int(sgv.value)!, direction: "FLAT")
+                                        let secondsToDelay = 4.0
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
+                                            print("The adding is truly done")
+                                            addScreen = false
+                                        }
                                     }
                                     else{
                                         print("chose a sgv value between 0 and 500")
@@ -228,13 +256,25 @@ struct ContentView: View {
                                 else {
                                     if button == false{
                                         print("making post; random")
+                                        addScreen = true
                                         CGMPoints = NSController.populateGraphWithTwoTimesRandom(epochStartTime: NSController.getStartTimeStamp(), epochEndTime: NSController.getEndTimeStamp())
+                                        let secondsToDelay = 5.0
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
+                                            print("The adding is truly done")
+                                            addScreen = false
+                                        }
                                     }
                                     else {
                                         if sgv2.value != "" {
                                             if (Int(sgv2.value)!) >= 0 && (Int(sgv2.value)!) <= 500  {
                                                 print("making post; straight")
+                                                addScreen = true
                                                 CGMPoints = NSController.populateGraphWithTwoTimeStraight(sgv: (Int(sgv2.value)!), epochStartTime: NSController.getStartTimeStamp(), epochEndTime: NSController.getEndTimeStamp())
+                                                let secondsToDelay = 5.0
+                                                DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
+                                                    print("The adding is truly done")
+                                                    addScreen = false
+                                                }
                                             }
                                             else{
                                                 print("chose a sgv value between 0 and 500")
