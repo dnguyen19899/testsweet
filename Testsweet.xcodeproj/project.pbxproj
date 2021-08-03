@@ -15,6 +15,7 @@
 		AE3FE96426AF782B00DC980E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AE3FE96326AF782B00DC980E /* Preview Assets.xcassets */; };
 		AE3FE96F26AF782B00DC980E /* TestsweetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3FE96E26AF782B00DC980E /* TestsweetTests.swift */; };
 		AE3FE97A26AF782B00DC980E /* TestsweetUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3FE97926AF782B00DC980E /* TestsweetUITests.swift */; };
+		AE79BC2726B9E287002D5DBE /* input.csv in Resources */ = {isa = PBXBuildFile; fileRef = AE79BC2626B9E287002D5DBE /* input.csv */; };
 		AE93232C26B0BE98006DD1FA /* NightscoutController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE93232B26B0BE98006DD1FA /* NightscoutController.swift */; };
 /* End PBXBuildFile section */
 
@@ -50,6 +51,7 @@
 		AE3FE97526AF782B00DC980E /* TestsweetUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestsweetUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE3FE97926AF782B00DC980E /* TestsweetUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestsweetUITests.swift; sourceTree = "<group>"; };
 		AE3FE97B26AF782B00DC980E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AE79BC2626B9E287002D5DBE /* input.csv */ = {isa = PBXFileReference; lastKnownFileType = file; path = input.csv; sourceTree = SOURCE_ROOT; };
 		AE93232B26B0BE98006DD1FA /* NightscoutController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NightscoutController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -106,6 +108,7 @@
 				AE3FE95E26AF782800DC980E /* ContentView.swift */,
 				AE93232B26B0BE98006DD1FA /* NightscoutController.swift */,
 				AE1B262E26B4A853007F1794 /* NumbersOnly.swift */,
+				AE79BC2626B9E287002D5DBE /* input.csv */,
 				AE3FE96026AF782B00DC980E /* Assets.xcassets */,
 				AE3FE96526AF782B00DC980E /* Info.plist */,
 				AE3FE96226AF782B00DC980E /* Preview Content */,
@@ -244,6 +247,7 @@
 			files = (
 				AE3FE96426AF782B00DC980E /* Preview Assets.xcassets in Resources */,
 				AE3FE96126AF782B00DC980E /* Assets.xcassets in Resources */,
+				AE79BC2726B9E287002D5DBE /* input.csv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

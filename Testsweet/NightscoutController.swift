@@ -15,9 +15,19 @@ extension Date {
     }
 }
 
+struct Entry {
+    var sgv: Int = 0
+    var direction: String = ""
+    
+    init(raw: [String]) {
+        sgv = Int(raw[0]) ?? 0
+        direction = raw[1]
+    }
+}
+
 class NightscoutController {
     
-    private var debug = false
+    private var debug = true
     private var date: Date = Date()
     private var timeStamp:Int64 = 0
     private var dateString = ""
@@ -37,6 +47,8 @@ class NightscoutController {
         self.date = date
         self.timeStamp = self.date.milliStamp
         self.dateString = self.formatDateString(date: self.date)
+        
+        self.getCSVData()
         
         if debug {
             print("DATE: \(self.date)")
@@ -76,6 +88,34 @@ class NightscoutController {
         return iso8601DateFormatter.string(from: self.date)
     }
     
+    func getCSVData() -> Array<Entry> {
+        
+        var csvToStruct = [Entry]()
+        
+        guard let filePath = Bundle.main.path(forResource: "input", ofType: "csv") else {
+            return []
+        }
+        var data = ""
+        do {
+            data = try String(contentsOfFile: filePath)
+            print(data)
+        } catch {
+            print(error)
+            return []
+        }
+        
+        var rows = data.components(separatedBy: "\n")
+        rows.removeFirst()
+        
+        for row in rows {
+            let csvColumns = row.components(separatedBy: ",")
+            let entryStruct = Entry.init(raw: csvColumns)
+            csvToStruct.append(entryStruct)
+        }
+        
+        return csvToStruct
+    }
+    
     func populateGraphWithTwoTimesRandom (epochStartTime: Int64, epochEndTime: Int64) -> Int64  {
         let totalTime = epochEndTime - epochStartTime
         print (totalTime)
@@ -101,6 +141,11 @@ class NightscoutController {
         }
         return TotalTime
     }
+    
+    func populateGraphWithCSV () {
+        // your code here
+    }
+    
     //for custom
     func getTimeStamp() -> Int64 {
         return timeStamp
