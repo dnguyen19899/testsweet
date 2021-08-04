@@ -30,6 +30,7 @@ enum ActiveAlert {
 struct ContentView: View {
 
     @State private var date = Date()
+    @State private var date2 = Date()
     @State private var startDate = Date()
     @State private var endDate = Date()
     @State private var dateError = false
@@ -45,6 +46,7 @@ struct ContentView: View {
     @State private var addScreen = false
     @State private var isAnimating = false
     @State private var showProgress = false
+    
     
     @State private var CGMPoints: Int64 = 0
     @State private var button = false
@@ -254,6 +256,8 @@ struct ContentView: View {
                                     self.showAlert = true
                                 }
                                 else {
+                                    print("start date: \(startDate)")
+                                    print("end date: \(endDate)")
                                     if button == false{
                                         print("making post; random")
                                         addScreen = true
@@ -314,6 +318,37 @@ struct ContentView: View {
                                 }
                             }
                             Spacer()
+                        }
+                    }
+                    
+                    DatePicker("Select an end date and time", selection: $date, displayedComponents: [.date, .hourAndMinute])
+                        .padding(.leading, 20)
+                        .padding(.trailing, 20)
+                        .padding(.bottom, 10)
+                    
+                    
+                    // Initializer for backend
+                    let NSController = NightscoutController(date: date)
+                    
+                    // CREATE button
+                    HStack {
+                        Spacer()
+                        Button(action: {
+                            print("CSV entires pressed")
+                            NSController.populateGraphWithCSV(date: NSController.getTimeStamp())
+                            
+                           
+                        }){
+                            Text("CREATE")
+                            .bold()
+                                .font(Font.custom("Helvetica Neue", size: 20.0))
+                                .padding(.top, 15)
+                                .padding(.bottom, 15)
+                                .padding(.leading, 30)
+                                .padding(.trailing, 30)
+                            .foregroundColor(Color.white)
+                            .background(Color.black)
+                            .cornerRadius(12)
                         }
                     }
                     Spacer()

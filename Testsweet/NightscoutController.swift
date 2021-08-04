@@ -1,3 +1,4 @@
+
 //
 //  NightscoutController.swift
 //  Testsweet
@@ -27,7 +28,7 @@ struct Entry {
 
 class NightscoutController {
     
-    private var debug = true
+    private var debug = false
     private var date: Date = Date()
     private var timeStamp:Int64 = 0
     private var dateString = ""
@@ -47,8 +48,6 @@ class NightscoutController {
         self.date = date
         self.timeStamp = self.date.milliStamp
         self.dateString = self.formatDateString(date: self.date)
-        
-        self.getCSVData()
         
         if debug {
             print("DATE: \(self.date)")
@@ -97,15 +96,15 @@ class NightscoutController {
         }
         var data = ""
         do {
-            data = try String(contentsOfFile: filePath)
-            print(data)
+            data = try String(contentsOfFile: filePath, encoding: .utf8)
+            //print(data)
         } catch {
             print(error)
             return []
         }
         
-        var rows = data.components(separatedBy: "\n")
-        rows.removeFirst()
+        let rows = data.components(separatedBy: "\n")
+        
         
         for row in rows {
             let csvColumns = row.components(separatedBy: ",")
@@ -142,9 +141,26 @@ class NightscoutController {
         return TotalTime
     }
     
-    func populateGraphWithCSV () {
-        // your code here
+    func populateGraphWithCSV (date: Int64) {
+        var newDate :Int64 = date
+        let unicorn = self.getCSVData()
+        print(unicorn.count)
+        for i in 0...(unicorn.count-1){
+            //print("date: \(newDate) sgv: \(unicorn[i].sgv), direction: \(unicorn[i].direction)")
+            let sgv = unicorn[i].sgv
+            let dir = unicorn[i].direction
+            let newDir = dir.replacingOccurrences(of: "FLAT\r", with: "FLAT")
+            makeEntryPostRequest(date: newDate, sgv: sgv, direction: newDir)
+            newDate = newDate - 300000
+
+            
+        }
     }
+    
+    
+    
+    
+    
     
     //for custom
     func getTimeStamp() -> Int64 {
@@ -171,11 +187,13 @@ class NightscoutController {
         return endDateString
     }
     
+    
+    
     // ----------- CURL Requests ----------- //
     
     // This posts the entrys that we input as parameters.
     func makeEntryPostRequest(date: Int64, sgv: Int, direction: String) {
-        guard let url = URL(string: "https://test-sweet.herokuapp.com/api/v1/entries?token=api-d1b60b0ce9c2dbae"),
+        guard let url = URL(string: "https://test-sweet.herokuapp.com/api/v1/entries?&token=api-d1b60b0ce9c2dbae"),
             let payload = "[{\"type\":\"sgv\",\"date\":\(date),\"sgv\":\(sgv),\"direction\":\"\(direction)\"}]".data(using: .utf8) else
         {
             return
@@ -200,7 +218,7 @@ class NightscoutController {
     //deleteEntryRequest function deletes all entries
     func deleteEntryRequest() {
         print("deleting")
-        guard let url = URL(string: "https://test-sweet.herokuapp.com/api/v1/entries.json?find[date][$gte]=0&token=api-d1b60b0ce9c2dbae")
+        guard let url = URL(string: "https://test-sweet.herokuapp.com/api/v1/entries.json?find[date][$gte]=0&count=10000&token=api-d1b60b0ce9c2dbae")
 
         else {
             print("URL is not accepted")
