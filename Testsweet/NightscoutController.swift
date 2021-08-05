@@ -152,8 +152,6 @@ class NightscoutController {
             let newDir = dir.replacingOccurrences(of: "FLAT\r", with: "FLAT")
             makeEntryPostRequest(date: newDate, sgv: sgv, direction: newDir)
             newDate = newDate - 300000
-
-            
         }
     }
     
