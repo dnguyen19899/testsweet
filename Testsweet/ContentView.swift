@@ -44,24 +44,33 @@ struct ContentView: View {
     
     @State private var deleteScreen = false
     @State private var addScreen = false
+    @State private var createScreen = false
     @State private var isAnimating = false
     @State private var showProgress = false
     
     
     @State private var CGMPoints: Int64 = 0
     @State private var button = false
+    @State private var currentSelection = 0
     
     @State private var showCustomEntry: Bool = false
     @State private var showGenerateEntries: Bool = false
     @State private var showCSVEntry: Bool = false
     @State private var showDeleteEntries: Bool = false
+    
+    @State private var currentEntires = [String]()
   
     var foreverAnimation: Animation {
         Animation.linear(duration: 2.0)
             .repeatForever(autoreverses: false)
     }
     
+    func delete(at offsets: IndexSet){
+        currentEntires.remove(atOffsets: offsets)
+    }
+    
     var body: some View {
+        
         if addScreen {
             ZStack{
                 Rectangle()
@@ -158,6 +167,7 @@ struct ContentView: View {
                                             if (Int(sgv.value)!) >= 0 && (Int(sgv.value)!) <= 500 {
                                                 print("making post")
                                                 addScreen = true
+                                                showCustomEntry = false
                                                 CGMPoints = 1
                                                 NSController.makeEntryPostRequest(date: NSController.getTimeStamp() , sgv: Int(sgv.value)!, direction: "FLAT")
                                                 let secondsToDelay = 4.0
@@ -292,6 +302,7 @@ struct ContentView: View {
                                             if button == false{
                                                 print("making post; random")
                                                 addScreen = true
+                                                showGenerateEntries = false
                                                 CGMPoints = NSController.populateGraphWithTwoTimesRandom(epochStartTime: NSController.getStartTimeStamp(), epochEndTime: NSController.getEndTimeStamp())
                                                 let secondsToDelay = 5.0
                                                 DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
@@ -304,6 +315,7 @@ struct ContentView: View {
                                                     if (Int(sgv2.value)!) >= 0 && (Int(sgv2.value)!) <= 500  {
                                                         print("making post; straight")
                                                         addScreen = true
+                                                        showGenerateEntries = false
                                                         CGMPoints = NSController.populateGraphWithTwoTimeStraight(sgv: (Int(sgv2.value)!), epochStartTime: NSController.getStartTimeStamp(), epochEndTime: NSController.getEndTimeStamp())
                                                         let secondsToDelay = 5.0
                                                         DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
@@ -371,19 +383,19 @@ struct ContentView: View {
                                     .padding(.leading, 20)
                                     .padding(.trailing, 20)
                                     .padding(.bottom, 10)
-
-
+                                
+                                
                                 // Initializer for backend
                                 let NSController = NightscoutController(date: date)
-
+                                
                                 // CREATE button
                                 HStack {
                                     Spacer()
                                     Button(action: {
                                         print("CSV entires pressed")
                                         NSController.populateGraphWithCSV(date: NSController.getTimeStamp())
-
-
+                                        
+                                       
                                     }){
                                         Text("CREATE")
                                         .bold()
@@ -400,6 +412,121 @@ struct ContentView: View {
                                 Spacer()
                             }
                     }
+                    //---------Creat your own csv tests------------//
+                    Section() {
+                        RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
+                            .fill(Color.primary)
+                            .frame(height: 100)
+                            .padding()
+                            .overlay(
+                                Text("CREATE YOUR CSV TESTS")
+                                    .font(.system(size: 20, weight: .heavy, design: .default))
+                                    .foregroundColor(.white).padding()
+                            ).onTapGesture {
+                                self.createScreen = true
+                            }.sheet(isPresented: $createScreen) {
+                                ZStack{
+                                    VStack{
+                                        Text("Create your own tests:")
+                                            .foregroundColor(Color.black)
+                                            .font(.system(size: 30))
+                                            .bold()
+                                            .padding()
+                                        VStack{
+                                            
+                                            VStack{
+                                                Text("SGV")
+                                                TextField("", text: $sgv.value)
+                                                    .keyboardType(.decimalPad)
+                                                    .border(Color.gray)
+                                                    .padding(.leading, 100)
+                                                    .padding(.trailing, 100)
+                                            }.textFieldStyle(RoundedBorderTextFieldStyle())
+                                            
+                                            VStack{
+                                                Text("Direction")
+                                                DropdownPicker(title: "Directions", selection: $currentSelection, options: ["FLAT","NONE DOUBLE_UP", "SINGLE_UP", "FORTY_FIVE_UP", "FLAT FORTY_FIVE_DOWN", "SINGLE_DOWN", "DOUBLE_DOWN", "NOT_COMPUTABLE", "OUT_OF_RANGE"])
+                                            }
+                                        }
+                                        Button(action: {
+                                            var newCurrentSelection = ""
+                                            if currentSelection == 0{newCurrentSelection = "FLAT"}
+                                            else if currentSelection == 1 {newCurrentSelection = "NONE DOUBLE_UP"}
+                                            else if currentSelection == 2 {newCurrentSelection = "SINGLE_UP"}
+                                            else if currentSelection == 3 {newCurrentSelection = "FORTY_FIVE_UP"}
+                                            else if currentSelection == 4 {newCurrentSelection = "FLAT FORTY_FIVE_DOWN"}
+                                            else if currentSelection == 5 {newCurrentSelection = "SINGLE_DOWN"}
+                                            else if currentSelection == 6 {newCurrentSelection = "DOUBLE_DOWN"}
+                                            else if currentSelection == 7 {newCurrentSelection = "NOT_COMPUTABLE"}
+                                            else if currentSelection == 8 {newCurrentSelection = "OUT_OF_RANGE"}
+                                            
+                                            let entry = String(sgv.value) + " " + newCurrentSelection
+                                            currentEntires.append(entry)
+                                           
+                                        }){
+                                            Text("Add")
+                                            .bold()
+                                                .font(Font.custom("Helvetica Neue", size: 20.0))
+                                                .padding(.top, 15)
+                                                .padding(.bottom, 15)
+                                                .padding(.leading, 30)
+                                                .padding(.trailing, 30)
+                                            .foregroundColor(Color.white)
+                                            .background(Color.black)
+                                            .cornerRadius(12)
+                                        }
+ 
+                                        NavigationView {
+                                            List {
+                                                ForEach(currentEntires, id: \.self){ entry in
+                                                    Text(entry)
+                                                }
+                                                .onDelete(perform: delete)
+                                            }
+                                            .navigationTitle("Current Entries")
+                                        }
+                                        
+                                        DatePicker("Select an end date", selection: $date, displayedComponents: [.date, .hourAndMinute])
+                                            .padding(.leading, 20)
+                                            .padding(.trailing, 20)
+                                            .padding(.bottom, 10)
+                                        
+                                        
+                                        HStack{
+                                            Button(action: {
+                                               
+                                            }){
+                                                Text("Done")
+                                                    .bold()
+                                                    .font(Font.custom("Helvetica Neue", size: 20.0))
+                                                    .padding(.top, 15)
+                                                    .padding(.bottom, 15)
+                                                    .padding(.leading, 30)
+                                                    .padding(.trailing, 30)
+                                                .foregroundColor(Color.white)
+                                                .background(Color.black)
+                                                .cornerRadius(12)
+                                            }
+                                            Button(action: {
+                                                currentEntires = []
+                                            }){
+                                            Image(systemName: "trash.fill")
+                                                .font(.system(size: 20))
+                                                .foregroundColor(.red)
+                                                .font(Font.custom("Helvetica Neue", size: 20.0))
+                                                .padding(.top, 15)
+                                                .padding(.bottom, 15)
+                                                .padding(.leading, 30)
+                                                .padding(.trailing, 30)
+                                                .background(Color.black)
+                                                .cornerRadius(12)
+                                            }
+                                        }
+                                        Spacer()
+                                        }
+                                    }
+                                }
+                            }
                     // ------- Delete Entries ------- //
                     Section() {
                         
@@ -447,6 +574,7 @@ struct ContentView: View {
                                             primaryButton: .destructive(Text("Delete")) {
                                                 NSController.deleteEntryRequest()
                                                 deleteScreen = true
+                                                showDeleteEntries = false
                                                 let secondsToDelay = 5.0
                                                 DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
                                                    print("The delete is truly done")
@@ -467,7 +595,7 @@ struct ContentView: View {
         }
     }
 }
-
+/*
 struct Home: View {
 
     @State private var date = Date()
@@ -662,3 +790,4 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+*/

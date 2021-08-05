@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1B3B7C8426BC20EB00DF75A3 /* MenuBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3B7C8326BC20EB00DF75A3 /* MenuBar.swift */; };
 		AE1B262D26B49C3E007F1794 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE1B262C26B49C3E007F1794 /* HeaderView.swift */; };
 		AE1B262F26B4A853007F1794 /* NumbersOnly.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE1B262E26B4A853007F1794 /* NumbersOnly.swift */; };
 		AE3FE95D26AF782800DC980E /* TestsweetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3FE95C26AF782800DC980E /* TestsweetApp.swift */; };
@@ -37,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1B3B7C8326BC20EB00DF75A3 /* MenuBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBar.swift; sourceTree = "<group>"; };
 		AE1B262C26B49C3E007F1794 /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		AE1B262E26B4A853007F1794 /* NumbersOnly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumbersOnly.swift; sourceTree = "<group>"; };
 		AE3FE95926AF782800DC980E /* Testsweet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Testsweet.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -51,7 +53,7 @@
 		AE3FE97526AF782B00DC980E /* TestsweetUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestsweetUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE3FE97926AF782B00DC980E /* TestsweetUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestsweetUITests.swift; sourceTree = "<group>"; };
 		AE3FE97B26AF782B00DC980E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AE79BC2626B9E287002D5DBE /* input.csv */ = {isa = PBXFileReference; lastKnownFileType = file; path = input.csv; sourceTree = SOURCE_ROOT; };
+		AE79BC2626B9E287002D5DBE /* input.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = input.csv; sourceTree = SOURCE_ROOT; };
 		AE93232B26B0BE98006DD1FA /* NightscoutController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NightscoutController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -108,6 +110,7 @@
 				AE3FE95E26AF782800DC980E /* ContentView.swift */,
 				AE93232B26B0BE98006DD1FA /* NightscoutController.swift */,
 				AE1B262E26B4A853007F1794 /* NumbersOnly.swift */,
+				1B3B7C8326BC20EB00DF75A3 /* MenuBar.swift */,
 				AE79BC2626B9E287002D5DBE /* input.csv */,
 				AE3FE96026AF782B00DC980E /* Assets.xcassets */,
 				AE3FE96526AF782B00DC980E /* Info.plist */,
@@ -274,6 +277,7 @@
 			files = (
 				AE3FE95F26AF782800DC980E /* ContentView.swift in Sources */,
 				AE3FE95D26AF782800DC980E /* TestsweetApp.swift in Sources */,
+				1B3B7C8426BC20EB00DF75A3 /* MenuBar.swift in Sources */,
 				AE93232C26B0BE98006DD1FA /* NightscoutController.swift in Sources */,
 				AE1B262D26B49C3E007F1794 /* HeaderView.swift in Sources */,
 				AE1B262F26B4A853007F1794 /* NumbersOnly.swift in Sources */,
