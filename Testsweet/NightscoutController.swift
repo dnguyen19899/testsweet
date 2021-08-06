@@ -25,7 +25,7 @@ struct Entry: Hashable {
     }
     
     init(sgv: String, direction: String) {
-        self.sgv = Int(sgv) ?? 0
+        self.sgv = Int(sgv) ?? -1
         self.direction = direction
     }
     
@@ -134,47 +134,33 @@ class NightscoutController {
             newDate = newDate - 300000
         }
         
-        return date - newDate
+        return (date - newDate) / 300000
     }
     
     func populateGraphWithTwoTimesRandom (epochStartTime: Int64, epochEndTime: Int64) -> Int64  {
-        let totalTime = epochEndTime - epochStartTime
+        var totalTime = epochEndTime - epochStartTime
         print (totalTime)
-        let TotalTime = (totalTime/300000)
+        totalTime = (totalTime/300000)
         var newEpochStart = epochStartTime
-        for _ in (0...TotalTime){
+        for _ in (0...totalTime){
             let randNum = Int.random(in: 40...400)
             makeEntryPostRequest(date: newEpochStart, sgv: randNum, direction: "FLAT")
             newEpochStart = newEpochStart + 300000
             
             
         }
-        return TotalTime
+        return totalTime
     }
     func populateGraphWithTwoTimeStraight (sgv: Int, epochStartTime: Int64, epochEndTime: Int64) -> Int64 {
-        let totalTime = epochEndTime - epochStartTime
-        let TotalTime = (totalTime/300000)
+        var totalTime = epochEndTime - epochStartTime
+        totalTime = (totalTime/300000)
         var newEpochStart = epochStartTime
-        for _ in (0...TotalTime){
+        for _ in (0...totalTime){
             makeEntryPostRequest(date: newEpochStart, sgv: sgv, direction: "FLAT")
             newEpochStart = newEpochStart + 300000
         }
-        return TotalTime
+        return totalTime
     }
-    
-//    func populateGraphWithCSV (date: Int64) {
-//        var newDate :Int64 = date
-//        let unicorn = self.getCSVData()
-//        print(unicorn.count)
-//        for i in 0...(unicorn.count-1){
-//            //print("date: \(newDate) sgv: \(unicorn[i].sgv), direction: \(unicorn[i].direction)")
-//            let sgv = unicorn[i].sgv
-//            let dir = unicorn[i].direction
-//            let newDir = dir.replacingOccurrences(of: "\r", with: "")
-//            makeEntryPostRequest(date: newDate, sgv: sgv, direction: newDir)
-//            newDate = newDate - 300000
-//        }
-//    }
     
     func populateGraphWithEntryList (date: Int64, entries: [Entry]) -> Int64 {
         var newDate :Int64 = date
@@ -192,7 +178,7 @@ class NightscoutController {
             newDate = newDate - 300000
         }
         
-        return date - newDate
+        return (date - newDate)/300000
     }
     
     //for custom
