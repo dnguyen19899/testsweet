@@ -55,6 +55,7 @@ struct ContentView: View {
     @State private var CGMPoints: Int64 = 0
     @State private var button = false
     @State private var currentSelection = 0
+    @State private var getArrayHere = [String]()
     
     @State private var showCustomEntry: Bool = false
     @State private var showGenerateEntries: Bool = false
@@ -71,6 +72,7 @@ struct ContentView: View {
     func delete(at offsets: IndexSet){
         currentEntries.remove(atOffsets: offsets)
     }
+
     
     var body: some View {
         
@@ -397,9 +399,13 @@ struct ContentView: View {
                                         print("CSV entires pressed")
                                         
                                         NSController.importCSVData(date: NSController.getTimeStamp())
-                                        
+                                        addScreen = true
                                         self.showCSVEntry = false
-                                        
+                                        let secondsToDelay = 5.0
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
+                                            print("The adding is truly done")
+                                            addScreen = false
+                                        }
                                        
                                     }){
                                         Text("CREATE")
@@ -529,8 +535,14 @@ struct ContentView: View {
                                                 //pass in date3 for time
                                                 let NSController = NightscoutController(date: date3)
                                                 NSController.populateGraphWithEntryList(date: NSController.getTimeStamp(), entries: currentEntries)
+                                                addScreen = true
                                                 createScreen = false
                                                 currentEntries = []
+                                                let secondsToDelay = 5.0
+                                                DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
+                                                    print("The adding is truly done")
+                                                    addScreen = false
+                                                }
                                                
                                             }){
                                                 Text("Done")
@@ -581,22 +593,39 @@ struct ContentView: View {
                                 let NSController = NightscoutController(date: date)
                                 
                                 ZStack{
-                                    Text("Here is what is currently graphed")
-                                    Button(action: {
-                                        NSController.getEntryRequest()
-                                    }){
-                                        Text("REFRESH")
-                                        .bold()
-                                            .font(Font.custom("Helvetica Neue", size: 20.0))
-                                            .padding(.top, 15)
-                                            .padding(.bottom, 15)
-                                            .padding(.leading, 30)
-                                            .padding(.trailing, 30)
-                                        .foregroundColor(Color.white)
-                                        .background(Color.red)
-                                        .cornerRadius(12)
+                                    VStack{
+                                        Button(action: {
+                                            getArrayHere = []
+                                            NSController.getEntryRequest{ (getArray) in
+                                                getArrayHere = getArray
+                                            }
+                                            
+                                        }){
+                                            Text("REFRESH")
+                                            .bold()
+                                                .font(Font.custom("Helvetica Neue", size: 20.0))
+                                                .padding(.top, 15)
+                                                .padding(.bottom, 15)
+                                                .padding(.leading, 30)
+                                                .padding(.trailing, 30)
+                                            .foregroundColor(Color.white)
+                                            .background(Color.red)
+                                            .cornerRadius(12)
+                                        }.padding()
+                                        
+                                        NavigationView {
+                                            List {
+                                                
+                                                ForEach(getArrayHere, id: \.self){ entry in
+                                                    Text(entry)
+                                                    
+                                                }
+                                                
+                                            }
+                                            .navigationTitle("Here is what is graphed")
+                                            
+                                        }
                                     }
-                                    
                                 }
                             }
                         }

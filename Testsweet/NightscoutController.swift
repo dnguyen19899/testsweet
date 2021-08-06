@@ -55,6 +55,7 @@ class NightscoutController {
     private var endDateString = ""
     
     private var CGMCounter = 0
+    private var getArray = [String]()
     
     
     init (date: Date) {
@@ -157,7 +158,6 @@ class NightscoutController {
         for _ in (0...TotalTime){
             makeEntryPostRequest(date: newEpochStart, sgv: sgv, direction: "FLAT")
             newEpochStart = newEpochStart + 300000
-            
         }
         return TotalTime
     }
@@ -219,6 +219,7 @@ class NightscoutController {
     func getEndDateString() -> String {
         return endDateString
     }
+
     
     
     
@@ -249,9 +250,9 @@ class NightscoutController {
     }
     
     //Get request
-    func getEntryRequest() {
+    func getEntryRequest(completion: @escaping (Array<String>)->Void) {
         print("getting")
-        guard let url = URL(string: "https://test-sweet.herokuapp.com/api/v1/entries.json?find[date][$gte]=0&count=100000&token=api-d1b60b0ce9c2dbae")
+        guard let url = URL(string: "https://test-sweet.herokuapp.com/api/v1/entries?find[date][$gte]=0&count=100000&token=api-d1b60b0ce9c2dbae")
 
         else {
             print("URL is not accepted")
@@ -261,15 +262,20 @@ class NightscoutController {
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.addValue("TandemDiabetes1", forHTTPHeaderField: "x-api-key")
-
+        var Outstr: String = ""
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             guard error == nil else { print(error!.localizedDescription); return }
             guard let data = data else { print("Empty data"); return }
             if let str = String(data: data, encoding: .utf8) {
-                print(str)
+                //print(str)
+                Outstr = str
+                
+                
             }
         }.resume()
-
+        self.getArray.append(Outstr)
+        print(Outstr)
+        completion(self.getArray)
     }
     
     
