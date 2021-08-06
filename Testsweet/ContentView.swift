@@ -63,6 +63,9 @@ struct ContentView: View {
     @State private var showDeleteEntries: Bool = false
     
     @State private var currentEntries = [Entry]()
+    
+    @State var fileName = ""
+    @State var openFile = false
   
     var foreverAnimation: Animation {
         Animation.linear(duration: 2.0)
@@ -143,10 +146,16 @@ struct ContentView: View {
                                     .foregroundColor(.blue)
 
                                 // Datepicker for custom entries
-                                DatePicker("Select date and time", selection: $date, displayedComponents: [.date, .hourAndMinute])
-                                    .padding(.leading, 20)
-                                    .padding(.trailing, 20)
-                                    .padding(.bottom, 10)
+                                HStack {
+                                    Spacer()
+                                    MyDatePicker(selection: $date, minuteInterval: 5, displayedComponents: [.date, .hourAndMinute])
+                                    Spacer()
+                                }
+                                
+//                                DatePicker("Select date and time", selection: $date, displayedComponents: [.date, .hourAndMinute])
+//                                    .padding(.leading, 20)
+//                                    .padding(.trailing, 20)
+//                                    .padding(.bottom, 10)
 
                                 HStack {
                                     Text("BG Reading")
@@ -377,21 +386,49 @@ struct ContentView: View {
                             .frame(height: 100)
                             .padding()
                             .overlay(
-                                Text("CSV ENTRIES")
+                                Text("Import CSV File")
                                     .font(.system(size: 20, weight: .heavy, design: .default))
                                     .foregroundColor(.white).padding()
                             ).onTapGesture {
                                 self.showCSVEntry = true
                             }.sheet(isPresented: $showCSVEntry) {
+                                
+                                VStack(spacing: 25) {
+                                    
+                                    Text(fileName)
+                                        .fontWeight(.bold)
+                                    
+                                    Button(action: {openFile.toggle()}, label: {
+                                        
+                                        Text("Open")
+                                        
+                                    })
+                                }
+                                .fileImporter(isPresented: $openFile, allowedContentTypes: [.data]) { (res) in
+                                    
+                                    do {
+                                        let fileURL = try res.get()
+                                        print(fileURL)
+                                        
+                                        // getting fileName
+                                        self.fileName = fileURL.lastPathComponent
+                                        print(fileName)
+                                    }
+                                    catch {
+                                        print("Error reading docs")
+                                        print(error.localizedDescription)
+                                    }
+                                }
+                                
                                 DatePicker("Select an end date and time", selection: $date, displayedComponents: [.date, .hourAndMinute])
                                     .padding(.leading, 20)
                                     .padding(.trailing, 20)
                                     .padding(.bottom, 10)
-                                
-                                
+
+
                                 // Initializer for backend
                                 let NSController = NightscoutController(date: date)
-                                
+
                                 // CREATE button
                                 HStack {
                                     Spacer()
@@ -406,7 +443,7 @@ struct ContentView: View {
                                             print("The adding is truly done")
                                             addScreen = false
                                         }
-                                       
+
                                     }){
                                         Text("CREATE")
                                         .bold()
@@ -694,6 +731,51 @@ struct ContentView: View {
                     Spacer()
                 })
             }
+        }
+    }
+}
+
+struct MyDatePicker: UIViewRepresentable {
+
+    @Binding var selection: Date
+    let minuteInterval: Int
+    let displayedComponents: DatePickerComponents
+
+    func makeCoordinator() -> Coordinator {
+        return Coordinator(self)
+    }
+
+    func makeUIView(context: UIViewRepresentableContext<MyDatePicker>) -> UIDatePicker {
+        let picker = UIDatePicker()
+        // listen to changes coming from the date picker, and use them to update the state variable
+        picker.addTarget(context.coordinator, action: #selector(Coordinator.dateChanged), for: .valueChanged)
+        return picker
+    }
+
+    func updateUIView(_ picker: UIDatePicker, context: UIViewRepresentableContext<MyDatePicker>) {
+        picker.minuteInterval = minuteInterval
+        picker.date = selection
+
+        switch displayedComponents {
+        case .hourAndMinute:
+            picker.datePickerMode = .time
+        case .date:
+            picker.datePickerMode = .date
+        case [.hourAndMinute, .date]:
+            picker.datePickerMode = .dateAndTime
+        default:
+            break
+        }
+    }
+
+    class Coordinator {
+        let datePicker: MyDatePicker
+        init(_ datePicker: MyDatePicker) {
+            self.datePicker = datePicker
+        }
+
+        @objc func dateChanged(_ sender: UIDatePicker) {
+            datePicker.selection = sender.date
         }
     }
 }

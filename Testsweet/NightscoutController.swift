@@ -101,7 +101,7 @@ class NightscoutController {
     }
     
     func importCSVData(date: Int64) -> Int64 {
-        // var csvToStruct = [Entry]()
+         var csvToStruct = [Entry]()
         
         guard let filePath = Bundle.main.path(forResource: "input", ofType: "csv") else {
             return 0
