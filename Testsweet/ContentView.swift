@@ -49,7 +49,6 @@ struct ContentView: View {
     @State private var createScreen = false
     @State private var isAnimating = false
     @State private var showProgress = false
-    @State private var showGetScreen = false
     
     
     @State private var CGMPoints: Int64 = 0
@@ -61,7 +60,7 @@ struct ContentView: View {
     @State private var showCSVEntry: Bool = false
     @State private var showDeleteEntries: Bool = false
     
-    @State private var currentEntries = [Entry]()
+    @State private var currentEntires = [String]()
   
     var foreverAnimation: Animation {
         Animation.linear(duration: 2.0)
@@ -69,7 +68,7 @@ struct ContentView: View {
     }
     
     func delete(at offsets: IndexSet){
-        currentEntries.remove(atOffsets: offsets)
+        currentEntires.remove(atOffsets: offsets)
     }
     
     var body: some View {
@@ -121,11 +120,11 @@ struct ContentView: View {
 
             ScrollView{
                 LazyVStack(alignment: .leading, spacing: 15, pinnedViews: [.sectionHeaders], content: {
-                    //---- custom entry ---- //
+
                     Section(header: HeaderView()) {
                         
                         RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
-                            .fill(Color.black)
+                            .fill(Color.primary)
                             .frame(height: 100)
                             .padding()
                             .overlay(
@@ -211,7 +210,7 @@ struct ContentView: View {
                     Section() {
                         
                         RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
-                            .fill(Color.black)
+                            .fill(Color.primary)
                             .frame(height: 100)
                             .padding()
                             .overlay(
@@ -368,10 +367,11 @@ struct ContentView: View {
                                 
                             }
                     }
+
                     // ------- CSV Import ------- //
                     Section() {
                         RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
-                            .fill(Color.black)
+                            .fill(Color.primary)
                             .frame(height: 100)
                             .padding()
                             .overlay(
@@ -395,10 +395,7 @@ struct ContentView: View {
                                     Spacer()
                                     Button(action: {
                                         print("CSV entires pressed")
-                                        
-                                        NSController.importCSVData(date: NSController.getTimeStamp())
-                                        
-                                        self.showCSVEntry = false
+                                        NSController.populateGraphWithCSV(date: NSController.getTimeStamp())
                                         
                                        
                                     }){
@@ -420,11 +417,11 @@ struct ContentView: View {
                     //---------Creat your own csv tests------------//
                     Section() {
                         RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
-                            .fill(Color.black)
+                            .fill(Color.primary)
                             .frame(height: 100)
                             .padding()
                             .overlay(
-                                Text("MULTI CUSTOM ENTRIES")
+                                Text("CREATE YOUR CSV TESTS")
                                     .font(.system(size: 20, weight: .heavy, design: .default))
                                     .foregroundColor(.white).padding()
                             ).onTapGesture {
@@ -468,8 +465,8 @@ struct ContentView: View {
                                                 else {newCurrentSelection = ""}
                                                 if sgv3.value != "" {
                                                     if (Int(sgv3.value)!) >= 0 && (Int(sgv3.value)!) <= 500 {
-                                                        let entry = Entry(sgv: sgv3.value, direction: newCurrentSelection)
-                                                        currentEntries.append(entry)
+                                                        let entry = String(sgv3.value) + " " + newCurrentSelection
+                                                        currentEntires.append(entry)
                                                     }
                                                     else{
                                                         sgvError = true
@@ -494,7 +491,7 @@ struct ContentView: View {
                                                 Alert(title: Text("Error"), message: Text("Please enter a value between 0 and 500"), dismissButton: .default(Text("OK")))
                                             }
                                             Button(action: {
-                                                currentEntries.append(Entry(sgv: "-1", direction: ""))
+                                                currentEntires.append("")
                                             }){
                                                 Text("Add Empty")
                                                 .bold()
@@ -511,8 +508,8 @@ struct ContentView: View {
  
                                         NavigationView {
                                             List {
-                                                ForEach(currentEntries, id: \.self){ entry in
-                                                    Text(entry.toString())
+                                                ForEach(currentEntires, id: \.self){ entry in
+                                                    Text(entry)
                                                 }
                                                 .onDelete(perform: delete)
                                             }
@@ -527,10 +524,8 @@ struct ContentView: View {
                                         HStack{
                                             Button(action: {
                                                 //pass in date3 for time
-                                                let NSController = NightscoutController(date: date3)
-                                                NSController.populateGraphWithEntryList(date: NSController.getTimeStamp(), entries: currentEntries)
                                                 createScreen = false
-                                                currentEntries = []
+                                                currentEntires = []
                                                
                                             }){
                                                 Text("Done")
@@ -545,7 +540,7 @@ struct ContentView: View {
                                                 .cornerRadius(12)
                                             }
                                             Button(action: {
-                                                currentEntries = []
+                                                currentEntires = []
                                             }){
                                             Image(systemName: "trash.fill")
                                                 .font(.system(size: 20))
@@ -564,42 +559,6 @@ struct ContentView: View {
                                     }
                                 }
                             }
-                    //------- get function, maybe a graph-----//
-                    Section() {
-                        RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
-                            .fill(Color.primary)
-                            .frame(height: 100)
-                            .padding()
-                            .overlay(
-                                Text("See what is graphed")
-                                    .font(.system(size: 20, weight: .heavy, design: .default))
-                                    .foregroundColor(.white).padding()
-                            ).onTapGesture {
-                                self.showGetScreen = true
-                            }.sheet(isPresented: $showGetScreen) {
-                                
-                                let NSController = NightscoutController(date: date)
-                                
-                                ZStack{
-                                    Text("Here is what is currently graphed")
-                                    Button(action: {
-                                        NSController.getEntryRequest()
-                                    }){
-                                        Text("REFRESH")
-                                        .bold()
-                                            .font(Font.custom("Helvetica Neue", size: 20.0))
-                                            .padding(.top, 15)
-                                            .padding(.bottom, 15)
-                                            .padding(.leading, 30)
-                                            .padding(.trailing, 30)
-                                        .foregroundColor(Color.white)
-                                        .background(Color.red)
-                                        .cornerRadius(12)
-                                    }
-                                    
-                                }
-                            }
-                        }
                     // ------- Delete Entries ------- //
                     Section() {
                         
@@ -620,7 +579,7 @@ struct ContentView: View {
                                     .foregroundColor(.blue)
                                 Text("Clear out all entries in Nightscout server. This action cannot be undone.")
                                     .font(.system(size: 15, weight: .regular))
-                                    .padding([.leading, .trailing], 20)
+                                    .padding(.leading, 20)
                                     .padding(.bottom, 40)
                                 HStack {
                                     Spacer()
@@ -668,10 +627,199 @@ struct ContentView: View {
         }
     }
 }
+/*
+struct Home: View {
 
+    @State private var date = Date()
+    @State private var date2 = Date()
+    @State private var startDate = Date()
+    @State private var endDate = Date()
+    @State private var dateError = false
+    @State private var sgvError = false
+    @State private var checkError = false
+    @State private var deleteAlert = false
+    @State private var showAlert = false
+    @State private var activeAlert: ActiveAlert = .first
+    @ObservedObject var sgv = NumbersOnly()
+    @ObservedObject var sgv2 = NumbersOnly()
+    
+    @State private var deleteScreen = false
+    @State private var addScreen = false
+    @State private var isAnimating = false
+    @State private var showProgress = false
+    
+    
+    @State private var CGMPoints: Int64 = 0
+    @State private var button = false
+  
+    var foreverAnimation: Animation {
+        Animation.linear(duration: 2.0)
+            .repeatForever(autoreverses: false)
+    }
+    
+    @State private var showCustomEntry: Bool = false
+    @State private var showGenerateEntries: Bool = false
+    
+    var body: some View {
+
+        if addScreen {
+            ZStack{
+                Rectangle()
+                    .fill(Color.white)
+                    .frame(width: 1000, height: 1000)
+                VStack{
+                    Text("Adding CGM Readings")
+                        .foregroundColor(Color.black)
+                        .font(.system(size: 40))
+                        .bold()
+                    Image(systemName: "arrow.2.circlepath")
+                        .font(.system(size: 56.0))
+                        .rotationEffect(Angle(degrees: self.isAnimating ? 360 : 0.0))
+                        .animation(self.isAnimating ? foreverAnimation : .default)
+                        .onAppear { self.isAnimating = true }
+                        .onDisappear { self.isAnimating = false }
+                        .onAppear { self.showProgress = true }
+                    Text("Adding \(CGMPoints) points").padding()
+                }
+            }
+        }
+        if deleteScreen {
+            ZStack{
+                Rectangle()
+                    .fill(Color.white)
+                    .frame(width: 1000, height: 1000)
+                VStack{
+                    Text("Deleting")
+                        .foregroundColor(Color.black)
+                        .font(.system(size: 60))
+                        .bold()
+                    Image(systemName: "arrow.2.circlepath")
+                        .font(.system(size: 56.0))
+                        .rotationEffect(Angle(degrees: self.isAnimating ? 360 : 0.0))
+                        .animation(self.isAnimating ? foreverAnimation : .default)
+                        .onAppear { self.isAnimating = true }
+                        .onDisappear { self.isAnimating = false }
+                        .onAppear { self.showProgress = true }
+                }
+            }
+        }
+        
+        VStack {
+
+            ScrollView(.vertical, showsIndicators: false) {
+
+                LazyVStack(pinnedViews: [.sectionHeaders]) {
+
+                    Section(header: HeaderView()) {
+
+                        RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
+                            .fill(Color.primary)
+                            .frame(height: 150)
+                            .padding()
+                            .overlay(
+                                Text("CREATE CUSTOM ENTRY")
+                                    .font(.system(size: 20, weight: .heavy, design: .default))
+                                    .foregroundColor(.white).padding()
+                            )
+                            .onTapGesture {
+                                self.showCustomEntry = true
+                            }.sheet(isPresented: $showCustomEntry) {
+                                
+                                Text("Make Custom Entries")
+                                    .font(.system(size: 20, weight: .heavy))
+                                    .padding(.leading, 20)
+                                    .foregroundColor(.blue)
+        
+                                // Datepicker for custom entries
+                                DatePicker("Select date and time", selection: $date, displayedComponents: [.date, .hourAndMinute])
+                                    .padding(.leading, 20)
+                                    .padding(.trailing, 20)
+                                    .padding(.bottom, 10)
+        
+                                HStack {
+                                    Text("BG Reading")
+                                        .padding(.leading, 20)
+                                    // SVG input field for custom entries
+                                    TextField("", text: $sgv.value)
+                                                .keyboardType(.decimalPad)
+                                        .border(Color.gray)
+                                        .padding(.leading, 100)
+                                        .padding(.trailing, 20)
+                                }.textFieldStyle(RoundedBorderTextFieldStyle())
+        
+                                // Initializer for backend
+                                let NSController = NightscoutController(date: date)
+        
+                                // CREATE button
+                                HStack {
+                                    Spacer()
+                                    Button(action: {
+        
+                                        print("the value is \(sgv.value)")
+                                        if sgv.value != "" {
+                                            if (Int(sgv.value)!) >= 0 && (Int(sgv.value)!) <= 500 {
+                                                print("making post")
+                                                addScreen = true
+                                                CGMPoints = 1
+                                                NSController.makeEntryPostRequest(date: NSController.getTimeStamp() , sgv: Int(sgv.value)!, direction: "FLAT")
+                                                let secondsToDelay = 4.0
+                                                DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
+                                                    print("The adding is truly done")
+                                                    addScreen = false
+                                                }
+                                            }
+                                            else{
+                                                print("chose a sgv value between 0 and 500")
+                                                sgvError = true
+                                            }
+                                        }
+                                        else{
+                                            print("must add a sgv value before proceeding")
+                                            sgvError = true
+                                        }
+                                    }){
+                                        Text("CREATE")
+                                        .bold()
+                                            .font(Font.custom("Helvetica Neue", size: 20.0))
+                                            .padding(.top, 15)
+                                            .padding(.bottom, 15)
+                                            .padding(.leading, 30)
+                                            .padding(.trailing, 30)
+                                        .foregroundColor(Color.white)
+                                        .background(Color.black)
+                                        .cornerRadius(12)
+                                    }.alert(isPresented: $sgvError) {
+                                        Alert(title: Text("Error"), message: Text("Please enter a value between 0 and 500"), dismissButton: .default(Text("OK")))
+                                    }
+                                }.padding()
+                            }
+                        
+                        
+                        RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
+                            .fill(Color.primary)
+                            .frame(height: 150)
+                            .padding()
+                            .overlay(
+                                Text("GENERATE ENTRIES")
+                                    .font(.system(size: 20, weight: .heavy, design: .default))
+                                    .foregroundColor(.white).padding()
+                            )
+                            .onTapGesture {
+                                self.showGenerateEntries = true
+                            }.sheet(isPresented: $showGenerateEntries) {
+                                Text("test")
+                            }
+        
+                    }
+                }
+            }
+        }
+    }
+}
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
     }
 }
+*/

@@ -439,7 +439,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Testsweet/Preview Content\"";
-				DEVELOPMENT_TEAM = GRZSRH5723;
+				DEVELOPMENT_TEAM = 2W25U2U8T6;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Testsweet/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -447,7 +447,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = Team.Testsweet;
+				PRODUCT_BUNDLE_IDENTIFIER = "Duy-Nguyen.Testsweet";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -461,7 +461,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Testsweet/Preview Content\"";
-				DEVELOPMENT_TEAM = GRZSRH5723;
+				DEVELOPMENT_TEAM = 2W25U2U8T6;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Testsweet/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -469,7 +469,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = Team.Testsweet;
+				PRODUCT_BUNDLE_IDENTIFIER = "Duy-Nguyen.Testsweet";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
