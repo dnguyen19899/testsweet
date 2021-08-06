@@ -248,6 +248,31 @@ class NightscoutController {
         }.resume()
     }
     
+    //Get request
+    func getEntryRequest() {
+        print("getting")
+        guard let url = URL(string: "https://test-sweet.herokuapp.com/api/v1/entries.json?find[date][$gte]=0&count=100000&token=api-d1b60b0ce9c2dbae")
+
+        else {
+            print("URL is not accepted")
+            return
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.addValue("TandemDiabetes1", forHTTPHeaderField: "x-api-key")
+
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            guard error == nil else { print(error!.localizedDescription); return }
+            guard let data = data else { print("Empty data"); return }
+            if let str = String(data: data, encoding: .utf8) {
+                print(str)
+            }
+        }.resume()
+
+    }
+    
+    
     //deleteEntryRequest function deletes all entries
     func deleteEntryRequest() {
         print("deleting")

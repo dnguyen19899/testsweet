@@ -49,6 +49,7 @@ struct ContentView: View {
     @State private var createScreen = false
     @State private var isAnimating = false
     @State private var showProgress = false
+    @State private var showGetScreen = false
     
     
     @State private var CGMPoints: Int64 = 0
@@ -120,7 +121,7 @@ struct ContentView: View {
 
             ScrollView{
                 LazyVStack(alignment: .leading, spacing: 15, pinnedViews: [.sectionHeaders], content: {
-
+                    //---- custom entry ---- //
                     Section(header: HeaderView()) {
                         
                         RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
@@ -367,7 +368,6 @@ struct ContentView: View {
                                 
                             }
                     }
-
                     // ------- CSV Import ------- //
                     Section() {
                         RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
@@ -564,6 +564,42 @@ struct ContentView: View {
                                     }
                                 }
                             }
+                    //------- get function, maybe a graph-----//
+                    Section() {
+                        RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
+                            .fill(Color.primary)
+                            .frame(height: 100)
+                            .padding()
+                            .overlay(
+                                Text("See what is graphed")
+                                    .font(.system(size: 20, weight: .heavy, design: .default))
+                                    .foregroundColor(.white).padding()
+                            ).onTapGesture {
+                                self.showGetScreen = true
+                            }.sheet(isPresented: $showGetScreen) {
+                                
+                                let NSController = NightscoutController(date: date)
+                                
+                                ZStack{
+                                    Text("Here is what is currently graphed")
+                                    Button(action: {
+                                        NSController.getEntryRequest()
+                                    }){
+                                        Text("REFRESH")
+                                        .bold()
+                                            .font(Font.custom("Helvetica Neue", size: 20.0))
+                                            .padding(.top, 15)
+                                            .padding(.bottom, 15)
+                                            .padding(.leading, 30)
+                                            .padding(.trailing, 30)
+                                        .foregroundColor(Color.white)
+                                        .background(Color.red)
+                                        .cornerRadius(12)
+                                    }
+                                    
+                                }
+                            }
+                        }
                     // ------- Delete Entries ------- //
                     Section() {
                         
