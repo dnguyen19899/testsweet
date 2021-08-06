@@ -61,8 +61,9 @@ struct ContentView: View {
     @State private var showGenerateEntries: Bool = false
     @State private var showCSVEntry: Bool = false
     @State private var showDeleteEntries: Bool = false
+    @State private var showGetScreen = false
     
-    @State private var currentEntries = [Entry]()
+    @State private var currentEntires = [String]()
   
     var foreverAnimation: Animation {
         Animation.linear(duration: 2.0)
@@ -70,7 +71,7 @@ struct ContentView: View {
     }
     
     func delete(at offsets: IndexSet){
-        currentEntries.remove(atOffsets: offsets)
+        currentEntires.remove(atOffsets: offsets)
     }
 
     
@@ -127,7 +128,7 @@ struct ContentView: View {
                     Section(header: HeaderView()) {
                         
                         RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
-                            .fill(Color.black)
+                            .fill(Color.primary)
                             .frame(height: 100)
                             .padding()
                             .overlay(
@@ -213,7 +214,7 @@ struct ContentView: View {
                     Section() {
                         
                         RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
-                            .fill(Color.black)
+                            .fill(Color.primary)
                             .frame(height: 100)
                             .padding()
                             .overlay(
@@ -373,7 +374,7 @@ struct ContentView: View {
                     // ------- CSV Import ------- //
                     Section() {
                         RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
-                            .fill(Color.black)
+                            .fill(Color.primary)
                             .frame(height: 100)
                             .padding()
                             .overlay(
@@ -397,6 +398,7 @@ struct ContentView: View {
                                     Spacer()
                                     Button(action: {
                                         print("CSV entires pressed")
+<<<<<<< HEAD
                                         
                                         NSController.importCSVData(date: NSController.getTimeStamp())
                                         addScreen = true
@@ -406,6 +408,10 @@ struct ContentView: View {
                                             print("The adding is truly done")
                                             addScreen = false
                                         }
+=======
+                                        NSController.populateGraphWithCSV(date: NSController.getTimeStamp())
+                                        
+>>>>>>> 3255e7f149d9f9d8671f21a514a80fda41a1d3cb
                                        
                                     }){
                                         Text("CREATE")
@@ -426,11 +432,11 @@ struct ContentView: View {
                     //---------Creat your own csv tests------------//
                     Section() {
                         RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
-                            .fill(Color.black)
+                            .fill(Color.primary)
                             .frame(height: 100)
                             .padding()
                             .overlay(
-                                Text("MULTI CUSTOM ENTRIES")
+                                Text("CREATE YOUR CSV TESTS")
                                     .font(.system(size: 20, weight: .heavy, design: .default))
                                     .foregroundColor(.white).padding()
                             ).onTapGesture {
@@ -474,8 +480,8 @@ struct ContentView: View {
                                                 else {newCurrentSelection = ""}
                                                 if sgv3.value != "" {
                                                     if (Int(sgv3.value)!) >= 0 && (Int(sgv3.value)!) <= 500 {
-                                                        let entry = Entry(sgv: sgv3.value, direction: newCurrentSelection)
-                                                        currentEntries.append(entry)
+                                                        let entry = String(sgv3.value) + " " + newCurrentSelection
+                                                        currentEntires.append(entry)
                                                     }
                                                     else{
                                                         sgvError = true
@@ -500,7 +506,7 @@ struct ContentView: View {
                                                 Alert(title: Text("Error"), message: Text("Please enter a value between 0 and 500"), dismissButton: .default(Text("OK")))
                                             }
                                             Button(action: {
-                                                currentEntries.append(Entry(sgv: "-1", direction: ""))
+                                                currentEntires.append("")
                                             }){
                                                 Text("Add Empty")
                                                 .bold()
@@ -517,8 +523,8 @@ struct ContentView: View {
  
                                         NavigationView {
                                             List {
-                                                ForEach(currentEntries, id: \.self){ entry in
-                                                    Text(entry.toString())
+                                                ForEach(currentEntires, id: \.self){ entry in
+                                                    Text(entry)
                                                 }
                                                 .onDelete(perform: delete)
                                             }
@@ -533,6 +539,7 @@ struct ContentView: View {
                                         HStack{
                                             Button(action: {
                                                 //pass in date3 for time
+<<<<<<< HEAD
                                                 let NSController = NightscoutController(date: date3)
                                                 NSController.populateGraphWithEntryList(date: NSController.getTimeStamp(), entries: currentEntries)
                                                 addScreen = true
@@ -543,6 +550,10 @@ struct ContentView: View {
                                                     print("The adding is truly done")
                                                     addScreen = false
                                                 }
+=======
+                                                createScreen = false
+                                                currentEntires = []
+>>>>>>> 3255e7f149d9f9d8671f21a514a80fda41a1d3cb
                                                
                                             }){
                                                 Text("Done")
@@ -557,7 +568,7 @@ struct ContentView: View {
                                                 .cornerRadius(12)
                                             }
                                             Button(action: {
-                                                currentEntries = []
+                                                currentEntires = []
                                             }){
                                             Image(systemName: "trash.fill")
                                                 .font(.system(size: 20))
@@ -593,6 +604,7 @@ struct ContentView: View {
                                 let NSController = NightscoutController(date: date)
                                 
                                 ZStack{
+<<<<<<< HEAD
                                     VStack{
                                         Button(action: {
                                             getArrayHere = []
@@ -626,6 +638,24 @@ struct ContentView: View {
                                             
                                         }
                                     }
+=======
+                                    Text("Here is what is currently graphed")
+                                    Button(action: {
+                                        NSController.getEntryRequest()
+                                    }){
+                                        Text("REFRESH")
+                                        .bold()
+                                            .font(Font.custom("Helvetica Neue", size: 20.0))
+                                            .padding(.top, 15)
+                                            .padding(.bottom, 15)
+                                            .padding(.leading, 30)
+                                            .padding(.trailing, 30)
+                                        .foregroundColor(Color.white)
+                                        .background(Color.red)
+                                        .cornerRadius(12)
+                                    }
+                                    
+>>>>>>> 3255e7f149d9f9d8671f21a514a80fda41a1d3cb
                                 }
                             }
                         }
@@ -649,7 +679,7 @@ struct ContentView: View {
                                     .foregroundColor(.blue)
                                 Text("Clear out all entries in Nightscout server. This action cannot be undone.")
                                     .font(.system(size: 15, weight: .regular))
-                                    .padding([.leading, .trailing], 20)
+                                    .padding(.leading, 20)
                                     .padding(.bottom, 40)
                                 HStack {
                                     Spacer()
@@ -698,9 +728,9 @@ struct ContentView: View {
     }
 }
 
-
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
     }
 }
+

@@ -9,33 +9,20 @@
 import Foundation
 
 
+
 extension Date {
     var milliStamp:Int64 {
         return Int64((self.timeIntervalSince1970 * 1000.0).rounded())
     }
 }
 
-struct Entry: Hashable {
+struct Entry {
     var sgv: Int = 0
     var direction: String = ""
     
     init(raw: [String]) {
-        sgv = Int(raw[0]) ?? -1
+        sgv = Int(raw[0]) ?? 0
         direction = raw[1]
-    }
-    
-    init(sgv: String, direction: String) {
-        self.sgv = Int(sgv) ?? 0
-        self.direction = direction
-    }
-    
-    func toString() -> String{
-        if(sgv == -1 && direction == "") {
-            return ""
-        }
-        else {
-            return String(self.sgv) + ", " + self.direction
-        }
     }
 }
 
@@ -71,7 +58,8 @@ class NightscoutController {
         }
     }
     
-    init (startDate: Date, endDate: Date) {
+    init (startDate: Date, endDate: Date)
+    {
         self.startDate = startDate
         self.startTimeStamp = self.startDate.milliStamp
         self.startDateString = self.formatDateString(date: self.startDate)
@@ -100,11 +88,12 @@ class NightscoutController {
         return iso8601DateFormatter.string(from: self.date)
     }
     
-    func importCSVData(date: Int64) -> Int64 {
-        // var csvToStruct = [Entry]()
+    func getCSVData() -> Array<Entry> {
+        
+        var csvToStruct = [Entry]()
         
         guard let filePath = Bundle.main.path(forResource: "input", ofType: "csv") else {
-            return 0
+            return []
         }
         var data = ""
         do {
@@ -112,29 +101,19 @@ class NightscoutController {
             //print(data)
         } catch {
             print(error)
-            return 0
+            return []
         }
         
-        var rows = data.components(separatedBy: "\n")
-        rows.removeFirst()
+        let rows = data.components(separatedBy: "\n")
         
-        var count = 0
-        var newDate :Int64 = date
+        
         for row in rows {
-            count = count + 1
             let csvColumns = row.components(separatedBy: ",")
             let entryStruct = Entry.init(raw: csvColumns)
-            let newDir = entryStruct.direction.replacingOccurrences(of: "\r", with: "")
-            if(entryStruct.sgv == -1 && newDir == "") {
-                newDate = newDate - 300000
-                continue
-            }
-            makeEntryPostRequest(date: newDate, sgv: entryStruct.sgv, direction: newDir)
-            // csvToStruct.append(entryStruct)
-            newDate = newDate - 300000
+            csvToStruct.append(entryStruct)
         }
         
-        return date - newDate
+        return csvToStruct
     }
     
     func populateGraphWithTwoTimesRandom (epochStartTime: Int64, epochEndTime: Int64) -> Int64  {
@@ -162,38 +141,24 @@ class NightscoutController {
         return TotalTime
     }
     
-//    func populateGraphWithCSV (date: Int64) {
-//        var newDate :Int64 = date
-//        let unicorn = self.getCSVData()
-//        print(unicorn.count)
-//        for i in 0...(unicorn.count-1){
-//            //print("date: \(newDate) sgv: \(unicorn[i].sgv), direction: \(unicorn[i].direction)")
-//            let sgv = unicorn[i].sgv
-//            let dir = unicorn[i].direction
-//            let newDir = dir.replacingOccurrences(of: "\r", with: "")
-//            makeEntryPostRequest(date: newDate, sgv: sgv, direction: newDir)
-//            newDate = newDate - 300000
-//        }
-//    }
-    
-    func populateGraphWithEntryList (date: Int64, entries: [Entry]) -> Int64 {
+    func populateGraphWithCSV (date: Int64) {
         var newDate :Int64 = date
-        print(entries.count)
-        for i in 0...(entries.count-1){
+        let unicorn = self.getCSVData()
+        print(unicorn.count)
+        for i in 0...(unicorn.count-1){
             //print("date: \(newDate) sgv: \(unicorn[i].sgv), direction: \(unicorn[i].direction)")
-            let sgv = entries[i].sgv
-            let dir = entries[i].direction
-            let newDir = dir.replacingOccurrences(of: "\r", with: "")
-            if(sgv == -1 && newDir == "") {
-                newDate = newDate - 300000
-                continue
-            }
+            let sgv = unicorn[i].sgv
+            let dir = unicorn[i].direction
+            let newDir = dir.replacingOccurrences(of: "FLAT\r", with: "FLAT")
             makeEntryPostRequest(date: newDate, sgv: sgv, direction: newDir)
             newDate = newDate - 300000
         }
-        
-        return date - newDate
     }
+    
+    
+    
+    
+    
     
     //for custom
     func getTimeStamp() -> Int64 {
@@ -250,9 +215,15 @@ class NightscoutController {
     }
     
     //Get request
+<<<<<<< HEAD
     func getEntryRequest(completion: @escaping (Array<String>)->Void) {
         print("getting")
         guard let url = URL(string: "https://test-sweet.herokuapp.com/api/v1/entries?find[date][$gte]=0&count=100000&token=api-d1b60b0ce9c2dbae")
+=======
+    func getEntryRequest() {
+        print("getting")
+        guard let url = URL(string: "https://test-sweet.herokuapp.com/api/v1/entries.json?find[date][$gte]=0&count=100000&token=api-d1b60b0ce9c2dbae")
+>>>>>>> 3255e7f149d9f9d8671f21a514a80fda41a1d3cb
 
         else {
             print("URL is not accepted")
@@ -262,11 +233,16 @@ class NightscoutController {
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.addValue("TandemDiabetes1", forHTTPHeaderField: "x-api-key")
+<<<<<<< HEAD
         var Outstr: String = ""
+=======
+
+>>>>>>> 3255e7f149d9f9d8671f21a514a80fda41a1d3cb
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             guard error == nil else { print(error!.localizedDescription); return }
             guard let data = data else { print("Empty data"); return }
             if let str = String(data: data, encoding: .utf8) {
+<<<<<<< HEAD
                 //print(str)
                 Outstr = str
                 
@@ -279,6 +255,14 @@ class NightscoutController {
     }
     
     
+=======
+                print(str)
+            }
+        }.resume()
+
+    }
+    
+>>>>>>> 3255e7f149d9f9d8671f21a514a80fda41a1d3cb
     //deleteEntryRequest function deletes all entries
     func deleteEntryRequest() {
         print("deleting")
