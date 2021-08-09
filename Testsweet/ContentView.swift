@@ -55,7 +55,7 @@ struct ContentView: View {
     @State private var CGMPoints: Int64 = 0
     @State private var button = false
     @State private var currentSelection = 0
-    @State private var getArrayHere: [String] = ["Empty"]
+    @State private var getArrayHere: [String] = ["Loading"]
     
     @State private var showCustomEntry: Bool = false
     @State private var showGenerateEntries: Bool = false
@@ -228,7 +228,6 @@ struct ContentView: View {
                     }
                     // ------- Generate Entries ------- //
                     Section() {
-                        
                         RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
                             .fill(Color.black)
                             .frame(height: 100)
@@ -273,7 +272,6 @@ struct ContentView: View {
                                             .background(button ? Color.clear : Color.blue)
                                             .cornerRadius(12)
                                     }
-
                                     Button(action: {
                                         button = true
                                     }){
@@ -283,8 +281,6 @@ struct ContentView: View {
                                             .padding()
                                             .background(button ? Color.blue : Color.clear)
                                             .cornerRadius(12)
-
-
                                     }
 
                                     VStack{
@@ -303,11 +299,8 @@ struct ContentView: View {
                                  .overlay(
                                     RoundedRectangle(cornerRadius: 10.0)
                                         .stroke(lineWidth: 2.0)
-
                                 )
                                 .padding()
-
-
 
                                 // CREATE button
                                 HStack {
@@ -326,7 +319,8 @@ struct ContentView: View {
                                                 addScreen = true
                                                 showGenerateEntries = false
                                                 CGMPoints = NSController.populateGraphWithTwoTimesRandom(epochStartTime: NSController.getStartTimeStamp(), epochEndTime: NSController.getEndTimeStamp())
-                                                let secondsToDelay = 5.0
+                                                let secondsToDelay = (Double(CGMPoints) / 26) + 1
+                                                
                                                 DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
                                                     print("The adding is truly done")
                                                     addScreen = false
@@ -339,7 +333,7 @@ struct ContentView: View {
                                                         addScreen = true
                                                         showGenerateEntries = false
                                                         CGMPoints = NSController.populateGraphWithTwoTimeStraight(sgv: (Int(sgv2.value)!), epochStartTime: NSController.getStartTimeStamp(), epochEndTime: NSController.getEndTimeStamp())
-                                                        let secondsToDelay = 5.0
+                                                        let secondsToDelay = (Double(CGMPoints) / 26) + 1
                                                         DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
                                                             print("The adding is truly done")
                                                             addScreen = false
@@ -380,6 +374,8 @@ struct ContentView: View {
                                             return Alert(title: Text("Error"), message: Text("chose a sgv value between 0 and 500"), dismissButton: .default(Text("OK")))
                                         case .third:
                                             return Alert(title: Text("Error"), message: Text("Please make sure start date is less than end and not equal"), dismissButton: .default(Text("OK")))
+                                        
+                                            
                                         }
                                     }
                                     Spacer()
@@ -443,7 +439,7 @@ struct ContentView: View {
                                     Button(action: {
                                         print("CSV entires pressed")
                                         
-                                        NSController.importCSVData(date: NSController.getTimeStamp())
+                                        CGMPoints = Int64(NSController.importCSVData(date: NSController.getTimeStamp()))
                                         addScreen = true
                                         self.showCSVEntry = false
                                         let secondsToDelay = 5.0
@@ -579,11 +575,11 @@ struct ContentView: View {
                                             Button(action: {
                                                 //pass in date3 for time
                                                 let NSController = NightscoutController(date: date3)
-                                                NSController.populateGraphWithEntryList(date: NSController.getTimeStamp(), entries: currentEntries)
+                                                CGMPoints = Int64(NSController.populateGraphWithEntryList(date: NSController.getTimeStamp(), entries: currentEntries))
                                                 addScreen = true
                                                 createScreen = false
                                                 currentEntries = []
-                                                let secondsToDelay = 5.0
+                                                let secondsToDelay = (Double(CGMPoints) / 26) + 1
                                                 DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
                                                     print("The adding is truly done")
                                                     addScreen = false
@@ -640,23 +636,6 @@ struct ContentView: View {
                                 ZStack{
                                     VStack{
                                         
-                                        Button(action: {
-                                            getArrayHere = []
-                                            populateGetArray()
-                                            
-                                        }){
-                                            Text("REFRESH")
-                                            .bold()
-                                                .font(Font.custom("Helvetica Neue", size: 20.0))
-                                                .padding(.top, 15)
-                                                .padding(.bottom, 15)
-                                                .padding(.leading, 30)
-                                                .padding(.trailing, 30)
-                                            .foregroundColor(Color.white)
-                                            .background(Color.red)
-                                            .cornerRadius(12)
-                                        }.padding()
-                                        
                                         NavigationView {
                                             List {
                                                 
@@ -671,6 +650,21 @@ struct ContentView: View {
                                             .onAppear(perform: populateGetArray)
                                             
                                         }
+                                        Button(action: {
+                                            populateGetArray()
+                                            
+                                        }){
+                                            Text("REFRESH")
+                                            .bold()
+                                                .font(Font.custom("Helvetica Neue", size: 20.0))
+                                                .padding(.top, 15)
+                                                .padding(.bottom, 15)
+                                                .padding(.leading, 30)
+                                                .padding(.trailing, 30)
+                                            .foregroundColor(Color.white)
+                                            .background(Color.red)
+                                            .cornerRadius(12)
+                                        }.padding()
                                     }
                                 }
                             }
