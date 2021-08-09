@@ -55,7 +55,7 @@ struct ContentView: View {
     @State private var CGMPoints: Int64 = 0
     @State private var button = false
     @State private var currentSelection = 0
-    @State private var getArrayHere = [String]()
+    @State private var getArrayHere: [String] = ["Empty"]
     
     @State private var showCustomEntry: Bool = false
     @State private var showGenerateEntries: Bool = false
@@ -75,7 +75,15 @@ struct ContentView: View {
     func delete(at offsets: IndexSet){
         currentEntries.remove(atOffsets: offsets)
     }
-
+    func populateGetArray(){
+        let NSController = NightscoutController(date: date)
+        NSController.getEntryRequest{(data) in
+            getArrayHere = data
+            //print(getArrayHere)
+        }
+        
+        
+    }
     
     var body: some View {
         
@@ -616,7 +624,7 @@ struct ContentView: View {
                     //------- get function, maybe a graph-----//
                     Section() {
                         RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
-                            .fill(Color.primary)
+                            .fill(Color.black)
                             .frame(height: 100)
                             .padding()
                             .overlay(
@@ -627,15 +635,14 @@ struct ContentView: View {
                                 self.showGetScreen = true
                             }.sheet(isPresented: $showGetScreen) {
                                 
-                                let NSController = NightscoutController(date: date)
+                                
                                 
                                 ZStack{
                                     VStack{
+                                        
                                         Button(action: {
                                             getArrayHere = []
-                                            NSController.getEntryRequest{ (getArray) in
-                                                getArrayHere = getArray
-                                            }
+                                            populateGetArray()
                                             
                                         }){
                                             Text("REFRESH")
@@ -656,10 +663,12 @@ struct ContentView: View {
                                                 ForEach(getArrayHere, id: \.self){ entry in
                                                     Text(entry)
                                                     
+                                                    
                                                 }
                                                 
                                             }
                                             .navigationTitle("Here is what is graphed")
+                                            .onAppear(perform: populateGetArray)
                                             
                                         }
                                     }

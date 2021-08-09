@@ -236,7 +236,7 @@ class NightscoutController {
     }
     
     //Get request
-    func getEntryRequest(completion: @escaping (Array<String>)->Void) {
+   /* func getEntryRequest(completion: @escaping (Array<String>)->Void) {
         print("getting")
         guard let url = URL(string: "https://test-sweet.herokuapp.com/api/v1/entries?find[date][$gte]=0&count=100000&token=api-d1b60b0ce9c2dbae")
 
@@ -248,20 +248,72 @@ class NightscoutController {
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.addValue("TandemDiabetes1", forHTTPHeaderField: "x-api-key")
+        
         var Outstr: String = ""
+        
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             guard error == nil else { print(error!.localizedDescription); return }
             guard let data = data else { print("Empty data"); return }
             if let str = String(data: data, encoding: .utf8) {
                 //print(str)
                 Outstr = str
+                self.getArray.append(Outstr)
+                completion(self.getArray)
                 
                 
             }
         }.resume()
-        self.getArray.append(Outstr)
-        print(Outstr)
-        completion(self.getArray)
+        
+        //print(Outstr)
+        
+    }
+ */
+    //Get function request
+    func getEntryRequest(completion: @escaping (Array<String>)->Void){
+        print("getting")
+        guard let url = URL(string: "https://test-sweet.herokuapp.com/api/v1/entries.json?find[date][$gte]=0&count=100000&token=api-d1b60b0ce9c2dbae")else{return}
+         
+        let session = URLSession.shared
+        session.dataTask(with: url) { data, URLResponse, error in
+            if let data = data{
+                
+                do{
+                    let json = try JSONSerialization.jsonObject(with: data, options: [])
+                    
+                    
+                    guard let array = json as? [Any] else {return}
+                    
+                    if array.isEmpty {
+                        print("array is empty")
+                        self.getArray = ["Array is empty"]
+                    }
+                    else{
+                        for reading in array{
+                            guard let readingDict = reading as? [String: Any] else {return}
+                            guard let readingSGV = readingDict["sgv"] as? Int else {return}
+                            guard let readingDate = readingDict["date"] as? Int else {return}
+                            guard let readingDirection = readingDict["direction"] as? String else {return}
+                            
+                            //print(readingSGV)
+                            //print(readingDate)
+                            //print(readingDirection)
+                            
+                            let fullSet = String(readingSGV) + " " + String(readingDate) + " " + readingDirection
+                            self.getArray.append(fullSet)
+                            //print(self.getArray)
+                        }
+                    }
+                    completion(self.getArray)
+
+                    
+                }
+                catch{
+                    print(error)
+                }
+            }
+        }.resume()
+        //print(self.getArray)
+        //completion(self.getArray)
     }
     
     
