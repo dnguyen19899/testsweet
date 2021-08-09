@@ -218,7 +218,7 @@ class NightscoutController {
         {
             return
         }
-        var request = URLRequest(url: url)
+        var request = URLRequest(url: url,timeoutInterval: 10000)
         request.httpMethod = "POST"
         request.addValue("TandemDiabetes1", forHTTPHeaderField: "x-api-key")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -234,40 +234,37 @@ class NightscoutController {
 
         }.resume()
     }
-    
-    //Get request
-   /* func getEntryRequest(completion: @escaping (Array<String>)->Void) {
-        print("getting")
-        guard let url = URL(string: "https://test-sweet.herokuapp.com/api/v1/entries?find[date][$gte]=0&count=100000&token=api-d1b60b0ce9c2dbae")
-
-        else {
-            print("URL is not accepted")
-            return
-        }
-
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
+    /*
+    // This posts the entrys that we input as parameters.
+    func makeEntryPostRequest(date: Int64, sgv: Int, direction: String) {
+        let payload = ["type":"sgv","date":"\(date)","sgv":"\(sgv)","direction":"\(direction)"] as [String : Any]
+        guard let url = URL(string: "https://test-sweet.herokuapp.com/api/v1/entries.json?&token=api-d1b60b0ce9c2dbae") else{return}
+        var request = URLRequest(url: url,timeoutInterval: 1000)
+        request.httpMethod = "POST"
         request.addValue("TandemDiabetes1", forHTTPHeaderField: "x-api-key")
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        guard let httpBody = try? JSONSerialization.data(withJSONObject: payload, options: [])else{return}
         
-        var Outstr: String = ""
-        
-        URLSession.shared.dataTask(with: request) { (data, response, error) in
-            guard error == nil else { print(error!.localizedDescription); return }
-            guard let data = data else { print("Empty data"); return }
-            if let str = String(data: data, encoding: .utf8) {
-                //print(str)
-                Outstr = str
-                self.getArray.append(Outstr)
-                completion(self.getArray)
-                
-                
+        request.httpBody = httpBody
+
+        let session = URLSession.shared
+        session.dataTask(with: url) { data, response, error in
+            if let response = response{
+                print(response)
+            }
+            if let data = data {
+                do{
+                    let json = try JSONSerialization.jsonObject(with: data, options: [])
+                    print(json)
+                }
+                catch{
+                    print(error)
+                }
             }
         }.resume()
-        
-        //print(Outstr)
-        
-    }
- */
+
+        }
+   */
     //Get function request
     func getEntryRequest(completion: @escaping (Array<String>)->Void){
         print("getting")
@@ -320,7 +317,7 @@ class NightscoutController {
     //deleteEntryRequest function deletes all entries
     func deleteEntryRequest() {
         print("deleting")
-        guard let url = URL(string: "https://test-sweet.herokuapp.com/api/v1/entries.json?find[date][$gte]=0&count=10000&token=api-d1b60b0ce9c2dbae")
+        guard let url = URL(string: "https://test-sweet.herokuapp.com/api/v1/entries.json?find[date][$gte]=0&count=100000&token=api-d1b60b0ce9c2dbae")
 
         else {
             print("URL is not accepted")
