@@ -66,6 +66,7 @@ struct ContentView: View {
     
     @State var fileName = ""
     @State var openFile = false
+    @State var filePath = ""
   
     var foreverAnimation: Animation {
         Animation.linear(duration: 2.0)
@@ -412,11 +413,12 @@ struct ContentView: View {
                                     
                                     do {
                                         let fileURL = try res.get()
-                                        print(fileURL)
+                                        self.filePath = fileURL.path
+                                        print(filePath)
                                         
                                         // getting fileName
                                         self.fileName = fileURL.lastPathComponent
-                                        print(fileName)
+                                        //print(fileName)
                                     }
                                     catch {
                                         print("Error reading docs")
@@ -439,7 +441,9 @@ struct ContentView: View {
                                     Button(action: {
                                         print("CSV entires pressed")
                                         
-                                        CGMPoints = Int64(NSController.importCSVData(date: NSController.getTimeStamp()))
+                                        CGMPoints = Int64(NSController.importCSVData(date: NSController.getTimeStamp(), filePath: filePath))
+                                        
+                                        NSController.importCSVData(date: NSController.getTimeStamp(), filePath: filePath)
                                         addScreen = true
                                         self.showCSVEntry = false
                                         let secondsToDelay = 5.0

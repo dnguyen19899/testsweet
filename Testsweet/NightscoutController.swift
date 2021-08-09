@@ -100,12 +100,12 @@ class NightscoutController {
         return iso8601DateFormatter.string(from: self.date)
     }
     
-    func importCSVData(date: Int64) -> Int64 {
-         var csvToStruct = [Entry]()
+    func importCSVData(date: Int64, filePath: String) -> Int64 {
+         // var csvToStruct = [Entry]()
         
-        guard let filePath = Bundle.main.path(forResource: "input", ofType: "csv") else {
-            return 0
-        }
+//        guard let filePath = Bundle.main.path(forResource: "input", ofType: "csv") else {
+//            return 0
+//        }
         var data = ""
         do {
             data = try String(contentsOfFile: filePath, encoding: .utf8)
@@ -124,6 +124,7 @@ class NightscoutController {
             count = count + 1
             let csvColumns = row.components(separatedBy: ",")
             let entryStruct = Entry.init(raw: csvColumns)
+            print("\(entryStruct.sgv): \(entryStruct.direction)")
             let newDir = entryStruct.direction.replacingOccurrences(of: "\r", with: "")
             if(entryStruct.sgv == -1 && newDir == "") {
                 newDate = newDate - 300000
