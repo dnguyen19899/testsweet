@@ -104,10 +104,11 @@ struct ContentView: View {
             fileThere = false
         }
     }
+    
+    let headerHeight = CGFloat(50)
+    
     var body: some View {
-        
 
-        
         if addScreen {
             ZStack{
                 Rectangle()
@@ -149,274 +150,453 @@ struct ContentView: View {
                 }
             }
         }
-        ZStack {
-            //Color(hex:0xFFFAF1).ignoresSafeArea()
+        ZStack(alignment: .topLeading) {
+            //Color(hex:0xcaf0f8).ignoresSafeArea()
             Color(.white).ignoresSafeArea()
-
-            ScrollView{
+            
+            HeaderView().zIndex(1)
+                            .frame(height: headerHeight)
+            
+            ScrollView {
                 LazyVStack(alignment: .leading, spacing: 15, pinnedViews: [.sectionHeaders], content: {
+                    
+                    // List of feature buttons here:
+                    Color.clear.frame(height: CGFloat(80))
                     //---- custom entry ---- //
-                    Section(header: HeaderView()) {
-                        
-                        RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
-                            .fill(Color.black)
-                            .frame(height: 100)
-                            .padding()
-                            .overlay(
-                                Text("CREATE CUSTOM ENTRY")
-                                    .font(.system(size: 20, weight: .heavy, design: .default))
-                                    .foregroundColor(.white).padding()
-                            ).onTapGesture {
-                                self.showCustomEntry = true
-                            }.sheet(isPresented: $showCustomEntry) {
-                                Text("Make Custom Entries")
-                                    .font(.system(size: 20, weight: .heavy))
-                                    .padding(.leading, 20)
-                                    .foregroundColor(.blue)
-
-                                // Datepicker for custom entries
-                                HStack {
-                                    Spacer()
-                                    MyDatePicker(selection: $date, minuteInterval: 5, displayedComponents: [.date, .hourAndMinute])
-                                    Spacer()
-                                }
-                                
-//                                DatePicker("Select date and time", selection: $date, displayedComponents: [.date, .hourAndMinute])
+//                    Section() {
+//
+//                        RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
+//                            .fill(Color.black)
+//                            .frame(height: 100)
+//                            .padding()
+//                            .overlay(
+//                                Text("CREATE CUSTOM ENTRY")
+//                                    .font(.system(size: 20, weight: .heavy, design: .default))
+//                                    .foregroundColor(.white).padding()
+//                            ).onTapGesture {
+//                                self.showCustomEntry = true
+//                            }.sheet(isPresented: $showCustomEntry) {
+//                                Text("Make Custom Entries")
+//                                    .font(.system(size: 20, weight: .heavy))
 //                                    .padding(.leading, 20)
-//                                    .padding(.trailing, 20)
-//                                    .padding(.bottom, 10)
-
-                                HStack {
-                                    Text("BG Reading")
-                                        .padding(.leading, 20)
-                                    // SVG input field for custom entries
-                                    TextField("", text: $sgv.value)
-                                                .keyboardType(.decimalPad)
-                                        .border(Color.gray)
-                                        .padding(.leading, 100)
-                                        .padding(.trailing, 20)
-                                }.textFieldStyle(RoundedBorderTextFieldStyle())
-
-                                // Initializer for backend
-                                let NSController = NightscoutController(date: date)
-
-                                // CREATE button
-                                HStack {
-                                    Spacer()
-                                    Button(action: {
-
-                                        print("the value is \(sgv.value)")
-                                        if sgv.value != "" {
-                                            if (Int(sgv.value)!) >= 0 && (Int(sgv.value)!) <= 500 {
-                                                print("making post")
-                                                addScreen = true
-                                                showCustomEntry = false
-                                                CGMPoints = 1
-                                                NSController.makeEntryPostRequest(date: NSController.getTimeStamp() , sgv: Int(sgv.value)!, direction: "FLAT")
-                                                let secondsToDelay = 4.0
-                                                DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
-                                                    print("The adding is truly done")
-                                                    addScreen = false
-                                                }
-                                            }
-                                            else{
-                                                print("chose a sgv value between 0 and 500")
-                                                sgvError = true
-                                            }
-                                        }
-                                        else{
-                                            print("must add a sgv value before proceeding")
-                                            sgvError = true
-                                        }
-                                    }){
-                                        Text("CREATE")
-                                        .bold()
-                                            .font(Font.custom("Helvetica Neue", size: 20.0))
-                                            .padding(.top, 15)
-                                            .padding(.bottom, 15)
-                                            .padding(.leading, 30)
-                                            .padding(.trailing, 30)
-                                        .foregroundColor(Color.white)
-                                        .background(Color.black)
-                                        .cornerRadius(12)
-                                    }.alert(isPresented: $sgvError) {
-                                        Alert(title: Text("Error"), message: Text("Please enter a value between 0 and 500"), dismissButton: .default(Text("OK")))
-                                    }
-                                    Spacer()
-                                }
-                            }
-                        
-                    }
-                    // ------- Generate Entries ------- //
+//                                    .foregroundColor(.blue)
+//
+//                                // Datepicker for custom entries
+//                                HStack {
+//                                    Spacer()
+//                                    MyDatePicker(selection: $date, minuteInterval: 5, displayedComponents: [.date, .hourAndMinute])
+//                                    Spacer()
+//                                }
+//
+//    //                                DatePicker("Select date and time", selection: $date, displayedComponents: [.date, .hourAndMinute])
+//    //                                    .padding(.leading, 20)
+//    //                                    .padding(.trailing, 20)
+//    //                                    .padding(.bottom, 10)
+//
+//                                HStack {
+//                                    Text("BG Reading")
+//                                        .padding(.leading, 20)
+//                                    // SVG input field for custom entries
+//                                    TextField("", text: $sgv.value)
+//                                                .keyboardType(.decimalPad)
+//                                        .border(Color.gray)
+//                                        .padding(.leading, 100)
+//                                        .padding(.trailing, 20)
+//                                }.textFieldStyle(RoundedBorderTextFieldStyle())
+//
+//                                // Initializer for backend
+//                                let NSController = NightscoutController(date: date)
+//
+//                                // CREATE button
+//                                HStack {
+//                                    Spacer()
+//                                    Button(action: {
+//
+//                                        print("the value is \(sgv.value)")
+//                                        if sgv.value != "" {
+//                                            if (Int(sgv.value)!) >= 0 && (Int(sgv.value)!) <= 500 {
+//                                                print("making post")
+//                                                addScreen = true
+//                                                showCustomEntry = false
+//                                                CGMPoints = 1
+//                                                NSController.makeEntryPostRequest(date: NSController.getTimeStamp() , sgv: Int(sgv.value)!, direction: "FLAT")
+//                                                let secondsToDelay = 4.0
+//                                                DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
+//                                                    print("The adding is truly done")
+//                                                    addScreen = false
+//                                                }
+//                                            }
+//                                            else{
+//                                                print("chose a sgv value between 0 and 500")
+//                                                sgvError = true
+//                                            }
+//                                        }
+//                                        else{
+//                                            print("must add a sgv value before proceeding")
+//                                            sgvError = true
+//                                        }
+//                                    }){
+//                                        Text("CREATE")
+//                                        .bold()
+//                                            .font(Font.custom("Helvetica Neue", size: 20.0))
+//                                            .padding(.top, 15)
+//                                            .padding(.bottom, 15)
+//                                            .padding(.leading, 30)
+//                                            .padding(.trailing, 30)
+//                                        .foregroundColor(Color.white)
+//                                        .background(Color.black)
+//                                        .cornerRadius(12)
+//                                    }.alert(isPresented: $sgvError) {
+//                                        Alert(title: Text("Error"), message: Text("Please enter a value between 0 and 500"), dismissButton: .default(Text("OK")))
+//                                    }
+//                                    Spacer()
+//                                }
+//                            }
+//
+//                    }
+                    
+                    // ------- Entries Generation ------- //
                     Section() {
-                        RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
-                            .fill(Color.black)
-                            .frame(height: 100)
-                            .padding()
-                            .overlay(
-                                Text("GENERATE ENTRIES")
-                                    .font(.system(size: 20, weight: .heavy, design: .default))
-                                    .foregroundColor(.white).padding()
-                            ).onTapGesture {
-                                self.showGenerateEntries = true
-                            }.sheet(isPresented: $showGenerateEntries) {
-                                
-                                Text("Generate Entries within Range")
-                                    .font(.system(size: 20, weight: .heavy))
-                                    .padding(.leading, 20)
-                                    .foregroundColor(.blue)
+                        
+                        HStack(spacing: 5) {
+                            // ------- Generate Entries ------- //
+                            RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
+                                .fill(Color(hex: 0x184e77))
+                                .frame(height: 150)
+                                .padding([.leading, .top])
+                                .overlay(
+                                    Text("AUTO GENERATE ENTRIES")
+                                        .font(.system(size: 20, weight: .heavy, design: .default))
+                                        .foregroundColor(.white).padding()
+                                ).onTapGesture {
+                                    self.showGenerateEntries = true
+                                }.sheet(isPresented: $showGenerateEntries) {
+                                    
+                                    Text("Generate Entries within Range")
+                                        .font(.system(size: 20, weight: .heavy))
+                                        .padding(.leading, 20)
+                                        .foregroundColor(.blue)
 
-                                // Start Date
-                                DatePicker("Select a start date", selection: $startDate, displayedComponents: [.date, .hourAndMinute])
-                                    .padding(.leading, 20)
-                                    .padding(.trailing, 20)
-                                    .padding(.bottom, 10)
-                                // End Date
-                                DatePicker("Select an end date", selection: $endDate, displayedComponents: [.date, .hourAndMinute])
-                                    .padding(.leading, 20)
-                                    .padding(.trailing, 20)
-                                    .padding(.bottom, 10)
+                                    // Start Date
+                                    DatePicker("Select a start date", selection: $startDate, displayedComponents: [.date, .hourAndMinute])
+                                        .padding(.leading, 20)
+                                        .padding(.trailing, 20)
+                                        .padding(.bottom, 10)
+                                    // End Date
+                                    DatePicker("Select an end date", selection: $endDate, displayedComponents: [.date, .hourAndMinute])
+                                        .padding(.leading, 20)
+                                        .padding(.trailing, 20)
+                                        .padding(.bottom, 10)
 
-                                // initializer for backend
-                                let NSController = NightscoutController(startDate: startDate, endDate: endDate)
+                                    // initializer for backend
+                                    let NSController = NightscoutController(startDate: startDate, endDate: endDate)
 
-                                //Check box slider thing
+                                    //Check box slider thing
 
-                                HStack {
-                                    Button(action: {
-                                        button = false
-                                    }){
-                                        Text("Random Readings")
-                                            .bold()
-                                            .foregroundColor(button ? Color.blue : Color.white)
-                                            .padding()
-                                            .background(button ? Color.clear : Color.blue)
-                                            .cornerRadius(12)
-                                    }
-                                    Button(action: {
-                                        button = true
-                                    }){
-                                        Text("Straight Readings")
-                                            .bold()
-                                            .foregroundColor(button ? Color.white : Color.blue)
-                                            .padding()
-                                            .background(button ? Color.blue : Color.clear)
-                                            .cornerRadius(12)
-                                    }
-
-                                    VStack{
-                                        if button {
-                                            Text("BG Reading")
-                                                .padding(.leading, 20)
-                                            // SVG input field for custom entries
-                                            TextField("", text: $sgv2.value)
-                                                        .keyboardType(.decimalPad)
-                                                .border(Color.gray)
-                                                .padding(.leading, 40)
-                                                .padding(.trailing, 20)
+                                    HStack {
+                                        Button(action: {
+                                            button = false
+                                        }){
+                                            Text("Random Readings")
+                                                .bold()
+                                                .foregroundColor(button ? Color.blue : Color.white)
+                                                .padding()
+                                                .background(button ? Color.clear : Color.blue)
+                                                .cornerRadius(12)
                                         }
-                                    }.textFieldStyle(RoundedBorderTextFieldStyle())
-                                    .onTapGesture {
-                                        self.hideKeyboard()
-                                    }
-                                }
-                                 .overlay(
-                                    RoundedRectangle(cornerRadius: 10.0)
-                                        .stroke(lineWidth: 2.0)
-                                )
-                                .padding()
-
-                                // CREATE button
-                                HStack {
-                                    Spacer()
-                                    Button(action: {
-                                        if startDate == endDate || startDate > endDate {
-                                            print("Please make sure start date is less than end and not equal")
-                                            self.activeAlert = .third
-                                            self.showAlert = true
+                                        Button(action: {
+                                            button = true
+                                        }){
+                                            Text("Straight Readings")
+                                                .bold()
+                                                .foregroundColor(button ? Color.white : Color.blue)
+                                                .padding()
+                                                .background(button ? Color.blue : Color.clear)
+                                                .cornerRadius(12)
                                         }
-                                        else {
-                                            print("start date: \(startDate)")
-                                            print("end date: \(endDate)")
-                                            if button == false{
-                                                print("making post; random")
-                                                addScreen = true
-                                                showGenerateEntries = false
-                                                CGMPoints = NSController.populateGraphWithTwoTimesRandom(epochStartTime: NSController.getStartTimeStamp(), epochEndTime: NSController.getEndTimeStamp())
-                                                let secondsToDelay = (Double(CGMPoints) / 26) + 1
-                                                
-                                                DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
-                                                    print("The adding is truly done")
-                                                    addScreen = false
-                                                }
+
+                                        VStack{
+                                            if button {
+                                                Text("BG Reading")
+                                                    .padding(.leading, 20)
+                                                // SVG input field for custom entries
+                                                TextField("", text: $sgv2.value)
+                                                            .keyboardType(.decimalPad)
+                                                    .border(Color.gray)
+                                                    .padding(.leading, 40)
+                                                    .padding(.trailing, 20)
+                                            }
+                                        }.textFieldStyle(RoundedBorderTextFieldStyle())
+                                        .onTapGesture {
+                                            self.hideKeyboard()
+                                        }
+                                    }
+                                     .overlay(
+                                        RoundedRectangle(cornerRadius: 10.0)
+                                            .stroke(lineWidth: 2.0)
+                                    )
+                                    .padding()
+
+                                    // CREATE button
+                                    HStack {
+                                        Spacer()
+                                        Button(action: {
+                                            if startDate == endDate || startDate > endDate {
+                                                print("Please make sure start date is less than end and not equal")
+                                                self.activeAlert = .third
+                                                self.showAlert = true
                                             }
                                             else {
-                                                if sgv2.value != "" {
-                                                    if (Int(sgv2.value)!) >= 0 && (Int(sgv2.value)!) <= 500  {
-                                                        print("making post; straight")
-                                                        addScreen = true
-                                                        showGenerateEntries = false
-                                                        CGMPoints = NSController.populateGraphWithTwoTimeStraight(sgv: (Int(sgv2.value)!), epochStartTime: NSController.getStartTimeStamp(), epochEndTime: NSController.getEndTimeStamp())
-                                                        let secondsToDelay = (Double(CGMPoints) / 26) + 1
-                                                        DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
-                                                            print("The adding is truly done")
-                                                            addScreen = false
+                                                print("start date: \(startDate)")
+                                                print("end date: \(endDate)")
+                                                if button == false{
+                                                    print("making post; random")
+                                                    addScreen = true
+                                                    showGenerateEntries = false
+                                                    CGMPoints = NSController.populateGraphWithTwoTimesRandom(epochStartTime: NSController.getStartTimeStamp(), epochEndTime: NSController.getEndTimeStamp())
+                                                    let secondsToDelay = (Double(CGMPoints) / 26) + 1
+                                                    
+                                                    DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
+                                                        print("The adding is truly done")
+                                                        addScreen = false
+                                                    }
+                                                }
+                                                else {
+                                                    if sgv2.value != "" {
+                                                        if (Int(sgv2.value)!) >= 0 && (Int(sgv2.value)!) <= 500  {
+                                                            print("making post; straight")
+                                                            addScreen = true
+                                                            showGenerateEntries = false
+                                                            CGMPoints = NSController.populateGraphWithTwoTimeStraight(sgv: (Int(sgv2.value)!), epochStartTime: NSController.getStartTimeStamp(), epochEndTime: NSController.getEndTimeStamp())
+                                                            let secondsToDelay = (Double(CGMPoints) / 26) + 1
+                                                            DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
+                                                                print("The adding is truly done")
+                                                                addScreen = false
+                                                            }
+                                                        }
+                                                        else{
+                                                            print("chose a sgv value between 0 and 500")
+                                                            self.activeAlert = .second
+                                                            self.showAlert = true
                                                         }
                                                     }
                                                     else{
-                                                        print("chose a sgv value between 0 and 500")
-                                                        self.activeAlert = .second
+                                                        print("must add SGV value nerd")
+                                                        self.activeAlert = .first
                                                         self.showAlert = true
+
+
                                                     }
                                                 }
-                                                else{
-                                                    print("must add SGV value nerd")
-                                                    self.activeAlert = .first
-                                                    self.showAlert = true
+                                            }
 
-
-                                                }
+                                        }){
+                                            Text("CREATE")
+                                            .bold()
+                                                .font(Font.custom("Helvetica Neue", size: 20.0))
+                                                .padding([.top, .bottom], 15)
+                                                .padding([.leading, .trailing], 30)
+                                            .foregroundColor(Color.white)
+                                            .background(Color.black)
+                                            .cornerRadius(12)
+                                        }.alert(isPresented: $showAlert) {
+                                            switch activeAlert {
+                                            case .first:
+                                                return Alert(title: Text("Error"), message: Text("Please enter an SGV value"), dismissButton: .default(Text("OK")))
+                                            case .second:
+                                                return Alert(title: Text("Error"), message: Text("chose a sgv value between 0 and 500"), dismissButton: .default(Text("OK")))
+                                            case .third:
+                                                return Alert(title: Text("Error"), message: Text("Please make sure start date is less than end and not equal"), dismissButton: .default(Text("OK")))
+                                            
+                                                
                                             }
                                         }
-
-                                    }){
-                                        Text("CREATE")
-                                        .bold()
-                                            .font(Font.custom("Helvetica Neue", size: 20.0))
-                                            .padding(.top, 15)
-                                            .padding(.bottom, 15)
-                                            .padding(.leading, 30)
-                                            .padding(.trailing, 30)
-                                        .foregroundColor(Color.white)
-                                        .background(Color.black)
-                                        .cornerRadius(12)
-                                    }.alert(isPresented: $showAlert) {
-                                        switch activeAlert {
-                                        case .first:
-                                            return Alert(title: Text("Error"), message: Text("Please enter an SGV value"), dismissButton: .default(Text("OK")))
-                                        case .second:
-                                            return Alert(title: Text("Error"), message: Text("chose a sgv value between 0 and 500"), dismissButton: .default(Text("OK")))
-                                        case .third:
-                                            return Alert(title: Text("Error"), message: Text("Please make sure start date is less than end and not equal"), dismissButton: .default(Text("OK")))
-                                        
-                                            
-                                        }
+                                        Spacer()
                                     }
-                                    Spacer()
+                                    
                                 }
-                                
-                            }
+                            
+                            //---------Create Your Own Test------------//
+                            RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
+                                .fill(Color(hex: 0x168aad))
+                                .frame(height: 150)
+                                .padding([.trailing, .top])
+                                .overlay(
+                                    Text("CUSTOM ENTRIES")
+                                        .font(.system(size: 20, weight: .heavy, design: .default))
+                                        .foregroundColor(.white).padding()
+                                ).onTapGesture {
+                                    self.createScreen = true
+                                }.sheet(isPresented: $createScreen) {
+                                    ZStack{
+                                        VStack{
+                                            Text("Create your own tests:")
+                                                .foregroundColor(Color.black)
+                                                .font(.system(size: 30))
+                                                .bold()
+                                                .padding()
+                                            VStack{
+                                                
+                                                VStack(spacing: 15){
+                                                    Text("SGV")
+                                                        .padding([.leading, .trailing], 10)
+                                                    HStack(spacing: 0) {
+                                                        Spacer()
+                                                        TextField("", text: $sgv3.value)
+                                                            .keyboardType(.numberPad)
+                                                            .border(Color.gray)
+                                                            .padding(.leading, 60)
+                                                        Button(action: {
+                                                            self.hideKeyboard()
+                                                        }){
+                                                            Text("Done")
+                                                            .bold()
+                                                                .font(Font.custom("Helvetica Neue", size: 15.0))
+                                                                .padding([.top, .bottom], 8)
+                                                                .padding([.leading, .trailing], 30)
+                                                            .foregroundColor(Color.white)
+                                                            .background(Color.black)
+                                                        }.padding(.trailing, 60)
+                                                        Spacer()
+                                                    }.textFieldStyle(RoundedBorderTextFieldStyle())
+                                                }
+                                                .onTapGesture {
+                                                    print("Tapped to hide keyboard")
+                                                    self.hideKeyboard()
+                                                }
+                                                
+                                                VStack{
+                                                    DropdownPicker(title: "Directions", selection: $currentSelection, options: ["FLAT","NONE DOUBLE_UP", "SINGLE_UP", "FORTY_FIVE_UP", "FLAT FORTY_FIVE_DOWN", "SINGLE_DOWN", "DOUBLE_DOWN", "NOT_COMPUTABLE", "OUT_OF_RANGE", "None"])
+                                                }
+                                            }
+                                            HStack{
+                                                Button(action: {
+                                                    var newCurrentSelection = ""
+                                                    if currentSelection == 0{newCurrentSelection = "FLAT"}
+                                                    else if currentSelection == 1 {newCurrentSelection = "NONE DOUBLE_UP"}
+                                                    else if currentSelection == 2 {newCurrentSelection = "SINGLE_UP"}
+                                                    else if currentSelection == 3 {newCurrentSelection = "FORTY_FIVE_UP"}
+                                                    else if currentSelection == 4 {newCurrentSelection = "FLAT FORTY_FIVE_DOWN"}
+                                                    else if currentSelection == 5 {newCurrentSelection = "SINGLE_DOWN"}
+                                                    else if currentSelection == 6 {newCurrentSelection = "DOUBLE_DOWN"}
+                                                    else if currentSelection == 7 {newCurrentSelection = "NOT_COMPUTABLE"}
+                                                    else if currentSelection == 8 {newCurrentSelection = "OUT_OF_RANGE"}
+                                                    else {newCurrentSelection = ""}
+                                                    if sgv3.value != "" {
+                                                        if (Int(sgv3.value)!) >= 0 && (Int(sgv3.value)!) <= 500 {
+                                                            let entry = Entry(sgv: sgv3.value, direction: newCurrentSelection)
+                                                            currentEntries.append(entry)
+                                                        }
+                                                        else{
+                                                            sgvError = true
+                                                        }
+                                                    }
+                                                    else{
+                                                        sgvError = true
+                                                    }
+                                                   
+                                                }){
+                                                    Text("Add")
+                                                    .bold()
+                                                        .font(Font.custom("Helvetica Neue", size: 20.0))
+                                                        .padding(.top, 15)
+                                                        .padding(.bottom, 15)
+                                                        .padding(.leading, 30)
+                                                        .padding(.trailing, 30)
+                                                    .foregroundColor(Color.white)
+                                                    .background(Color.black)
+                                                    .cornerRadius(12)
+                                                }.alert(isPresented: $sgvError) {
+                                                    Alert(title: Text("Error"), message: Text("Please enter a value between 0 and 500"), dismissButton: .default(Text("OK")))
+                                                }
+                                                Button(action: {
+                                                    currentEntries.append(Entry(sgv: "-1", direction: ""))
+                                                }){
+                                                    Text("Add Empty")
+                                                    .bold()
+                                                        .font(Font.custom("Helvetica Neue", size: 20.0))
+                                                        .padding(.top, 15)
+                                                        .padding(.bottom, 15)
+                                                        .padding(.leading, 30)
+                                                        .padding(.trailing, 30)
+                                                    .foregroundColor(Color.white)
+                                                    .background(Color.black)
+                                                    .cornerRadius(12)
+                                                }
+                                            }
+
+                                            NavigationView {
+                                                List {
+                                                    ForEach(currentEntries, id: \.self){ entry in
+                                                        Text(entry.toString())
+                                                    }
+                                                    .onDelete(perform: delete)
+                                                }
+                                                .navigationTitle("Current Entries")
+                                            }
+                                            
+                                            DatePicker("Select an end date", selection: $date3, displayedComponents: [.date, .hourAndMinute])
+                                                .padding(.leading, 20)
+                                                .padding(.trailing, 20)
+                                                .padding(.bottom, 10)
+
+                                            HStack{
+                                                Button(action: {
+                                                    //pass in date3 for time
+                                                    let NSController = NightscoutController(date: date3)
+                                                    CGMPoints = Int64(NSController.populateGraphWithEntryList(date: NSController.getTimeStamp(), entries: currentEntries))
+                                                    addScreen = true
+                                                    createScreen = false
+                                                    currentEntries = []
+                                                    let secondsToDelay = (Double(CGMPoints) / 26) + 1
+                                                    DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
+                                                        print("The adding is truly done")
+                                                        addScreen = false
+                                                    }
+                                                   
+                                                }){
+                                                    Text("Done")
+                                                        .bold()
+                                                        .font(Font.custom("Helvetica Neue", size: 20.0))
+                                                        .padding(.top, 15)
+                                                        .padding(.bottom, 15)
+                                                        .padding(.leading, 30)
+                                                        .padding(.trailing, 30)
+                                                    .foregroundColor(Color.white)
+                                                    .background(Color.black)
+                                                    .cornerRadius(12)
+                                                }
+                                                Button(action: {
+                                                    currentEntries = []
+                                                }){
+                                                Image(systemName: "trash.fill")
+                                                    .font(.system(size: 20))
+                                                    .foregroundColor(.red)
+                                                    .font(Font.custom("Helvetica Neue", size: 20.0))
+                                                    .padding(.top, 15)
+                                                    .padding(.bottom, 15)
+                                                    .padding(.leading, 30)
+                                                    .padding(.trailing, 30)
+                                                    .background(Color.black)
+                                                    .cornerRadius(12)
+                                                }
+                                            }
+                                            Spacer()
+                                            }
+                                        }
+                                }
+                        }
                     }
                     // ------- CSV Import ------- //
                     Section() {
 
                         RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
-                            .fill(Color.black)
-                            .frame(height: 100)
-                            .padding()
+                            .fill(Color(hex: 0x52b69a))
+                            .frame(height: 120)
+                            .padding([.leading, .trailing])
                             .overlay(
-                                Text("Import CSV File")
-                                    .font(.system(size: 20, weight: .heavy, design: .default))
+                                Text("ENTRIES from CSV")
+                                    .font(.system(size: 25, weight: .heavy, design: .default))
                                     .foregroundColor(.white).padding()
                             ).onTapGesture {
                                 self.showCSVEntry = true
@@ -515,185 +695,14 @@ struct ContentView: View {
                             }
                         
                     }
-                    //---------Create your own test------------//
-                    Section() {
-                        RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
-                            .fill(Color.black)
-                            .frame(height: 100)
-                            .padding()
-                            .overlay(
-                                Text("MULTI CUSTOM ENTRIES")
-                                    .font(.system(size: 20, weight: .heavy, design: .default))
-                                    .foregroundColor(.white).padding()
-                            ).onTapGesture {
-                                self.createScreen = true
-                            }.sheet(isPresented: $createScreen) {
-                                ZStack{
-                                    VStack{
-                                        Text("Create your own tests:")
-                                            .foregroundColor(Color.black)
-                                            .font(.system(size: 30))
-                                            .bold()
-                                            .padding()
-                                        VStack{
-                                            
-                                            VStack(spacing: 15){
-                                                Text("SGV")
-                                                    .padding([.leading, .trailing], 10)
-                                                HStack(spacing: 0) {
-                                                    Spacer()
-                                                    TextField("", text: $sgv3.value)
-                                                        .keyboardType(.numberPad)
-                                                        .border(Color.gray)
-                                                        .padding(.leading, 60)
-                                                    Button(action: {
-                                                        self.hideKeyboard()
-                                                    }){
-                                                        Text("Done")
-                                                        .bold()
-                                                            .font(Font.custom("Helvetica Neue", size: 15.0))
-                                                            .padding([.top, .bottom], 8)
-                                                            .padding([.leading, .trailing], 30)
-                                                        .foregroundColor(Color.white)
-                                                        .background(Color.black)
-                                                    }.padding(.trailing, 60)
-                                                    Spacer()
-                                                }.textFieldStyle(RoundedBorderTextFieldStyle())
-                                            }
-                                            .onTapGesture {
-                                                print("Tapped to hide keyboard")
-                                                self.hideKeyboard()
-                                            }
-                                            
-                                            VStack{
-                                                DropdownPicker(title: "Directions", selection: $currentSelection, options: ["FLAT","NONE DOUBLE_UP", "SINGLE_UP", "FORTY_FIVE_UP", "FLAT FORTY_FIVE_DOWN", "SINGLE_DOWN", "DOUBLE_DOWN", "NOT_COMPUTABLE", "OUT_OF_RANGE", "None"])
-                                            }
-                                        }
-                                        HStack{
-                                            Button(action: {
-                                                var newCurrentSelection = ""
-                                                if currentSelection == 0{newCurrentSelection = "FLAT"}
-                                                else if currentSelection == 1 {newCurrentSelection = "NONE DOUBLE_UP"}
-                                                else if currentSelection == 2 {newCurrentSelection = "SINGLE_UP"}
-                                                else if currentSelection == 3 {newCurrentSelection = "FORTY_FIVE_UP"}
-                                                else if currentSelection == 4 {newCurrentSelection = "FLAT FORTY_FIVE_DOWN"}
-                                                else if currentSelection == 5 {newCurrentSelection = "SINGLE_DOWN"}
-                                                else if currentSelection == 6 {newCurrentSelection = "DOUBLE_DOWN"}
-                                                else if currentSelection == 7 {newCurrentSelection = "NOT_COMPUTABLE"}
-                                                else if currentSelection == 8 {newCurrentSelection = "OUT_OF_RANGE"}
-                                                else {newCurrentSelection = ""}
-                                                if sgv3.value != "" {
-                                                    if (Int(sgv3.value)!) >= 0 && (Int(sgv3.value)!) <= 500 {
-                                                        let entry = Entry(sgv: sgv3.value, direction: newCurrentSelection)
-                                                        currentEntries.append(entry)
-                                                    }
-                                                    else{
-                                                        sgvError = true
-                                                    }
-                                                }
-                                                else{
-                                                    sgvError = true
-                                                }
-                                               
-                                            }){
-                                                Text("Add")
-                                                .bold()
-                                                    .font(Font.custom("Helvetica Neue", size: 20.0))
-                                                    .padding(.top, 15)
-                                                    .padding(.bottom, 15)
-                                                    .padding(.leading, 30)
-                                                    .padding(.trailing, 30)
-                                                .foregroundColor(Color.white)
-                                                .background(Color.black)
-                                                .cornerRadius(12)
-                                            }.alert(isPresented: $sgvError) {
-                                                Alert(title: Text("Error"), message: Text("Please enter a value between 0 and 500"), dismissButton: .default(Text("OK")))
-                                            }
-                                            Button(action: {
-                                                currentEntries.append(Entry(sgv: "-1", direction: ""))
-                                            }){
-                                                Text("Add Empty")
-                                                .bold()
-                                                    .font(Font.custom("Helvetica Neue", size: 20.0))
-                                                    .padding(.top, 15)
-                                                    .padding(.bottom, 15)
-                                                    .padding(.leading, 30)
-                                                    .padding(.trailing, 30)
-                                                .foregroundColor(Color.white)
-                                                .background(Color.black)
-                                                .cornerRadius(12)
-                                            }
-                                        }
- 
-                                        NavigationView {
-                                            List {
-                                                ForEach(currentEntries, id: \.self){ entry in
-                                                    Text(entry.toString())
-                                                }
-                                                .onDelete(perform: delete)
-                                            }
-                                            .navigationTitle("Current Entries")
-                                        }
-                                        
-                                        DatePicker("Select an end date", selection: $date3, displayedComponents: [.date, .hourAndMinute])
-                                            .padding(.leading, 20)
-                                            .padding(.trailing, 20)
-                                            .padding(.bottom, 10)
-
-                                        HStack{
-                                            Button(action: {
-                                                //pass in date3 for time
-                                                let NSController = NightscoutController(date: date3)
-                                                CGMPoints = Int64(NSController.populateGraphWithEntryList(date: NSController.getTimeStamp(), entries: currentEntries))
-                                                addScreen = true
-                                                createScreen = false
-                                                currentEntries = []
-                                                let secondsToDelay = (Double(CGMPoints) / 26) + 1
-                                                DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
-                                                    print("The adding is truly done")
-                                                    addScreen = false
-                                                }
-                                               
-                                            }){
-                                                Text("Done")
-                                                    .bold()
-                                                    .font(Font.custom("Helvetica Neue", size: 20.0))
-                                                    .padding(.top, 15)
-                                                    .padding(.bottom, 15)
-                                                    .padding(.leading, 30)
-                                                    .padding(.trailing, 30)
-                                                .foregroundColor(Color.white)
-                                                .background(Color.black)
-                                                .cornerRadius(12)
-                                            }
-                                            Button(action: {
-                                                currentEntries = []
-                                            }){
-                                            Image(systemName: "trash.fill")
-                                                .font(.system(size: 20))
-                                                .foregroundColor(.red)
-                                                .font(Font.custom("Helvetica Neue", size: 20.0))
-                                                .padding(.top, 15)
-                                                .padding(.bottom, 15)
-                                                .padding(.leading, 30)
-                                                .padding(.trailing, 30)
-                                                .background(Color.black)
-                                                .cornerRadius(12)
-                                            }
-                                        }
-                                        Spacer()
-                                        }
-                                    }
-                            }
-                    }
                     //------- get function, maybe a graph-----//
                     Section() {
                         RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
-                            .fill(Color.black)
+                            .fill(Color(hex:0x212529))
                             .frame(height: 100)
-                            .padding()
+                            .padding([.leading, .trailing])
                             .overlay(
-                                Text("See what is graphed")
+                                Text("VIEW ENTRIES ADDED")
                                     .font(.system(size: 20, weight: .heavy, design: .default))
                                     .foregroundColor(.white).padding()
                             ).onTapGesture {
@@ -738,68 +747,81 @@ struct ContentView: View {
                                 }
                             }
                         }
+                    Spacer()
                     // ------- Delete Entries ------- //
                     Section() {
-                        
-                        RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
-                            .fill(Color.red)
-                            .frame(height: 100)
-                            .padding()
-                            .overlay(
-                                Text("DELETE ALL ENTRIES")
-                                    .font(.system(size: 20, weight: .heavy, design: .default))
-                                    .foregroundColor(.white).padding()
-                            ).onTapGesture {
-                                self.showDeleteEntries = true
-                            }.sheet(isPresented: $showDeleteEntries) {
-                                Text("Delete All Entries")
-                                    .font(.system(size: 20, weight: .heavy))
-                                    .padding([.leading, .top], 20)
-                                    .foregroundColor(.blue)
-                                Text("Clear out all entries in Nightscout server. This action cannot be undone.")
-                                    .font(.system(size: 15, weight: .regular))
-                                    .padding([.leading, .trailing], 20)
-                                    .padding(.bottom, 40)
-                                HStack {
-                                    Spacer()
-                                    let NSController = NightscoutController(date: date)
-                                    Button(action: {
-
-                                        print("delete button has been clicked waiting to see if canceled or not")
-                                        deleteAlert = true
-                                    }){
+                    
+                        HStack {
+                            Spacer()
+                            RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
+                                .fill(Color.red)
+                                .frame(width: 200, height: 100)
+                                .padding()
+                                .overlay(
+                                    HStack(spacing: 0) {
                                         Text("DELETE")
-                                        .bold()
-                                            .font(Font.custom("Helvetica Neue", size: 20.0))
-                                            .padding(.top, 15)
-                                            .padding(.bottom, 15)
-                                            .padding(.leading, 30)
-                                            .padding(.trailing, 30)
-                                        .foregroundColor(Color.white)
-                                        .background(Color.red)
-                                        .cornerRadius(12)
-                                    }.alert(isPresented:$deleteAlert) {
-                                        Alert(
-                                            title: Text("Are you sure you want to delete all entries?"),
-                                            message: Text("This action cannot be undone"),
-                                            primaryButton: .destructive(Text("Delete")) {
-                                                NSController.deleteEntryRequest()
-                                                deleteScreen = true
-                                                showDeleteEntries = false
-                                                let secondsToDelay = 5.0
-                                                DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
-                                                   print("The delete is truly done")
-                                                   deleteScreen = false
-                                                }
-                                            },
-                                            secondaryButton: .cancel()
-
-                                        )
+                                            .font(.system(size: 26, weight: .heavy, design: .default))
+                                            .foregroundColor(.white).padding()
+                                        Image(systemName: "trash")
+                                            .foregroundColor(.white)
+                                            .font(.system(size: 26))
                                     }
-                                    Spacer()
+                                    
+                                ).onTapGesture {
+                                    self.showDeleteEntries = true
+                                }.sheet(isPresented: $showDeleteEntries) {
+                                    Text("Delete All Entries")
+                                        .font(.system(size: 20, weight: .heavy))
+                                        .padding([.leading, .top], 20)
+                                        .foregroundColor(.blue)
+                                    Text("Clear out all entries in Nightscout server. This action cannot be undone.")
+                                        .font(.system(size: 15, weight: .regular))
+                                        .padding([.leading, .trailing], 20)
+                                        .padding(.bottom, 40)
+                                    HStack {
+                                        Spacer()
+                                        let NSController = NightscoutController(date: date)
+                                        Button(action: {
+
+                                            print("delete button has been clicked waiting to see if canceled or not")
+                                            deleteAlert = true
+                                        }){
+                                            Text("DELETE")
+                                            .bold()
+                                                .font(Font.custom("Helvetica Neue", size: 20.0))
+                                                .padding(.top, 15)
+                                                .padding(.bottom, 15)
+                                                .padding(.leading, 30)
+                                                .padding(.trailing, 30)
+                                            .foregroundColor(Color.white)
+                                            .background(Color.red)
+                                            .cornerRadius(12)
+                                        }.alert(isPresented:$deleteAlert) {
+                                            Alert(
+                                                title: Text("Are you sure you want to delete all entries?"),
+                                                message: Text("This action cannot be undone"),
+                                                primaryButton: .destructive(Text("Delete")) {
+                                                    NSController.deleteEntryRequest()
+                                                    deleteScreen = true
+                                                    showDeleteEntries = false
+                                                    let secondsToDelay = 5.0
+                                                    DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
+                                                       print("The delete is truly done")
+                                                       deleteScreen = false
+                                                    }
+                                                },
+                                                secondaryButton: .cancel()
+
+                                            )
+                                        }
+                                        Spacer()
+                                    }
                                 }
-                            }
+                        Spacer()
+                        }
                     }
+                    
+                    // list end here
                     Spacer()
                 })
             }
