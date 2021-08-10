@@ -6,6 +6,15 @@
 //
 
 import SwiftUI
+
+#if canImport(UIKit)
+extension View {
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+}
+#endif
+
 extension Color {
     init(hex: Int, alpha: Double = 1) {
         let components = (
@@ -296,6 +305,9 @@ struct ContentView: View {
                                                 .padding(.trailing, 20)
                                         }
                                     }.textFieldStyle(RoundedBorderTextFieldStyle())
+                                    .onTapGesture {
+                                        self.hideKeyboard()
+                                    }
                                 }
                                  .overlay(
                                     RoundedRectangle(cornerRadius: 10.0)
@@ -463,7 +475,7 @@ struct ContentView: View {
                                 Spacer()
                             }
                     }
-                    //---------Creat your own csv tests------------//
+                    //---------Create your own test------------//
                     Section() {
                         RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
                             .fill(Color.black)
@@ -485,17 +497,35 @@ struct ContentView: View {
                                             .padding()
                                         VStack{
                                             
-                                            VStack{
+                                            VStack(spacing: 15){
                                                 Text("SGV")
-                                                TextField("", text: $sgv3.value)
-                                                    .keyboardType(.decimalPad)
-                                                    .border(Color.gray)
-                                                    .padding(.leading, 100)
-                                                    .padding(.trailing, 100)
-                                            }.textFieldStyle(RoundedBorderTextFieldStyle())
+                                                    .padding([.leading, .trailing], 10)
+                                                HStack(spacing: 0) {
+                                                    Spacer()
+                                                    TextField("", text: $sgv3.value)
+                                                        .keyboardType(.numberPad)
+                                                        .border(Color.gray)
+                                                        .padding(.leading, 60)
+                                                    Button(action: {
+                                                        self.hideKeyboard()
+                                                    }){
+                                                        Text("Done")
+                                                        .bold()
+                                                            .font(Font.custom("Helvetica Neue", size: 15.0))
+                                                            .padding([.top, .bottom], 8)
+                                                            .padding([.leading, .trailing], 30)
+                                                        .foregroundColor(Color.white)
+                                                        .background(Color.black)
+                                                    }.padding(.trailing, 60)
+                                                    Spacer()
+                                                }.textFieldStyle(RoundedBorderTextFieldStyle())
+                                            }
+                                            .onTapGesture {
+                                                print("Tapped to hide keyboard")
+                                                self.hideKeyboard()
+                                            }
                                             
                                             VStack{
-                                                Text("Direction")
                                                 DropdownPicker(title: "Directions", selection: $currentSelection, options: ["FLAT","NONE DOUBLE_UP", "SINGLE_UP", "FORTY_FIVE_UP", "FLAT FORTY_FIVE_DOWN", "SINGLE_DOWN", "DOUBLE_DOWN", "NOT_COMPUTABLE", "OUT_OF_RANGE", "None"])
                                             }
                                         }
@@ -614,8 +644,8 @@ struct ContentView: View {
                                         Spacer()
                                         }
                                     }
-                                }
                             }
+                    }
                     //------- get function, maybe a graph-----//
                     Section() {
                         RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)

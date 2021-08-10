@@ -130,7 +130,7 @@ class NightscoutController {
                 newDate = newDate - 300000
                 continue
             }
-            makeEntryPostRequest(date: newDate, sgv: entryStruct.sgv, direction: "FLAT")
+            makeEntryPostRequest(date: newDate, sgv: entryStruct.sgv, direction: newDir)
             // csvToStruct.append(entryStruct)
             newDate = newDate - 300000
         }
