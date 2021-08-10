@@ -36,6 +36,7 @@ enum ActiveAlert {
     case first, second, third
 }
 
+
 struct ContentView: View {
 
     @State private var date = Date()
@@ -73,10 +74,13 @@ struct ContentView: View {
     
     @State private var currentEntries = [Entry]()
     
-    @State var fileName = ""
+    @State var fileName = "Add File"
     @State var openFile = false
     @State var filePath = ""
-  
+    @State private var fileThere = false
+    
+
+    
     var foreverAnimation: Animation {
         Animation.linear(duration: 2.0)
             .repeatForever(autoreverses: false)
@@ -91,11 +95,18 @@ struct ContentView: View {
             getArrayHere = data
             //print(getArrayHere)
         }
-        
-        
     }
-    
+    func showTrash(){
+        if fileName != "Add File"{
+            fileThere = true
+        }
+        else {
+            fileThere = false
+        }
+    }
     var body: some View {
+        
+
         
         if addScreen {
             ZStack{
@@ -398,6 +409,7 @@ struct ContentView: View {
                     }
                     // ------- CSV Import ------- //
                     Section() {
+
                         RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
                             .fill(Color.black)
                             .frame(height: 100)
@@ -409,16 +421,41 @@ struct ContentView: View {
                             ).onTapGesture {
                                 self.showCSVEntry = true
                             }.sheet(isPresented: $showCSVEntry) {
+                                Text("Add Your Own CSV Files")
+                                    .bold()
+                                    .padding()
+                                    .font(Font.custom("Helvetica Neue", size: 30.0))
                                 
                                 VStack(spacing: 25) {
-                                    Text(fileName)
-                                        .fontWeight(.bold)
                                     
+                                    HStack{
+                                        Text(fileName)
+                                            .fontWeight(fileThere ? .bold : .semibold)
+                                            .foregroundColor(fileThere ? .black : .gray)
+                                            .padding()
+                                        Button(action: {
+                                            fileName = "Add File"
+                                            filePath = ""
+                                            showTrash()
+                                        }, label: {
+                                        Image(systemName: "trash")
+                                            .foregroundColor(fileThere ? .black : .clear)
+                                        })
+                                    }
+                            
                                     Button(action: {openFile.toggle()}, label: {
                                         Text("Open")
+                                            .bold()
+                                            .font(Font.custom("Helvetica Neue", size: 20.0))
+                                        Image(systemName: "square.and.arrow.down").font(Font.custom("Helvetica Neue", size: 25))
                                     })
+                                     .padding()
+                                      .foregroundColor(Color.white)
+                                      .background(Color.black)
+                                      .cornerRadius(12)
+                                        
                                 }.fileImporter(isPresented: $openFile, allowedContentTypes: [.data]) { (res) in
-                                    
+                                   
                                     do {
                                         let fileURL = try res.get()
                                         self.filePath = fileURL.path
@@ -426,6 +463,7 @@ struct ContentView: View {
                                         
                                         // getting fileName
                                         self.fileName = fileURL.lastPathComponent
+                                        showTrash()
                                         //print(fileName)
                                     }
                                     catch {
@@ -433,7 +471,7 @@ struct ContentView: View {
                                         print(error.localizedDescription)
                                     }
                                 }
-                                
+                                Spacer()
                                 DatePicker("Select an end date and time", selection: $date, displayedComponents: [.date, .hourAndMinute])
                                     .padding(.leading, 20)
                                     .padding(.trailing, 20)
@@ -471,9 +509,11 @@ struct ContentView: View {
                                         .background(Color.black)
                                         .cornerRadius(12)
                                     }
+                                    Spacer()
                                 }
                                 Spacer()
                             }
+                        
                     }
                     //---------Create your own test------------//
                     Section() {
