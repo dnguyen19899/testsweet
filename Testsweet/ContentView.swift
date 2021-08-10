@@ -399,17 +399,13 @@ struct ContentView: View {
                             }.sheet(isPresented: $showCSVEntry) {
                                 
                                 VStack(spacing: 25) {
-                                    
                                     Text(fileName)
                                         .fontWeight(.bold)
                                     
                                     Button(action: {openFile.toggle()}, label: {
-                                        
                                         Text("Open")
-                                        
                                     })
-                                }
-                                .fileImporter(isPresented: $openFile, allowedContentTypes: [.data]) { (res) in
+                                }.fileImporter(isPresented: $openFile, allowedContentTypes: [.data]) { (res) in
                                     
                                     do {
                                         let fileURL = try res.get()
@@ -442,11 +438,10 @@ struct ContentView: View {
                                         print("CSV entires pressed")
                                         
                                         CGMPoints = Int64(NSController.importCSVData(date: NSController.getTimeStamp(), filePath: filePath))
-                                        
-                                        NSController.importCSVData(date: NSController.getTimeStamp(), filePath: filePath)
+                
                                         addScreen = true
                                         self.showCSVEntry = false
-                                        let secondsToDelay = 5.0
+                                        let secondsToDelay = (Double(CGMPoints) / 26) + 1
                                         DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
                                             print("The adding is truly done")
                                             addScreen = false

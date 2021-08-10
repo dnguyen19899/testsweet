@@ -119,7 +119,7 @@ class NightscoutController {
         rows.removeFirst()
         
         var count = 0
-        var newDate :Int64 = date
+        var newDate: Int64 = date
         for row in rows {
             count = count + 1
             let csvColumns = row.components(separatedBy: ",")
@@ -130,7 +130,7 @@ class NightscoutController {
                 newDate = newDate - 300000
                 continue
             }
-            makeEntryPostRequest(date: newDate, sgv: entryStruct.sgv, direction: newDir)
+            makeEntryPostRequest(date: newDate, sgv: entryStruct.sgv, direction: "FLAT")
             // csvToStruct.append(entryStruct)
             newDate = newDate - 300000
         }
@@ -152,6 +152,7 @@ class NightscoutController {
         }
         return totalTime
     }
+    
     func populateGraphWithTwoTimeStraight (sgv: Int, epochStartTime: Int64, epochEndTime: Int64) -> Int64 {
         var totalTime = epochEndTime - epochStartTime
         totalTime = (totalTime/300000)
