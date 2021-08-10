@@ -32,7 +32,7 @@ struct HeaderView: View {
             HStack {
                 Image(systemName: "circle.fill")
                     .font(.system(size: 50, weight: .regular))
-                    .foregroundColor(Color.blue)
+                    .foregroundColor(Color(hex: 0x0077b6))
                     .overlay(
                            RoundedRectangle(cornerRadius: 40)
                                .strokeBorder(Color.gray, lineWidth: 5)
