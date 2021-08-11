@@ -80,7 +80,7 @@ struct ContentView: View {
     @State var filePath = ""
     @State private var fileThere = false
     
-    
+    @State private var showPopUp: Bool = false
     
     var foreverAnimation: Animation {
         Animation.linear(duration: 2.0)
@@ -511,222 +511,119 @@ struct ContentView: View {
                                 self.showCSVEntry = true
                             }.sheet(isPresented: $showCSVEntry) {
                                 
-                                Text("Add Your Own CSV Files")
-                                    .bold()
-                                    .padding()
-                                    .padding(.top, 20)
-                                    .font(Font.custom("Helvetica Neue", size: 30.0))
-                                    .offset(y: infoWindow ? -UIScreen.main.bounds.height/100 : +200)
-                                
-                                NotificationView()
-                                    .offset(y: infoWindow ? -UIScreen.main.bounds.height/40 : -UIScreen.main.bounds.height)
-                                
-                                VStack(spacing: 25) {
-                                    
-                                    
-                                    HStack{
-                                        Button(action: {
-                                            
-                                            print("info")
-                                            self.infoWindow.toggle()
-                                            
-                                        }, label: {
-                                            Image(systemName: "info.circle")
-                                                .foregroundColor(.black)
-                                            
-                                        }).padding(.leading, -30)
-                                        
-                                        Text(fileName)
-                                            .fontWeight(fileThere ? .bold : .semibold)
-                                            .foregroundColor(fileThere ? .black : .gray)
+                                ZStack {
+                                    VStack {
+                                        Text("Add Your Own CSV Files")
+                                            .bold()
                                             .padding()
-                                        Button(action: {
-                                            fileName = "Add File"
-                                            filePath = ""
-                                            showTrash()
-                                        }, label: {
-                                            Image(systemName: "trash")
-                                                .foregroundColor(fileThere ? .black : .clear)
-                                        })
+                                            .padding(.top, 20)
+                                            .font(Font.custom("Helvetica Neue", size: 30.0))
+                                            .offset(y: infoWindow ? -UIScreen.main.bounds.height/100 : +200)
                                         
-                                    }
-                                    
-                                    Button(action: {openFile.toggle()}, label: {
-                                        Text("Open")
-                                            .bold()
-                                            .font(Font.custom("Helvetica Neue", size: 20.0))
-                                        Image(systemName: "square.and.arrow.down").font(Font.custom("Helvetica Neue", size: 25))
-                                    })
-                                    .padding()
-                                    .foregroundColor(Color.white)
-                                    .background(Color.black)
-                                    .cornerRadius(12)
-                                    
-                                }.fileImporter(isPresented: $openFile, allowedContentTypes: [.data]) { (res) in
-                                    
-                                    do {
-                                        let fileURL = try res.get()
-                                        self.filePath = fileURL.path
-                                        print(filePath)
+                                        NotificationView()
+                                            .offset(y: infoWindow ? -UIScreen.main.bounds.height/40 : -UIScreen.main.bounds.height)
                                         
-                                        // getting fileName
-                                        self.fileName = fileURL.lastPathComponent
-                                        showTrash()
-                                        //print(fileName)
-                                    }
-                                    catch {
-                                        print("Error reading docs")
-                                        print(error.localizedDescription)
-                                    }
-                                }
-                                Spacer()
-                                DatePicker("Select an end date and time", selection: $date, displayedComponents: [.date, .hourAndMinute])
-                                    .padding(.leading, 20)
-                                    .padding(.trailing, 20)
-                                    .padding(.bottom, 10)
-                                // Initializer for backend
-                                let NSController = NightscoutController(date: date)
-                                // CREATE button
-                                HStack {
-                                    Spacer()
-                                    Button(action: {
-                                        print("CSV entires pressed")
-                                        
-                                        CGMPoints = Int64(NSController.importCSVData(date: NSController.getTimeStamp(), filePath: filePath))
-                                        
-                                        addScreen = true
-                                        self.showCSVEntry = false
-                                        let secondsToDelay = (Double(CGMPoints) / 26) + 1
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
-                                            print("The adding is truly done")
-                                            addScreen = false
-                                        }
-                                        
-                                    }){
-                                        Text("CREATE")
-                                            .bold()
-                                            .font(Font.custom("Helvetica Neue", size: 20.0))
-                                            .padding(.top, 15)
-                                            .padding(.bottom, 15)
-                                            .padding(.leading, 30)
-                                            .padding(.trailing, 30)
+                                        VStack(spacing: 25) {
+                                            
+                                            
+                                            HStack{
+                                                Button(action: {
+                                                    
+                                                    print("info")
+                                                    //self.infoWindow.toggle()
+                                                    self.showPopUp.toggle()
+                                                    
+                                                }, label: {
+                                                    Image(systemName: "info.circle")
+                                                        .foregroundColor(.black)
+                                                    
+                                                }).padding(.leading, -30)
+                                                
+                                                Text(fileName)
+                                                    .fontWeight(fileThere ? .bold : .semibold)
+                                                    .foregroundColor(fileThere ? .black : .gray)
+                                                    .padding()
+                                                Button(action: {
+                                                    fileName = "Add File"
+                                                    filePath = ""
+                                                    showTrash()
+                                                }, label: {
+                                                    Image(systemName: "trash")
+                                                        .foregroundColor(fileThere ? .black : .clear)
+                                                })
+                                                
+                                            }
+                                            
+                                            Button(action: {openFile.toggle()}, label: {
+                                                Text("Open")
+                                                    .bold()
+                                                    .font(Font.custom("Helvetica Neue", size: 20.0))
+                                                Image(systemName: "square.and.arrow.down").font(Font.custom("Helvetica Neue", size: 25))
+                                            })
+                                            .padding()
                                             .foregroundColor(Color.white)
                                             .background(Color.black)
                                             .cornerRadius(12)
+                                            
+                                        }.fileImporter(isPresented: $openFile, allowedContentTypes: [.data]) { (res) in
+                                            
+                                            do {
+                                                let fileURL = try res.get()
+                                                self.filePath = fileURL.path
+                                                print(filePath)
+                                                
+                                                // getting fileName
+                                                self.fileName = fileURL.lastPathComponent
+                                                showTrash()
+                                                //print(fileName)
+                                            }
+                                            catch {
+                                                print("Error reading docs")
+                                                print(error.localizedDescription)
+                                            }
+                                        }
+                                        Spacer()
+                                        DatePicker("Select an end date and time", selection: $date, displayedComponents: [.date, .hourAndMinute])
+                                            .padding(.leading, 20)
+                                            .padding(.trailing, 20)
+                                            .padding(.bottom, 10)
+                                        // Initializer for backend
+                                        let NSController = NightscoutController(date: date)
+                                        // CREATE button
+                                        HStack {
+                                            Spacer()
+                                            Button(action: {
+                                                print("CSV entires pressed")
+                                                
+                                                CGMPoints = Int64(NSController.importCSVData(date: NSController.getTimeStamp(), filePath: filePath))
+                                                
+                                                addScreen = true
+                                                self.showCSVEntry = false
+                                                let secondsToDelay = (Double(CGMPoints) / 26) + 1
+                                                DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
+                                                    print("The adding is truly done")
+                                                    addScreen = false
+                                                }
+                                                
+                                            }){
+                                                Text("CREATE")
+                                                    .bold()
+                                                    .font(Font.custom("Helvetica Neue", size: 20.0))
+                                                    .padding(.top, 15)
+                                                    .padding(.bottom, 15)
+                                                    .padding(.leading, 30)
+                                                    .padding(.trailing, 30)
+                                                    .foregroundColor(Color.white)
+                                                    .background(Color.black)
+                                                    .cornerRadius(12)
+                                            }
+                                            Spacer()
+                                        }
+                                        Spacer()
                                     }
-                                    Spacer()
+                                    InformationView(title: "Information", buttonText: "OK", show: $showPopUp)
                                 }
-                                Spacer()
                             }
-                        
-                        
-                        
-                        
-                        
-                        //                        RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
-                        //                            .fill(Color(hex: 0x52b69a))
-                        //                            .frame(height: 120)
-                        //                            .padding([.leading, .trailing])
-                        //                            .overlay(
-                        //                                Text("ENTRIES from CSV")
-                        //                                    .font(.system(size: 25, weight: .heavy, design: .default))
-                        //                                    .foregroundColor(.white).padding()
-                        //                            ).onTapGesture {
-                        //                                self.showCSVEntry = true
-                        //                            }.sheet(isPresented: $showCSVEntry) {
-                        //                                Text("Add Your Own CSV Files")
-                        //                                    .bold()
-                        //                                    .padding()
-                        //                                    .font(Font.custom("Helvetica Neue", size: 30.0))
-                        //
-                        //                                VStack(spacing: 25) {
-                        //
-                        //                                    HStack{
-                        //                                        Text(fileName)
-                        //                                            .fontWeight(fileThere ? .bold : .semibold)
-                        //                                            .foregroundColor(fileThere ? .black : .gray)
-                        //                                            .padding()
-                        //                                        Button(action: {
-                        //                                            fileName = "Add File"
-                        //                                            filePath = ""
-                        //                                            showTrash()
-                        //                                        }, label: {
-                        //                                        Image(systemName: "trash")
-                        //                                            .foregroundColor(fileThere ? .black : .clear)
-                        //                                        })
-                        //                                    }
-                        //
-                        //                                    Button(action: {openFile.toggle()}, label: {
-                        //                                        Text("Open")
-                        //                                            .bold()
-                        //                                            .font(Font.custom("Helvetica Neue", size: 20.0))
-                        //                                        Image(systemName: "square.and.arrow.down").font(Font.custom("Helvetica Neue", size: 25))
-                        //                                    })
-                        //                                     .padding()
-                        //                                      .foregroundColor(Color.white)
-                        //                                      .background(Color.black)
-                        //                                      .cornerRadius(12)
-                        //
-                        //                                }.fileImporter(isPresented: $openFile, allowedContentTypes: [.data]) { (res) in
-                        //
-                        //                                    do {
-                        //                                        let fileURL = try res.get()
-                        //                                        self.filePath = fileURL.path
-                        //                                        print(filePath)
-                        //
-                        //                                        // getting fileName
-                        //                                        self.fileName = fileURL.lastPathComponent
-                        //                                        showTrash()
-                        //                                        //print(fileName)
-                        //                                    }
-                        //                                    catch {
-                        //                                        print("Error reading docs")
-                        //                                        print(error.localizedDescription)
-                        //                                    }
-                        //                                }
-                        //                                Spacer()
-                        //                                DatePicker("Select an end date and time", selection: $date, displayedComponents: [.date, .hourAndMinute])
-                        //                                    .padding(.leading, 20)
-                        //                                    .padding(.trailing, 20)
-                        //                                    .padding(.bottom, 10)
-                        //
-                        //
-                        //                                // Initializer for backend
-                        //                                let NSController = NightscoutController(date: date)
-                        //
-                        //                                // CREATE button
-                        //                                HStack {
-                        //                                    Spacer()
-                        //                                    Button(action: {
-                        //                                        print("CSV entires pressed")
-                        //
-                        //                                        CGMPoints = Int64(NSController.importCSVData(date: NSController.getTimeStamp(), filePath: filePath))
-                        //
-                        //                                        addScreen = true
-                        //                                        self.showCSVEntry = false
-                        //                                        let secondsToDelay = (Double(CGMPoints) / 26) + 1
-                        //                                        DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
-                        //                                            print("The adding is truly done")
-                        //                                            addScreen = false
-                        //                                        }
-                        //
-                        //                                    }){
-                        //                                        Text("CREATE")
-                        //                                        .bold()
-                        //                                            .font(Font.custom("Helvetica Neue", size: 20.0))
-                        //                                            .padding(.top, 15)
-                        //                                            .padding(.bottom, 15)
-                        //                                            .padding(.leading, 30)
-                        //                                            .padding(.trailing, 30)
-                        //                                        .foregroundColor(Color.white)
-                        //                                        .background(Color.black)
-                        //                                        .cornerRadius(12)
-                        //                                    }
-                        //                                    Spacer()
-                        //                                }
-                        //                                Spacer()
-                        //                            }
-                        
                     }
                     //------- get function, maybe a graph-----//
                     Section() {
