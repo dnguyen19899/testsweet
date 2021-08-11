@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1B3B7C8426BC20EB00DF75A3 /* MenuBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3B7C8326BC20EB00DF75A3 /* MenuBar.swift */; };
+		1B42C01E26C321EB009C97BE /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B42C01D26C321EB009C97BE /* NotificationView.swift */; };
 		AE1B262D26B49C3E007F1794 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE1B262C26B49C3E007F1794 /* HeaderView.swift */; };
 		AE1B262F26B4A853007F1794 /* NumbersOnly.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE1B262E26B4A853007F1794 /* NumbersOnly.swift */; };
 		AE3FE95D26AF782800DC980E /* TestsweetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3FE95C26AF782800DC980E /* TestsweetApp.swift */; };
@@ -39,6 +40,7 @@
 
 /* Begin PBXFileReference section */
 		1B3B7C8326BC20EB00DF75A3 /* MenuBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBar.swift; sourceTree = "<group>"; };
+		1B42C01D26C321EB009C97BE /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		AE1B262C26B49C3E007F1794 /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		AE1B262E26B4A853007F1794 /* NumbersOnly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumbersOnly.swift; sourceTree = "<group>"; };
 		AE3FE95926AF782800DC980E /* Testsweet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Testsweet.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -107,6 +109,7 @@
 			children = (
 				AE3FE95C26AF782800DC980E /* TestsweetApp.swift */,
 				AE1B262C26B49C3E007F1794 /* HeaderView.swift */,
+				1B42C01D26C321EB009C97BE /* NotificationView.swift */,
 				AE3FE95E26AF782800DC980E /* ContentView.swift */,
 				AE93232B26B0BE98006DD1FA /* NightscoutController.swift */,
 				AE1B262E26B4A853007F1794 /* NumbersOnly.swift */,
@@ -277,6 +280,7 @@
 			files = (
 				AE3FE95F26AF782800DC980E /* ContentView.swift in Sources */,
 				AE3FE95D26AF782800DC980E /* TestsweetApp.swift in Sources */,
+				1B42C01E26C321EB009C97BE /* NotificationView.swift in Sources */,
 				1B3B7C8426BC20EB00DF75A3 /* MenuBar.swift in Sources */,
 				AE93232C26B0BE98006DD1FA /* NightscoutController.swift in Sources */,
 				AE1B262D26B49C3E007F1794 /* HeaderView.swift in Sources */,
@@ -439,7 +443,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Testsweet/Preview Content\"";
-				DEVELOPMENT_TEAM = GRZSRH5723;
+				DEVELOPMENT_TEAM = 2W25U2U8T6;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Testsweet/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -447,7 +451,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = Team.Testsweet;
+				PRODUCT_BUNDLE_IDENTIFIER = "Duy-Nguyen.Testsweet";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -461,7 +465,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Testsweet/Preview Content\"";
-				DEVELOPMENT_TEAM = GRZSRH5723;
+				DEVELOPMENT_TEAM = 2W25U2U8T6;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Testsweet/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -469,7 +473,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = Team.Testsweet;
+				PRODUCT_BUNDLE_IDENTIFIER = "Duy-Nguyen.Testsweet";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
