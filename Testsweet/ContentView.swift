@@ -2,7 +2,7 @@
 //  ContentView.swift
 //  Testsweet
 //
-//  Created by Duy Nguyen adn Jayden Morgan on 7/26/21.
+//  Created by Duy Nguyen and Jayden Morgan on 7/26/21.
 //
 
 import SwiftUI
