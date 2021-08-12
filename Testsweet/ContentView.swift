@@ -618,6 +618,9 @@ struct ContentView: View {
                                                     print("The adding is truly done")
                                                     addScreen = false
                                                 }
+                                                fileName = "Add File"
+                                                filePath = ""
+                                                showTrash()
                                                 
                                             }){
                                                 Text("CREATE")
