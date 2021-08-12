@@ -81,6 +81,8 @@ struct ContentView: View {
     @State private var fileThere = false
     
     @State private var showPopUp: Bool = false
+    @State private var preLoadedUnicorn = false
+    @State private var preLoadedAlerts = false
     
     var foreverAnimation: Animation {
         Animation.linear(duration: 2.0)
@@ -624,6 +626,124 @@ struct ContentView: View {
                                     InformationView(title: "Information", buttonText: "OK", show: $showPopUp)
                                 }
                             }
+                    }
+                    // ------ Pre-Loaded Buttons ----- //
+                    HStack(spacing: 5){
+                        // ------ Pre-Loaded Tests Tiles Buttons ----- //
+                        Section() {
+                            RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
+                                .fill(Color(hex: 0x168aad))
+                                .frame(height: 150)
+                                .padding(.leading)
+                                .overlay(
+                                    Text("Test Tiles")
+                                        .font(.system(size: 20, weight: .heavy, design: .default))
+                                        .foregroundColor(.white)
+                                        .padding()
+                                        .multilineTextAlignment(.center)
+                                ).onTapGesture {
+                                    self.preLoadedUnicorn = true
+                                }.sheet(isPresented: $preLoadedUnicorn) {
+                                    ZStack{
+                                            VStack{
+                                                Text("Hiya Buddy boy")
+                                                
+                                                Button(action: {
+                                                    print("Testing unicorn")
+                                                }, label: {
+                                                    Text("Test Unicorn Tile")
+                                                })
+                                                .padding()
+                                                .background(Color(hex: 0x184e77))
+                                                .foregroundColor(.white)
+                                                .cornerRadius(12)
+                                            }
+                                    }
+                                }
+                        }
+                        // ------ Pre-Loaded Alert buttons ----- //
+                        Section() {
+                            RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
+                                .fill(Color(hex: 0x52b69a))
+                                .frame(height: 150)
+                                .padding(.trailing)
+                                .overlay(
+                                    Text("Test Alerts")
+                                        .font(.system(size: 20, weight: .heavy, design: .default))
+                                        .foregroundColor(.white)
+                                        .padding()
+                                        .multilineTextAlignment(.center)
+                                ).onTapGesture {
+                                    self.preLoadedAlerts = true
+                                }.sheet(isPresented: $preLoadedAlerts) {
+                                    ZStack{
+                                        VStack(spacing: 10){
+                                            Text("Select A Test to Activate Alert")
+                                                .bold()
+                                            
+                                            Button(action: {
+                                                print("High alert")
+                                            }, label: {
+                                                Text("Test High Alert")
+                                            })
+                                            .padding()
+                                            .background(Color(hex: 0x184e77))
+                                            .foregroundColor(.white)
+                                            .cornerRadius(12)
+                                            
+                                            Button(action: {
+                                                print("low alert")
+                                            }, label: {
+                                                Text("Test Low Alert")
+                                            })
+                                            .padding()
+                                            .background(Color(hex: 0x168aad))
+                                            .foregroundColor(.white)
+                                            .cornerRadius(12)
+                                            
+                                            Button(action: {
+                                                print("Climbing alert")
+                                            }, label: {
+                                                Text("Test Climbing Alert")
+                                            })
+                                            .padding()
+                                            .background(Color(hex: 0x52b69a))
+                                            .foregroundColor(.white)
+                                            .cornerRadius(12)
+                                            
+                                            Button(action: {
+                                                print("Falling alert")
+                                            }, label: {
+                                                Text("Test Falling Alert")
+                                            })
+                                            .padding()
+                                            .background(Color(hex: 0x184e77))
+                                            .foregroundColor(.white)
+                                            .cornerRadius(12)
+                                            
+                                            Button(action: {
+                                                print("Steady & Above Normal alert")
+                                            }, label: {
+                                                Text("Test Steady & Above Normal Alert")
+                                            })
+                                            .padding()
+                                            .background(Color(hex: 0x52b69a))
+                                            .foregroundColor(.white)
+                                            .cornerRadius(12)
+                                            
+                                            Button(action: {
+                                                print("No new Readings alert")
+                                            }, label: {
+                                                Text("No new Readings Alert")
+                                            })
+                                            .padding()
+                                            .background(Color(hex: 0x212529))
+                                            .foregroundColor(.white)
+                                            .cornerRadius(12)
+                                        }
+                                    }
+                                }
+                        }
                     }
                     //------- get function, maybe a graph-----//
                     Section() {
