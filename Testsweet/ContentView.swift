@@ -88,6 +88,9 @@ struct ContentView: View {
     @State private var sliderLow = 80.0
     @State private var sliderHigh = 120.0
     
+    @State private var fileURL: URL = URL(fileURLWithPath: "")
+    @State private var isAccessing: Bool = false
+    
     var foreverAnimation: Animation {
         Animation.linear(duration: 2.0)
             .repeatForever(autoreverses: false)
@@ -574,12 +577,15 @@ struct ContentView: View {
                                         }.fileImporter(isPresented: $openFile, allowedContentTypes: [.data]) { (res) in
                                             
                                             do {
-                                                let fileURL = try res.get()
+                                                fileURL = try res.get()
+                                                isAccessing = fileURL.startAccessingSecurityScopedResource()
                                                 self.filePath = fileURL.path
-                                                print(filePath)
+                                                
+                                                //print(filePath)
                                                 
                                                 // getting fileName
                                                 self.fileName = fileURL.lastPathComponent
+                                                
                                                 showTrash()
                                                 //print(fileName)
                                             }
@@ -602,7 +608,9 @@ struct ContentView: View {
                                                 print("CSV entires pressed")
                                                 
                                                 CGMPoints = Int64(NSController.importCSVData(date: NSController.getTimeStamp(), filePath: filePath))
-                                                
+                                                if isAccessing {
+                                                    fileURL.stopAccessingSecurityScopedResource()
+                                                }
                                                 addScreen = true
                                                 self.showCSVEntry = false
                                                 let secondsToDelay = (Double(CGMPoints) / 26) + 1

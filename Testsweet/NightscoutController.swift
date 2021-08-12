@@ -101,11 +101,7 @@ class NightscoutController {
     }
     
     func importCSVData(date: Int64, filePath: String) -> Int64 {
-         // var csvToStruct = [Entry]()
-        
-//        guard let filePath = Bundle.main.path(forResource: "input", ofType: "csv") else {
-//            return 0
-//        }
+
         var data = ""
         do {
             data = try String(contentsOfFile: filePath, encoding: .utf8)
@@ -114,6 +110,10 @@ class NightscoutController {
             print(error)
             return 0
         }
+        
+
+        // Here you're processing your url
+
         
         var rows = data.components(separatedBy: "\n")
         rows.removeFirst()
@@ -136,6 +136,7 @@ class NightscoutController {
         }
         
         return (date - newDate) / 300000
+        
     }
     
     func populateGraphWithTwoTimesRandom (epochStartTime: Int64, epochEndTime: Int64) -> Int64  {
