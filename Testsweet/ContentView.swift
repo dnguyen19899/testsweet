@@ -627,17 +627,120 @@ struct ContentView: View {
                                 }.sheet(isPresented: $preLoadedUnicorn) {
                                     ZStack{
                                             VStack{
-                                                Text("Hiya Buddy boy")
-                                                
+                                                Text("Select A Tile To Test")
+                                                HStack{
+                                                    Button(action: {
+                                                        print("Testing unicorn")
+                                                    }, label: {
+                                                        Text("Test Unicorn Tile")
+                                                    })
+                                                    .padding()
+                                                    .frame(width: 220, height: 75)
+                                                    .background(Color(hex: 0x52b69a))
+                                                    .foregroundColor(.white)
+                                                    .cornerRadius(12)
+                                                    
+                                                    Button(action: {
+                                                        print("Testing %Above")
+                                                    }, label: {
+                                                        Text("Test % Above Tile")
+                                                    })
+                                                    .padding()
+                                                    .frame(width: 120)
+                                                    .background(Color(hex: 0x184e77))
+                                                    .foregroundColor(.white)
+                                                    .cornerRadius(12)
+                                                }
+                                                HStack{
+                                                    Button(action: {
+                                                        print("Testing % Below")
+                                                    }, label: {
+                                                        Text("Test % Below Tile")
+                                                    })
+                                                    .padding()
+                                                    .frame(width: 170, height: 75)
+                                                    .background(Color(hex: 0x212529))
+                                                    .foregroundColor(.white)
+                                                    .cornerRadius(12)
+                                                    
+                                                    Button(action: {
+                                                        print("Testing % In Range")
+                                                    }, label: {
+                                                        Text("Test % In Range Tile")
+                                                    })
+                                                    .padding()
+                                                    .frame(width: 170)
+                                                    .background(Color(hex: 0x168aad))
+                                                    .foregroundColor(.white)
+                                                    .cornerRadius(12)
+                                                }
+                                                HStack{
+                                                    Button(action: {
+                                                        print("Testing Average")
+                                                    }, label: {
+                                                        Text("Test Average Tile")
+                                                    })
+                                                    .padding()
+                                                    .frame(width: 113)
+                                                    .background(Color(hex: 0x52b69a))
+                                                    .foregroundColor(.white)
+                                                    .cornerRadius(12)
+                                                    
+                                                    Button(action: {
+                                                        print("Testing High/Lows")
+                                                    }, label: {
+                                                        Text("Test High/Lows Tile")
+                                                    })
+                                                    .padding()
+                                                    .frame(width: 113, height: 97)
+                                                    .background(Color(hex: 0x184e77))
+                                                    .foregroundColor(.white)
+                                                    .cornerRadius(12)
+                                                    
+                                                    Button(action: {
+                                                        print("Testing Median")
+                                                    }, label: {
+                                                        Text("Test Median Tile")
+                                                    })
+                                                    .padding()
+                                                    .frame(width: 113)
+                                                    .background(Color(hex: 0x212529))
+                                                    .foregroundColor(.white)
+                                                    .cornerRadius(12)
+                                                }
                                                 Button(action: {
-                                                    print("Testing unicorn")
+                                                    print("Testing Mini-Graph")
                                                 }, label: {
-                                                    Text("Test Unicorn Tile")
+                                                    Text("Test Mini-Graph Tile")
                                                 })
                                                 .padding()
-                                                .background(Color(hex: 0x184e77))
+                                                .frame(width: 355)
+                                                .background(Color(hex: 0x52b69a))
                                                 .foregroundColor(.white)
                                                 .cornerRadius(12)
+                                                HStack{
+                                                    Button(action: {
+                                                        print("Testing Normal Range %")
+                                                    }, label: {
+                                                        Text("Test Normal Range % Tile")
+                                                    })
+                                                    .padding()
+                                                    .frame(width: 150)
+                                                    .background(Color(hex: 0x184e77))
+                                                    .foregroundColor(.white)
+                                                    .cornerRadius(12)
+                                                    
+                                                    Button(action: {
+                                                        print("Testing Time In Range")
+                                                    }, label: {
+                                                        Text("Test Time In Range Tile")
+                                                    })
+                                                    .padding()
+                                                    .frame(width: 200)
+                                                    .background(Color(hex: 0x168aad))
+                                                    .foregroundColor(.white)
+                                                    .cornerRadius(12)
+                                                }
                                             }
                                     }
                                 }
