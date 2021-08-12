@@ -248,8 +248,12 @@ struct InformationView: View {
                     }).buttonStyle(PlainButtonStyle())
                 }
                 .frame(maxWidth: 300)
-                .border(Color.white, width: 2)
+                .clipShape(RoundedRectangle(cornerRadius: 25))
+                   .overlay(
+                    RoundedRectangle(cornerRadius: 25).stroke(Color.white, lineWidth: 4))
+                //.border(Color.white, width: 2)
                 .background(Color(.white))
+                .cornerRadius(25)
             }
             if showAdd {
                 
@@ -288,8 +292,12 @@ struct InformationView: View {
                     }
                 }
                 .frame(maxWidth: 300)
-                .border(Color.white, width: 2)
+                .clipShape(RoundedRectangle(cornerRadius: 25))
+                   .overlay(
+                    RoundedRectangle(cornerRadius: 25).stroke(Color.white, lineWidth: 4))
+                //.border(Color.white, width: 2)
                 .background(Color(.white))
+                .cornerRadius(25)
             }
             if showDelete {
                 
@@ -327,8 +335,12 @@ struct InformationView: View {
                     }
                 }
                 .frame(maxWidth: 300)
-                .border(Color.white, width: 2)
+                .clipShape(RoundedRectangle(cornerRadius: 25))
+                   .overlay(
+                    RoundedRectangle(cornerRadius: 25).stroke(Color.white, lineWidth: 4))
+                //.border(Color.white, width: 2)
                 .background(Color(.white))
+                .cornerRadius(25)
             }
         }
         
