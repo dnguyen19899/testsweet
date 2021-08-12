@@ -42,6 +42,7 @@ struct ContentView: View {
     @State private var date = Date()
     @State private var date2 = Date()
     @State private var date3 = Date()
+    @State private var date4 = Date()
     @State private var startDate = Date()
     @State private var endDate = Date()
     @State private var dateError = false
@@ -83,6 +84,9 @@ struct ContentView: View {
     @State private var showPopUp: Bool = false
     @State private var preLoadedUnicorn = false
     @State private var preLoadedAlerts = false
+    
+    @State private var sliderLow = 80.0
+    @State private var sliderHigh = 120.0
     
     var foreverAnimation: Animation {
         Animation.linear(duration: 2.0)
@@ -676,70 +680,207 @@ struct ContentView: View {
                                 ).onTapGesture {
                                     self.preLoadedAlerts = true
                                 }.sheet(isPresented: $preLoadedAlerts) {
+                                   
                                     ZStack{
                                         VStack(spacing: 10){
                                             Text("Select A Test to Activate Alert")
                                                 .bold()
                                             
-                                            Button(action: {
-                                                print("High alert")
-                                            }, label: {
-                                                Text("Test High Alert")
-                                            })
-                                            .padding()
-                                            .background(Color(hex: 0x184e77))
-                                            .foregroundColor(.white)
-                                            .cornerRadius(12)
-                                            
-                                            Button(action: {
-                                                print("low alert")
-                                            }, label: {
-                                                Text("Test Low Alert")
-                                            })
-                                            .padding()
-                                            .background(Color(hex: 0x168aad))
-                                            .foregroundColor(.white)
-                                            .cornerRadius(12)
-                                            
+                                            DatePicker("Select an end date and time", selection: $date4, displayedComponents: [.date, .hourAndMinute])
+                                                .padding(.leading, 20)
+                                                .padding(.trailing, 20)
+                                                .padding(.bottom, 10)
+                                            HStack{
+                                                Button(action: {
+                                                    print("High alerting")
+                                                    currentEntries = []
+                                                    let currentSGV = 400
+                                                    for _ in 1...11 {
+                                                        let entry = Entry(sgv: "\(currentSGV)", direction: "FLAT")
+                                                        currentEntries.append(entry)
+                                                    }
+                                                    let NSController = NightscoutController(date: date4)
+                                                    
+                                                    CGMPoints = Int64(NSController.populateGraphWithEntryList(date: NSController.getTimeStamp(), entries: currentEntries))
+                                                    addScreen = true
+                                                    preLoadedAlerts = false
+                                                    currentEntries = []
+                                                    let secondsToDelay = (Double(CGMPoints) / 26) + 1
+                                                    DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
+                                                        print("The adding is truly done")
+                                                        addScreen = false
+                                                    }
+                                                }, label: {
+                                                    Text("Test High Alert")
+                                                })
+                                                .padding()
+                                                .frame(width: 130, height: 100)
+                                                .background(Color(hex: 0x184e77))
+                                                .foregroundColor(.white)
+                                                .cornerRadius(12)
+                                                
+                                                Button(action: {
+                                                    print("low alert readings at 40")
+                                                    currentEntries = []
+                                                    var currentSGV = 40
+                                                    for i in 1...11 {
+                                                        let entry = Entry(sgv: "\(currentSGV)", direction: "SINGLE_DOWN")
+                                                        currentEntries.append(entry)
+                                                        currentSGV = 40
+                                                        currentSGV += i
+                                                    }
+                                                    let NSController = NightscoutController(date: date4)
+                                                    
+                                                    CGMPoints = Int64(NSController.populateGraphWithEntryList(date: NSController.getTimeStamp(), entries: currentEntries))
+                                                    addScreen = true
+                                                    preLoadedAlerts = false
+                                                    currentEntries = []
+                                                    let secondsToDelay = (Double(CGMPoints) / 26) + 1
+                                                    DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
+                                                        print("The adding is truly done")
+                                                        addScreen = false
+                                                    }
+                                                }, label: {
+                                                    Text("Test Low Alert")
+                                                })
+                                                .padding()
+                                                .frame(width: 150, height: 100)
+                                                .background(Color(hex: 0x168aad))
+                                                .foregroundColor(.white)
+                                                .cornerRadius(12)
+                                            }
                                             Button(action: {
                                                 print("Climbing alert")
+                                                currentEntries = []
+                                                var currentSGV = 400
+                                                for i in 1...340 {
+                                                    let entry = Entry(sgv: "\(currentSGV)", direction: "SINGLE_UP")
+                                                    currentEntries.append(entry)
+                                                    currentSGV = 400
+                                                    currentSGV -= i
+                                                }
+                                                let NSController = NightscoutController(date: date4)
+
+                                                CGMPoints = Int64(NSController.populateGraphWithEntryList(date: NSController.getTimeStamp(), entries: currentEntries))
+                                                addScreen = true
+                                                preLoadedAlerts = false
+                                                currentEntries = []
+                                                let secondsToDelay = (Double(CGMPoints) / 26) + 1
+                                                DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
+                                                    print("The adding is truly done")
+                                                    addScreen = false
+                                                }
                                             }, label: {
                                                 Text("Test Climbing Alert")
                                             })
                                             .padding()
+                                            .frame(width: 290, height: 50)
                                             .background(Color(hex: 0x52b69a))
                                             .foregroundColor(.white)
                                             .cornerRadius(12)
-                                            
-                                            Button(action: {
-                                                print("Falling alert")
-                                            }, label: {
-                                                Text("Test Falling Alert")
-                                            })
-                                            .padding()
-                                            .background(Color(hex: 0x184e77))
-                                            .foregroundColor(.white)
-                                            .cornerRadius(12)
-                                            
-                                            Button(action: {
-                                                print("Steady & Above Normal alert")
-                                            }, label: {
-                                                Text("Test Steady & Above Normal Alert")
-                                            })
-                                            .padding()
-                                            .background(Color(hex: 0x52b69a))
-                                            .foregroundColor(.white)
-                                            .cornerRadius(12)
-                                            
-                                            Button(action: {
-                                                print("No new Readings alert")
-                                            }, label: {
-                                                Text("No new Readings Alert")
-                                            })
-                                            .padding()
-                                            .background(Color(hex: 0x212529))
-                                            .foregroundColor(.white)
-                                            .cornerRadius(12)
+                                            HStack{
+                                                Button(action: {
+                                                    print("Falling alert")
+                                                    currentEntries = []
+                                                    var currentSGV = 40
+                                                    for i in 1...340 {
+                                                        let entry = Entry(sgv: "\(currentSGV)", direction: "SINGLE_DOWN")
+                                                        currentEntries.append(entry)
+                                                        currentSGV = 40
+                                                        currentSGV += i
+                                                    }
+                                                    let NSController = NightscoutController(date: date4)
+                                                    
+                                                    CGMPoints = Int64(NSController.populateGraphWithEntryList(date: NSController.getTimeStamp(), entries: currentEntries))
+                                                    addScreen = true
+                                                    preLoadedAlerts = false
+                                                    currentEntries = []
+                                                    let secondsToDelay = (Double(CGMPoints) / 26) + 1
+                                                    DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
+                                                        print("The adding is truly done")
+                                                        addScreen = false
+                                                    }
+                                                }, label: {
+                                                    Text("Test Falling Alert")
+                                                })
+                                                .padding()
+                                                .frame(width: 90, height: 170)
+                                                .background(Color(hex: 0x184e77))
+                                                .foregroundColor(.white)
+                                                .cornerRadius(12)
+                                                VStack{
+                                                    Button(action: {
+                                                        print("Steady & Above Normal alert")
+                                                        currentEntries = []
+                                                        let currentSGV = 200
+                                                        for _ in 1...36 {
+                                                            let entry = Entry(sgv: "\(currentSGV)", direction: "FLAT")
+                                                            currentEntries.append(entry)
+                                                        }
+                                                        let NSController = NightscoutController(date: date4)
+                                                        
+                                                        CGMPoints = Int64(NSController.populateGraphWithEntryList(date: NSController.getTimeStamp(), entries: currentEntries))
+                                                        addScreen = true
+                                                        preLoadedAlerts = false
+                                                        currentEntries = []
+                                                        let secondsToDelay = (Double(CGMPoints) / 26) + 1
+                                                        DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
+                                                            print("The adding is truly done")
+                                                            addScreen = false
+                                                        }
+                                                    }, label: {
+                                                        Text("Test Steady & Above Normal Alert")
+                                                    })
+                                                    .padding()
+                                                    .frame(width: 190, height: 80)
+                                                    .background(Color(hex: 0x212529))
+                                                    .foregroundColor(.white)
+                                                    .cornerRadius(12)
+                                                    
+                                                    Button(action: {
+                                                        print("No new Readings alert")
+                                                        currentEntries = []
+                                                        for _ in 1...5 {
+                                                            let entry = Entry(sgv: "-1", direction: "")
+                                                            currentEntries.append(entry)
+                                                        }
+                                                        for _ in 1...5{
+                                                            let entry = Entry(sgv: "100", direction: "FLAT")
+                                                            currentEntries.append(entry)
+                                                        }
+                                                        let NSController = NightscoutController(date: date4)
+                                                        
+                                                        CGMPoints = Int64(NSController.populateGraphWithEntryList(date: NSController.getTimeStamp(), entries: currentEntries))
+                                                        addScreen = true
+                                                        preLoadedAlerts = false
+                                                        currentEntries = []
+                                                        let secondsToDelay = (Double(CGMPoints) / 26) + 1
+                                                        DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
+                                                            print("The adding is truly done")
+                                                            addScreen = false
+                                                        }
+                                                    }, label: {
+                                                        Text("No new Readings Alert")
+                                                    })
+                                                    .padding()
+                                                    .frame(width: 190, height: 80)
+                                                    .background(Color(hex: 0x52b69a))
+                                                    .foregroundColor(.white)
+                                                    .cornerRadius(12)
+                                                }
+                                            }
+                                            VStack{
+                                                Text("High Normal Range")
+                                                Slider(value: $sliderHigh, in: 50...300)
+                                                    .padding([.trailing,.leading])
+                                                Text("\(sliderHigh, specifier: "%.1f")")
+                                                    
+                                                Text("Low Normal Range")
+                                                Slider(value: $sliderLow, in: 50...300)
+                                                    .padding([.trailing,.leading])
+                                                Text("\(sliderLow, specifier: "%.1f")")
+                                                    
+                                            }
                                         }
                                     }
                                 }
