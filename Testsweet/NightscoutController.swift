@@ -111,9 +111,7 @@ class NightscoutController {
             return 0
         }
         
-
         // Here you're processing your url
-
         
         var rows = data.components(separatedBy: "\n")
         rows.removeFirst()
@@ -167,18 +165,20 @@ class NightscoutController {
     
     func populateGraphWithEntryList (date: Int64, entries: [Entry]) -> Int {
         var newDate :Int64 = date
-        print(entries.count)
-        for i in 0...(entries.count-1){
-            //print("date: \(newDate) sgv: \(unicorn[i].sgv), direction: \(unicorn[i].direction)")
-            let sgv = entries[i].sgv
-            let dir = entries[i].direction
-            let newDir = dir.replacingOccurrences(of: "\r", with: "")
-            if(sgv == -1 && newDir == "") {
+        
+        if(entries.count != 0) {
+            for i in 0...(entries.count-1){
+                //print("date: \(newDate) sgv: \(unicorn[i].sgv), direction: \(unicorn[i].direction)")
+                let sgv = entries[i].sgv
+                let dir = entries[i].direction
+                let newDir = dir.replacingOccurrences(of: "\r", with: "")
+                if(sgv == -1 && newDir == "") {
+                    newDate = newDate - 300000
+                    continue
+                }
+                makeEntryPostRequest(date: newDate, sgv: sgv, direction: newDir)
                 newDate = newDate - 300000
-                continue
             }
-            makeEntryPostRequest(date: newDate, sgv: sgv, direction: newDir)
-            newDate = newDate - 300000
         }
         
         return entries.count

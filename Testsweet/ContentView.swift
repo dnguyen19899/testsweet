@@ -433,13 +433,17 @@ struct ContentView: View {
                                                     //pass in date3 for time
                                                     let NSController = NightscoutController(date: date3)
                                                     CGMPoints = Int64(NSController.populateGraphWithEntryList(date: NSController.getTimeStamp(), entries: currentEntries))
-                                                    addScreen = true
-                                                    // createScreen = false
-                                                    currentEntries = []
-                                                    let secondsToDelay = (Double(CGMPoints) / 26) + 1
-                                                    DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
-                                                        print("The adding is truly done")
-                                                        addScreen = false
+                                                    if CGMPoints == 0 {
+                                                        self.showAlert = true
+                                                    } else {
+                                                        addScreen = true
+                                                        // createScreen = false
+                                                        currentEntries = []
+                                                        let secondsToDelay = (Double(CGMPoints) / 26) + 1
+                                                        DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
+                                                            print("The adding is truly done")
+                                                            addScreen = false
+                                                        }
                                                     }
                                                     
                                                 }){
@@ -453,6 +457,8 @@ struct ContentView: View {
                                                         .foregroundColor(Color.white)
                                                         .background(Color.black)
                                                         .cornerRadius(12)
+                                                }.alert(isPresented: $showAlert) {
+                                                    Alert(title: Text("Error"), message: Text("Please add at least one entry before proceeding."), dismissButton: .default(Text("OK")))
                                                 }
                                                 Button(action: {
                                                     currentEntries = []
@@ -576,19 +582,23 @@ struct ContentView: View {
                                                 print("CSV entires pressed")
                                                 
                                                 CGMPoints = Int64(NSController.importCSVData(date: NSController.getTimeStamp(), filePath: filePath))
-                                                if isAccessing {
-                                                    fileURL.stopAccessingSecurityScopedResource()
+                                                if CGMPoints == 0 {
+                                                    self.showAlert = true
+                                                } else {
+                                                    if isAccessing {
+                                                        fileURL.stopAccessingSecurityScopedResource()
+                                                    }
+                                                    addScreen = true
+                                                    // self.showCSVEntry = false
+                                                    let secondsToDelay = (Double(CGMPoints) / 26) + 1
+                                                    DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
+                                                        print("The adding is truly done")
+                                                        addScreen = false
+                                                    }
+                                                    fileName = "Add File"
+                                                    filePath = ""
+                                                    showTrash()
                                                 }
-                                                addScreen = true
-                                                // self.showCSVEntry = false
-                                                let secondsToDelay = (Double(CGMPoints) / 26) + 1
-                                                DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
-                                                    print("The adding is truly done")
-                                                    addScreen = false
-                                                }
-                                                fileName = "Add File"
-                                                filePath = ""
-                                                showTrash()
                                                 
                                             }){
                                                 Text("CREATE")
@@ -601,6 +611,8 @@ struct ContentView: View {
                                                     .foregroundColor(Color.white)
                                                     .background(Color.black)
                                                     .cornerRadius(12)
+                                            }.alert(isPresented: $showAlert) {
+                                                Alert(title: Text("Error"), message: Text("Please open and select a file."), dismissButton: .default(Text("OK")))
                                             }
                                             Spacer()
                                         }
