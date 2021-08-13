@@ -43,6 +43,7 @@ struct ContentView: View {
     @State private var date2 = Date()
     @State private var date3 = Date()
     @State private var date4 = Date()
+    @State private var date5 = Date()
     @State private var startDate = Date()
     @State private var endDate = Date()
     @State private var dateError = false
@@ -87,6 +88,8 @@ struct ContentView: View {
     
     @State private var sliderLow = 80.0
     @State private var sliderHigh = 120.0
+    @State private var sliderLow2 = 80.0
+    @State private var sliderHigh2 = 120.0
     
     @State private var fileURL: URL = URL(fileURLWithPath: "")
     @State private var isAccessing: Bool = false
@@ -300,9 +303,9 @@ struct ContentView: View {
                                     
                                 }
                         }
-                        
+                        //---------Create Your Own Test------------//
                         Section {
-                            //---------Create Your Own Test------------//
+                            
                             RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
                                 .fill(Color(hex: 0x168aad))
                                 .frame(height: 150)
@@ -623,12 +626,41 @@ struct ContentView: View {
                                 ).onTapGesture {
                                     self.preLoadedUnicorn = true
                                 }.sheet(isPresented: $preLoadedUnicorn) {
+                                    ScrollView{
                                     ZStack{
-                                            VStack{
+                                        
+                                            LazyVStack{
+                                                
                                                 Text("Select A Tile To Test")
+                                                    .font(.system(size: 20, weight: .heavy, design: .default))
+                                                    .padding()
+                                                
+                                                DatePicker("Select an end date and time", selection: $date5, displayedComponents: [.date, .hourAndMinute])
+                                                    .padding(.leading, 20)
+                                                    .padding(.trailing, 20)
+                                                    .padding(.bottom, 10)
+                                                
                                                 HStack{
                                                     Button(action: {
                                                         print("Testing unicorn")
+                                                        addScreen = true
+                                                        currentEntries = []
+                                                        let currentSGV = 100
+                                                        for _ in 1...10 {
+                                                            let entry = Entry(sgv: "\(currentSGV)", direction: "FLAT")
+                                                            currentEntries.append(entry)
+                                                           
+                                                        }
+                                                        let NSController = NightscoutController(date: date5)
+                                                        
+                                                        CGMPoints = Int64(NSController.populateGraphWithEntryList(date: NSController.getTimeStamp(), entries: currentEntries))
+                                                        addScreen = true
+                                                        currentEntries = []
+                                                        let secondsToDelay = (Double(CGMPoints) / 26) + 1
+                                                        DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
+                                                            print("The adding is truly done")
+                                                            addScreen = false
+                                                        }
                                                     }, label: {
                                                         Text("Test Unicorn Tile")
                                                     })
@@ -640,6 +672,24 @@ struct ContentView: View {
                                                     
                                                     Button(action: {
                                                         print("Testing %Above")
+                                                        addScreen = true
+                                                        currentEntries = []
+                                                        let currentSGV = Int(sliderHigh2) + 5
+                                                        for _ in 0...10 {
+                                                            let entry = Entry(sgv: "\(currentSGV)", direction: "FLAT")
+                                                            currentEntries.append(entry)
+                                                            
+                                                        }
+                                                        let NSController = NightscoutController(date: date5)
+                                                        
+                                                        CGMPoints = Int64(NSController.populateGraphWithEntryList(date: NSController.getTimeStamp(), entries: currentEntries))
+                                                        addScreen = true
+                                                        currentEntries = []
+                                                        let secondsToDelay = (Double(CGMPoints) / 26) + 1
+                                                        DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
+                                                            print("The adding is truly done")
+                                                            addScreen = false
+                                                        }
                                                     }, label: {
                                                         Text("Test % Above Tile")
                                                     })
@@ -652,6 +702,24 @@ struct ContentView: View {
                                                 HStack{
                                                     Button(action: {
                                                         print("Testing % Below")
+                                                        addScreen = true
+                                                        currentEntries = []
+                                                        let currentSGV = Int(sliderLow2) - 5
+                                                        for _ in 0...10 {
+                                                            let entry = Entry(sgv: "\(currentSGV)", direction: "FLAT")
+                                                            currentEntries.append(entry)
+                                                            
+                                                        }
+                                                        let NSController = NightscoutController(date: date5)
+                                                        
+                                                        CGMPoints = Int64(NSController.populateGraphWithEntryList(date: NSController.getTimeStamp(), entries: currentEntries))
+                                                        addScreen = true
+                                                        currentEntries = []
+                                                        let secondsToDelay = (Double(CGMPoints) / 26) + 1
+                                                        DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
+                                                            print("The adding is truly done")
+                                                            addScreen = false
+                                                        }
                                                     }, label: {
                                                         Text("Test % Below Tile")
                                                     })
@@ -663,6 +731,24 @@ struct ContentView: View {
                                                     
                                                     Button(action: {
                                                         print("Testing % In Range")
+                                                        addScreen = true
+                                                        currentEntries = []
+                                                        let currentSGV = Int((Int(sliderHigh2) + Int(sliderLow2))/2)
+                                                        for _ in 0...10 {
+                                                            let entry = Entry(sgv: "\(currentSGV)", direction: "FLAT")
+                                                            currentEntries.append(entry)
+                                                            
+                                                        }
+                                                        let NSController = NightscoutController(date: date5)
+                                                        
+                                                        CGMPoints = Int64(NSController.populateGraphWithEntryList(date: NSController.getTimeStamp(), entries: currentEntries))
+                                                        addScreen = true
+                                                        currentEntries = []
+                                                        let secondsToDelay = (Double(CGMPoints) / 26) + 1
+                                                        DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
+                                                            print("The adding is truly done")
+                                                            addScreen = false
+                                                        }
                                                     }, label: {
                                                         Text("Test % In Range Tile")
                                                     })
@@ -675,6 +761,24 @@ struct ContentView: View {
                                                 HStack{
                                                     Button(action: {
                                                         print("Testing Average")
+                                                        addScreen = true
+                                                        currentEntries = []
+                                                        let currentSGV = 100
+                                                        for _ in 1...10 {
+                                                            let entry = Entry(sgv: "\(currentSGV)", direction: "FLAT")
+                                                            currentEntries.append(entry)
+                                                            
+                                                        }
+                                                        let NSController = NightscoutController(date: date5)
+                                                        
+                                                        CGMPoints = Int64(NSController.populateGraphWithEntryList(date: NSController.getTimeStamp(), entries: currentEntries))
+                                                        addScreen = true
+                                                        currentEntries = []
+                                                        let secondsToDelay = (Double(CGMPoints) / 26) + 1
+                                                        DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
+                                                            print("The adding is truly done")
+                                                            addScreen = false
+                                                        }
                                                     }, label: {
                                                         Text("Test Average Tile")
                                                     })
@@ -686,6 +790,30 @@ struct ContentView: View {
                                                     
                                                     Button(action: {
                                                         print("Testing High/Lows")
+                                                        addScreen = true
+                                                        currentEntries = []
+                                                        var currentSGV = Int(sliderHigh2) + 5
+                                                        for _ in 1...10 {
+                                                            let entry = Entry(sgv: "\(currentSGV)", direction: "FLAT")
+                                                            currentEntries.append(entry)
+                                                           
+                                                        }
+                                                        currentSGV = Int(sliderLow2) - 5
+                                                        for _ in 1...10 {
+                                                            let entry = Entry(sgv: "\(currentSGV)", direction: "FLAT")
+                                                            currentEntries.append(entry)
+                                                           
+                                                        }
+                                                        let NSController = NightscoutController(date: date5)
+                                                        
+                                                        CGMPoints = Int64(NSController.populateGraphWithEntryList(date: NSController.getTimeStamp(), entries: currentEntries))
+                                                        addScreen = true
+                                                        currentEntries = []
+                                                        let secondsToDelay = (Double(CGMPoints) / 26) + 1
+                                                        DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
+                                                            print("The adding is truly done")
+                                                            addScreen = false
+                                                        }
                                                     }, label: {
                                                         Text("Test High/Lows Tile")
                                                     })
@@ -697,6 +825,32 @@ struct ContentView: View {
                                                     
                                                     Button(action: {
                                                         print("Testing Median")
+                                                        addScreen = true
+                                                        currentEntries = []
+                                                        var currentSGV = 100
+                                                        for _ in 1...10 {
+                                                            let entry = Entry(sgv: "\(currentSGV)", direction: "FLAT")
+                                                            currentEntries.append(entry)
+                                                            currentSGV -= 5
+                                                        }
+                                                        currentSGV = 50
+                                                        for _ in 1...11 {
+                                                            let entry = Entry(sgv: "\(currentSGV)", direction: "FLAT")
+                                                            currentEntries.append(entry)
+                                                            currentSGV += 5
+                                                            
+                                                        }
+                                                        let NSController = NightscoutController(date: date5)
+                                                        
+                                                        CGMPoints = Int64(NSController.populateGraphWithEntryList(date: NSController.getTimeStamp(), entries: currentEntries))
+                                                        addScreen = true
+                                                        currentEntries = []
+                                                        let secondsToDelay = (Double(CGMPoints) / 26) + 1
+                                                        DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
+                                                            print("The adding is truly done")
+                                                            addScreen = false
+                                                        }
+                                                        //Should be 75
                                                     }, label: {
                                                         Text("Test Median Tile")
                                                     })
@@ -708,6 +862,7 @@ struct ContentView: View {
                                                 }
                                                 Button(action: {
                                                     print("Testing Mini-Graph")
+                                                    print("maybe not a test??")
                                                 }, label: {
                                                     Text("Test Mini-Graph Tile")
                                                 })
@@ -719,6 +874,24 @@ struct ContentView: View {
                                                 HStack{
                                                     Button(action: {
                                                         print("Testing Normal Range %")
+                                                        addScreen = true
+                                                        currentEntries = []
+                                                        let currentSGV = Int((Int(sliderHigh2) + Int(sliderLow2))/2)
+                                                        for _ in 0...10 {
+                                                            let entry = Entry(sgv: "\(currentSGV)", direction: "FLAT")
+                                                            currentEntries.append(entry)
+                                                            
+                                                        }
+                                                        let NSController = NightscoutController(date: date5)
+                                                        
+                                                        CGMPoints = Int64(NSController.populateGraphWithEntryList(date: NSController.getTimeStamp(), entries: currentEntries))
+                                                        addScreen = true
+                                                        currentEntries = []
+                                                        let secondsToDelay = (Double(CGMPoints) / 26) + 1
+                                                        DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
+                                                            print("The adding is truly done")
+                                                            addScreen = false
+                                                        }
                                                     }, label: {
                                                         Text("Test Normal Range % Tile")
                                                     })
@@ -730,6 +903,24 @@ struct ContentView: View {
                                                     
                                                     Button(action: {
                                                         print("Testing Time In Range")
+                                                        addScreen = true
+                                                        currentEntries = []
+                                                        let currentSGV = Int((Int(sliderHigh2) + Int(sliderLow2))/2)
+                                                        for _ in 0...10 {
+                                                            let entry = Entry(sgv: "\(currentSGV)", direction: "FLAT")
+                                                            currentEntries.append(entry)
+                                                            
+                                                        }
+                                                        let NSController = NightscoutController(date: date5)
+                                                        
+                                                        CGMPoints = Int64(NSController.populateGraphWithEntryList(date: NSController.getTimeStamp(), entries: currentEntries))
+                                                        addScreen = true
+                                                        currentEntries = []
+                                                        let secondsToDelay = (Double(CGMPoints) / 26) + 1
+                                                        DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
+                                                            print("The adding is truly done")
+                                                            addScreen = false
+                                                        }
                                                     }, label: {
                                                         Text("Test Time In Range Tile")
                                                     })
@@ -739,7 +930,20 @@ struct ContentView: View {
                                                     .foregroundColor(.white)
                                                     .cornerRadius(12)
                                                 }
+                                                VStack{
+                                                    Text("High Normal Range")
+                                                    Slider(value: $sliderHigh2, in: 60...300)
+                                                        .padding([.trailing,.leading])
+                                                    Text("\(sliderHigh2, specifier: "%.1f")")
+                                                        
+                                                    Text("Low Normal Range")
+                                                    Slider(value: $sliderLow2, in: 50...295)
+                                                        .padding([.trailing,.leading])
+                                                    Text("\(sliderLow2, specifier: "%.1f")")
+                                                }
                                             }
+                                        
+                                    }
                                     }
                                 }
                         }
@@ -948,12 +1152,12 @@ struct ContentView: View {
                                             }
                                             VStack{
                                                 Text("High Normal Range")
-                                                Slider(value: $sliderHigh, in: 50...300)
+                                                Slider(value: $sliderHigh, in: 60...300)
                                                     .padding([.trailing,.leading])
                                                 Text("\(sliderHigh, specifier: "%.1f")")
                                                     
                                                 Text("Low Normal Range")
-                                                Slider(value: $sliderLow, in: 50...300)
+                                                Slider(value: $sliderLow, in: 50...295)
                                                     .padding([.trailing,.leading])
                                                 Text("\(sliderLow, specifier: "%.1f")")
                                                     
@@ -1092,7 +1296,6 @@ struct ContentView: View {
                             Spacer()
                         }
                     }
-                    
                     // list end here
                     Spacer()
                 })
