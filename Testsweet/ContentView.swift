@@ -233,7 +233,7 @@ struct ContentView: View {
                                                             if button == false{
                                                                 print("making post; random")
                                                                 addScreen = true
-                                                                // showGenerateEntries = false
+                                                                showGenerateEntries = false
                                                                 CGMPoints = NSController.populateGraphWithTwoTimesRandom(epochStartTime: NSController.getStartTimeStamp(), epochEndTime: NSController.getEndTimeStamp())
                                                                 let secondsToDelay = (Double(CGMPoints) / 26) + 1
                                                                 
@@ -247,7 +247,7 @@ struct ContentView: View {
                                                                     if (Int(sgv2.value)!) >= 0 && (Int(sgv2.value)!) <= 500  {
                                                                         print("making post; straight")
                                                                         addScreen = true
-                                                                        // showGenerateEntries = false
+                                                                        showGenerateEntries = false
                                                                         CGMPoints = NSController.populateGraphWithTwoTimeStraight(sgv: (Int(sgv2.value)!), epochStartTime: NSController.getStartTimeStamp(), epochEndTime: NSController.getEndTimeStamp())
                                                                         let secondsToDelay = (Double(CGMPoints) / 26) + 1
                                                                         DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
@@ -298,7 +298,7 @@ struct ContentView: View {
                                             }
                                         }
                                         
-                                        InformationView(show: $showPopUp, showAdd: $addScreen, showDelete: $deleteScreen, CGMPoints: CGMPoints)
+//                                        InformationView(show: $showPopUp, showAdd: $addScreen, showDelete: $deleteScreen, CGMPoints: CGMPoints)
                                     }
                                     
                                 }
@@ -437,7 +437,7 @@ struct ContentView: View {
                                                         self.showAlert = true
                                                     } else {
                                                         addScreen = true
-                                                        // createScreen = false
+                                                        createScreen = false
                                                         currentEntries = []
                                                         let secondsToDelay = (Double(CGMPoints) / 26) + 1
                                                         DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
@@ -478,7 +478,7 @@ struct ContentView: View {
                                             Spacer()
                                         }
                                         
-                                        InformationView(show: $showPopUp, showAdd: $addScreen, showDelete: $deleteScreen, CGMPoints: CGMPoints)
+//                                        InformationView(show: $showPopUp, showAdd: $addScreen, showDelete: $deleteScreen, CGMPoints: CGMPoints)
                                     }
                                 }
                         }
@@ -589,7 +589,7 @@ struct ContentView: View {
                                                         fileURL.stopAccessingSecurityScopedResource()
                                                     }
                                                     addScreen = true
-                                                    // self.showCSVEntry = false
+                                                    self.showCSVEntry = false
                                                     let secondsToDelay = (Double(CGMPoints) / 26) + 1
                                                     DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
                                                         print("The adding is truly done")
@@ -618,7 +618,7 @@ struct ContentView: View {
                                         }
                                         Spacer()
                                     }
-                                    InformationView(show: $showPopUp, showAdd: $addScreen, showDelete: $deleteScreen, CGMPoints: CGMPoints)
+//                                    InformationView(show: $showPopUp, showAdd: $addScreen, showDelete: $deleteScreen, CGMPoints: CGMPoints)
                                 }
                             }
                     }
@@ -1287,8 +1287,9 @@ struct ContentView: View {
                                                         message: Text("This action cannot be undone"),
                                                         primaryButton: .destructive(Text("Delete")) {
                                                             NSController.deleteEntryRequest()
+                                                            CGMPoints = 0
                                                             deleteScreen = true
-                                                            // showDeleteEntries = false
+                                                            showDeleteEntries = false
                                                             let secondsToDelay = 5.0
                                                             DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
                                                                 print("The delete is truly done")
@@ -1302,7 +1303,7 @@ struct ContentView: View {
                                                 Spacer()
                                             }
                                         }
-                                        InformationView(show: $showPopUp, showAdd: $addScreen, showDelete: $deleteScreen, CGMPoints: 0)
+//                                        InformationView(show: $showPopUp, showAdd: $addScreen, showDelete: $deleteScreen, CGMPoints: 0)
                                     }
                                 }
                             Spacer()
@@ -1312,6 +1313,8 @@ struct ContentView: View {
                     Spacer()
                 })
             }
+            
+            InformationView(show: $showPopUp, showAdd: $addScreen, showDelete: $deleteScreen, CGMPoints: CGMPoints)
         }
     }
 }
