@@ -121,10 +121,11 @@ struct ContentView: View {
     let headerHeight = CGFloat(50)
     
     var body: some View {
-    
+        
         ZStack(alignment: .topLeading) {
             //Color(hex:0xcaf0f8).ignoresSafeArea()
             Color(.white).ignoresSafeArea()
+            backgroundView()
             
             HeaderView().zIndex(1)
                 .frame(height: headerHeight)
