@@ -492,7 +492,7 @@ struct ContentView: View {
                                             }
                                             Spacer()
                                         }
-                                        
+//
 //                                        InformationView(show: $showPopUp, showAdd: $addScreen, showDelete: $deleteScreen, CGMPoints: CGMPoints)
                                     }
                                 }
@@ -637,7 +637,7 @@ struct ContentView: View {
                                         }
                                         Spacer()
                                     }
-//                                    InformationView(show: $showPopUp, showAdd: $addScreen, showDelete: $deleteScreen, CGMPoints: CGMPoints)
+                                    InformationView(show: $showPopUp, showAdd: $addScreen, showDelete: $deleteScreen, CGMPoints: CGMPoints)
                                 }
                             }
                     }
@@ -1364,7 +1364,7 @@ struct ContentView: View {
                 })
             }
             
-            InformationView(show: $showPopUp, showAdd: $addScreen, showDelete: $deleteScreen, CGMPoints: CGMPoints)
+            InformationView(showAdd: $addScreen, showDelete: $deleteScreen, CGMPoints: CGMPoints)
         }
     }
 }

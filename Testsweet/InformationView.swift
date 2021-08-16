@@ -34,6 +34,20 @@ struct InformationView: View {
     
     @State private var counter = 0
     
+    init(showAdd: Binding<Bool>, showDelete: Binding<Bool>, CGMPoints: Int64) {
+        _show = .constant(false)
+        _showAdd = showAdd
+        _showDelete = showDelete
+        self.CGMPoints = CGMPoints
+    }
+    
+    init(show: Binding<Bool>, showAdd: Binding<Bool>, showDelete: Binding<Bool>, CGMPoints: Int64) {
+        _show = show
+        _showAdd = showAdd
+        _showDelete = showDelete
+        self.CGMPoints = CGMPoints
+    }
+    
     
     func updateText(){
         
