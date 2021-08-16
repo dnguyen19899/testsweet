@@ -122,7 +122,7 @@ struct ContentView: View {
         generator.impactOccurred()
     }
     
-    let headerHeight = CGFloat(50)
+    let headerHeight = CGFloat(120)
     
     var body: some View {
         
@@ -138,7 +138,7 @@ struct ContentView: View {
                 LazyVStack(alignment: .leading, spacing: 10, pinnedViews: [.sectionHeaders], content: {
                     
                     // List of feature buttons here:
-                    Color.clear.frame(height: CGFloat(55))
+                    Color.clear.frame(height: headerHeight)
                         .padding()
                     // ------- Entries Generation ------- //
                     HStack(spacing: 5) {
