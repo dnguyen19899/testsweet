@@ -335,6 +335,15 @@ struct ContentView: View {
                                                 .padding()
                                                 .foregroundColor(Color(hex: 0x168aad))
                                             VStack{
+                                                NavigationView {
+                                                    List {
+                                                        ForEach(currentEntries, id: \.self){ entry in
+                                                            Text(entry.toString())
+                                                        }
+                                                        .onDelete(perform: delete)
+                                                    }
+                                                    .navigationBarTitle("Current Entries", displayMode: .inline)
+                                                }
                                                 
                                                 VStack(spacing: 15){
                                                     
@@ -425,15 +434,7 @@ struct ContentView: View {
                                                 }
                                             }
                                             
-                                            NavigationView {
-                                                List {
-                                                    ForEach(currentEntries, id: \.self){ entry in
-                                                        Text(entry.toString())
-                                                    }
-                                                    .onDelete(perform: delete)
-                                                }
-                                                .navigationTitle("Current Entries")
-                                            }
+                                           
                                             
                                             DatePicker("Select an end date", selection: $date3, displayedComponents: [.date, .hourAndMinute])
                                                 .padding(.leading, 20)
@@ -687,6 +688,7 @@ struct ContentView: View {
                                                         
                                                         CGMPoints = Int64(NSController.populateGraphWithEntryList(date: NSController.getTimeStamp(), entries: currentEntries))
                                                         addScreen = true
+                                                        preLoadedUnicorn = false
                                                         currentEntries = []
                                                         let secondsToDelay = (Double(CGMPoints) / 26) + 1
                                                         DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
@@ -717,6 +719,7 @@ struct ContentView: View {
                                                         
                                                         CGMPoints = Int64(NSController.populateGraphWithEntryList(date: NSController.getTimeStamp(), entries: currentEntries))
                                                         addScreen = true
+                                                        preLoadedUnicorn = false
                                                         currentEntries = []
                                                         let secondsToDelay = (Double(CGMPoints) / 26) + 1
                                                         DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
@@ -737,6 +740,7 @@ struct ContentView: View {
                                                         vibrate()
                                                         print("Testing % Below")
                                                         addScreen = true
+                                                        preLoadedUnicorn = false
                                                         currentEntries = []
                                                         let currentSGV = Int(sliderLow2) - 5
                                                         for _ in 0...10 {
@@ -767,6 +771,7 @@ struct ContentView: View {
                                                         vibrate()
                                                         print("Testing % In Range")
                                                         addScreen = true
+                                                        preLoadedUnicorn = false
                                                         currentEntries = []
                                                         let currentSGV = Int((Int(sliderHigh2) + Int(sliderLow2))/2)
                                                         for _ in 0...10 {
@@ -798,6 +803,7 @@ struct ContentView: View {
                                                         vibrate()
                                                         print("Testing Average")
                                                         addScreen = true
+                                                        preLoadedUnicorn = false
                                                         currentEntries = []
                                                         let currentSGV = 100
                                                         for _ in 1...10 {
@@ -828,6 +834,7 @@ struct ContentView: View {
                                                         vibrate()
                                                         print("Testing High/Lows")
                                                         addScreen = true
+                                                        preLoadedUnicorn = false
                                                         currentEntries = []
                                                         var currentSGV = Int(sliderHigh2) + 5
                                                         for _ in 1...10 {
@@ -864,6 +871,7 @@ struct ContentView: View {
                                                         vibrate()
                                                         print("Testing Median")
                                                         addScreen = true
+                                                        preLoadedUnicorn = false
                                                         currentEntries = []
                                                         var currentSGV = 100
                                                         for _ in 1...10 {
@@ -900,6 +908,7 @@ struct ContentView: View {
                                                 }
                                                 Button(action: {
                                                     vibrate()
+                                                    preLoadedUnicorn = false
                                                     print("Testing Mini-Graph")
                                                     print("maybe not a test??")
                                                 }, label: {
@@ -915,6 +924,7 @@ struct ContentView: View {
                                                         vibrate()
                                                         print("Testing Normal Range %")
                                                         addScreen = true
+                                                        preLoadedUnicorn = false
                                                         currentEntries = []
                                                         let currentSGV = Int((Int(sliderHigh2) + Int(sliderLow2))/2)
                                                         for _ in 0...10 {
@@ -944,6 +954,7 @@ struct ContentView: View {
                                                     Button(action: {
                                                         vibrate()
                                                         print("Testing Time In Range")
+                                                        preLoadedUnicorn = false
                                                         addScreen = true
                                                         currentEntries = []
                                                         let currentSGV = Int((Int(sliderHigh2) + Int(sliderLow2))/2)
