@@ -289,6 +289,7 @@ struct InformationView: View {
                             .foregroundColor(Color.white)
                             .background(Color(hex: 0x212529))
                             .font(Font.system(size: 23, weight: .semibold))
+                        
                     }
                 }
                 .frame(maxWidth: 300)

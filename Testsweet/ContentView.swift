@@ -117,6 +117,10 @@ struct ContentView: View {
             fileThere = false
         }
     }
+    func vibrate(){
+        let generator = UIImpactFeedbackGenerator(style: .heavy)
+        generator.impactOccurred()
+    }
     
     let headerHeight = CGFloat(50)
     
@@ -150,6 +154,7 @@ struct ContentView: View {
                                         .foregroundColor(.white)
                                         .padding()
                                 ).onTapGesture {
+                                    vibrate()
                                     self.showGenerateEntries = true
                                 }.sheet(isPresented: $showGenerateEntries) {
                                     
@@ -180,6 +185,7 @@ struct ContentView: View {
                                                 
                                                 HStack {
                                                     Button(action: {
+                                                        vibrate()
                                                         button = false
                                                     }){
                                                         Text("Random Readings")
@@ -190,6 +196,7 @@ struct ContentView: View {
                                                             .cornerRadius(25)
                                                     }
                                                     Button(action: {
+                                                        vibrate()
                                                         button = true
                                                     }){
                                                         Text("Straight Readings")
@@ -223,6 +230,7 @@ struct ContentView: View {
                                                 HStack {
                                                     Spacer()
                                                     Button(action: {
+                                                        vibrate()
                                                         if startDate == endDate || startDate > endDate {
                                                             print("Please make sure start date is less than end and not equal")
                                                             self.activeAlert = .third
@@ -316,6 +324,7 @@ struct ContentView: View {
                                         .font(.system(size: 20, weight: .heavy, design: .default))
                                         .foregroundColor(.white).padding()
                                 ).onTapGesture {
+                                    vibrate()
                                     self.createScreen = true
                                 }.sheet(isPresented: $createScreen) {
                                     ZStack{
@@ -360,6 +369,7 @@ struct ContentView: View {
                                             }
                                             HStack{
                                                 Button(action: {
+                                                    vibrate()
                                                     var newCurrentSelection = ""
                                                     if currentSelection == 0{newCurrentSelection = "FLAT"}
                                                     else if currentSelection == 1 {newCurrentSelection = "NONE DOUBLE_UP"}
@@ -399,6 +409,7 @@ struct ContentView: View {
                                                     Alert(title: Text("Error"), message: Text("Please enter a value between 0 and 500"), dismissButton: .default(Text("OK")))
                                                 }
                                                 Button(action: {
+                                                    vibrate()
                                                     currentEntries.append(Entry(sgv: "-1", direction: ""))
                                                 }){
                                                     Text("Add Empty")
@@ -431,6 +442,7 @@ struct ContentView: View {
                                             
                                             HStack{
                                                 Button(action: {
+                                                    vibrate()
                                                     //pass in date3 for time
                                                     let NSController = NightscoutController(date: date3)
                                                     CGMPoints = Int64(NSController.populateGraphWithEntryList(date: NSController.getTimeStamp(), entries: currentEntries))
@@ -462,6 +474,7 @@ struct ContentView: View {
                                                     Alert(title: Text("Error"), message: Text("Please add at least one entry before proceeding."), dismissButton: .default(Text("OK")))
                                                 }
                                                 Button(action: {
+                                                    vibrate()
                                                     currentEntries = []
                                                 }){
                                                     Image(systemName: "trash.fill")
@@ -496,6 +509,7 @@ struct ContentView: View {
                                     .font(.system(size: 25, weight: .heavy, design: .default))
                                     .foregroundColor(.white).padding()
                             ).onTapGesture {
+                                vibrate()
                                 self.showCSVEntry = true
                             }.sheet(isPresented: $showCSVEntry) {
                                 
@@ -512,7 +526,7 @@ struct ContentView: View {
                                             
                                             HStack{
                                                 Button(action: {
-                                                    
+                                                    vibrate()
                                                     print("info")
                                                     //self.infoWindow.toggle()
                                                     self.showPopUp.toggle()
@@ -528,6 +542,7 @@ struct ContentView: View {
                                                     .foregroundColor(fileThere ? .black : .gray)
                                                     .padding()
                                                 Button(action: {
+                                                    vibrate()
                                                     fileName = "Add File"
                                                     filePath = ""
                                                     showTrash()
@@ -539,6 +554,7 @@ struct ContentView: View {
                                             }
                                             
                                             Button(action: {openFile.toggle()}, label: {
+                                        
                                                 Text("Open")
                                                     .bold()
                                                     .font(Font.custom("Helvetica Neue", size: 20.0))
@@ -580,6 +596,7 @@ struct ContentView: View {
                                         HStack {
                                             Spacer()
                                             Button(action: {
+                                                vibrate()
                                                 print("CSV entires pressed")
                                                 
                                                 CGMPoints = Int64(NSController.importCSVData(date: NSController.getTimeStamp(), filePath: filePath))
@@ -637,6 +654,7 @@ struct ContentView: View {
                                         .padding()
                                         .multilineTextAlignment(.center)
                                 ).onTapGesture {
+                                    vibrate()
                                     self.preLoadedUnicorn = true
                                 }.sheet(isPresented: $preLoadedUnicorn) {
                                     ScrollView{
@@ -655,6 +673,7 @@ struct ContentView: View {
                                                 
                                                 HStack{
                                                     Button(action: {
+                                                        vibrate()
                                                         print("Testing unicorn")
                                                         addScreen = true
                                                         currentEntries = []
@@ -684,6 +703,7 @@ struct ContentView: View {
                                                     .cornerRadius(12)
                                                     
                                                     Button(action: {
+                                                        vibrate()
                                                         print("Testing %Above")
                                                         addScreen = true
                                                         currentEntries = []
@@ -714,6 +734,7 @@ struct ContentView: View {
                                                 }
                                                 HStack{
                                                     Button(action: {
+                                                        vibrate()
                                                         print("Testing % Below")
                                                         addScreen = true
                                                         currentEntries = []
@@ -743,6 +764,7 @@ struct ContentView: View {
                                                     .cornerRadius(12)
                                                     
                                                     Button(action: {
+                                                        vibrate()
                                                         print("Testing % In Range")
                                                         addScreen = true
                                                         currentEntries = []
@@ -773,6 +795,7 @@ struct ContentView: View {
                                                 }
                                                 HStack{
                                                     Button(action: {
+                                                        vibrate()
                                                         print("Testing Average")
                                                         addScreen = true
                                                         currentEntries = []
@@ -802,6 +825,7 @@ struct ContentView: View {
                                                     .cornerRadius(12)
                                                     
                                                     Button(action: {
+                                                        vibrate()
                                                         print("Testing High/Lows")
                                                         addScreen = true
                                                         currentEntries = []
@@ -837,6 +861,7 @@ struct ContentView: View {
                                                     .cornerRadius(12)
                                                     
                                                     Button(action: {
+                                                        vibrate()
                                                         print("Testing Median")
                                                         addScreen = true
                                                         currentEntries = []
@@ -874,6 +899,7 @@ struct ContentView: View {
                                                     .cornerRadius(12)
                                                 }
                                                 Button(action: {
+                                                    vibrate()
                                                     print("Testing Mini-Graph")
                                                     print("maybe not a test??")
                                                 }, label: {
@@ -886,6 +912,7 @@ struct ContentView: View {
                                                 .cornerRadius(12)
                                                 HStack{
                                                     Button(action: {
+                                                        vibrate()
                                                         print("Testing Normal Range %")
                                                         addScreen = true
                                                         currentEntries = []
@@ -915,6 +942,7 @@ struct ContentView: View {
                                                     .cornerRadius(12)
                                                     
                                                     Button(action: {
+                                                        vibrate()
                                                         print("Testing Time In Range")
                                                         addScreen = true
                                                         currentEntries = []
@@ -972,6 +1000,7 @@ struct ContentView: View {
                                         .padding()
                                         .multilineTextAlignment(.center)
                                 ).onTapGesture {
+                                    vibrate()
                                     self.preLoadedAlerts = true
                                 }.sheet(isPresented: $preLoadedAlerts) {
                                    
@@ -986,6 +1015,7 @@ struct ContentView: View {
                                                 .padding(.bottom, 10)
                                             HStack{
                                                 Button(action: {
+                                                    vibrate()
                                                     print("High alerting")
                                                     currentEntries = []
                                                     let currentSGV = 400
@@ -1014,6 +1044,7 @@ struct ContentView: View {
                                                 .cornerRadius(12)
                                                 
                                                 Button(action: {
+                                                    vibrate()
                                                     print("low alert readings at 40")
                                                     currentEntries = []
                                                     var currentSGV = 40
@@ -1044,6 +1075,7 @@ struct ContentView: View {
                                                 .cornerRadius(12)
                                             }
                                             Button(action: {
+                                                vibrate()
                                                 print("Climbing alert")
                                                 currentEntries = []
                                                 var currentSGV = 400
@@ -1074,6 +1106,7 @@ struct ContentView: View {
                                             .cornerRadius(12)
                                             HStack{
                                                 Button(action: {
+                                                    vibrate()
                                                     print("Falling alert")
                                                     currentEntries = []
                                                     var currentSGV = 40
@@ -1104,6 +1137,7 @@ struct ContentView: View {
                                                 .cornerRadius(12)
                                                 VStack{
                                                     Button(action: {
+                                                        vibrate()
                                                         print("Steady & Above Normal alert")
                                                         currentEntries = []
                                                         let currentSGV = 200
@@ -1132,6 +1166,7 @@ struct ContentView: View {
                                                     .cornerRadius(12)
                                                     
                                                     Button(action: {
+                                                        vibrate()
                                                         print("No new Readings alert")
                                                         currentEntries = []
                                                         for _ in 1...5 {
@@ -1191,6 +1226,7 @@ struct ContentView: View {
                                     .font(.system(size: 20, weight: .heavy, design: .default))
                                     .foregroundColor(.white).padding()
                             ).onTapGesture {
+                                vibrate()
                                 self.showGetScreen = true
                             }.sheet(isPresented: $showGetScreen) {
                                 
@@ -1214,6 +1250,7 @@ struct ContentView: View {
                                             
                                         }
                                         Button(action: {
+                                            vibrate()
                                             populateGetArray()
                                             
                                         }){
@@ -1287,6 +1324,7 @@ struct ContentView: View {
                                                         title: Text("Are you sure you want to delete all entries?"),
                                                         message: Text("This action cannot be undone"),
                                                         primaryButton: .destructive(Text("Delete")) {
+                                                            vibrate()
                                                             NSController.deleteEntryRequest()
                                                             CGMPoints = 0
                                                             deleteScreen = true

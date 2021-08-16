@@ -41,6 +41,7 @@ struct HeaderView: View {
                     .font(.system(size: 34, weight: .heavy))
                     .foregroundColor(.white)
             }.padding(20)
+            .padding(.top, 30)
         }
     }
 }
