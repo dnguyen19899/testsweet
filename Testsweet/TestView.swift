@@ -13,28 +13,19 @@ struct TestView: View {
     var description: String
     var expected_result: String
     
-    let headerHeight = CGFloat(50)
-    
     var body: some View {
         
-        ZStack(alignment: .topLeading) {
+        ZStack() {
             //Color(hex:0xcaf0f8).ignoresSafeArea()
             Color(.white).ignoresSafeArea()
             
-            ScrollView {
-                
-                LazyVStack(spacing: 10, pinnedViews: [.sectionHeaders], content: {
-                    
-                    Color.clear.frame(height: headerHeight)
-                        .padding()
-                    
-                    Text(title)
-                    Text(description)
-                    Text(expected_result)
-                
-                })
-                
+            VStack {
+                Text(title)
+                Text(description)
+                Text(expected_result)
             }
+            
+            .navigationBarTitle(self.title, displayMode: .inline)
             .navigationBarColor(UIColor(hex: 0x52b69a))
         }
     }

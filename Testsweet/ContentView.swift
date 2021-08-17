@@ -36,6 +36,7 @@ extension UIColor {
 
 struct ContentView: View {
     
+    @State private var action: Int? = 0
     @State private var showAlert: Bool = false
     @State private var alertLabel: String = ""
     
@@ -89,13 +90,25 @@ struct ContentView: View {
                                         }
                                         .frame(width:300, height: 100)
                                     }
-                                    .navigationBarColor(UIColor(hex: 0x52b69a))
                                     
                                 }
                                 
                             }
                             
                         }
+                        
+                        // Navigation Links to the Test Creation Views
+                        // which are triggered by tags set in the add buttons
+                        NavigationLink(destination: CSVTestView(), tag: 1, selection: $action)
+                        {
+                            EmptyView()
+                        }
+                        
+                        NavigationLink(destination: ManualTestView(), tag: 2, selection: $action)
+                        {
+                            EmptyView()
+                        }
+                        
                         
                         VStack {
                             Spacer()
@@ -108,14 +121,16 @@ struct ContentView: View {
                                             self.alertLabel = "pencil"
                                             self.showAlert.toggle()
 
+                                            self.action = 2
                                             // Open manual entries adding view here
 
                                         },
                                         ExpandableButtonItem(label: "square.and.arrow.up") {
                                             self.alertLabel = "square.and.arrow.up"
                                             self.showAlert.toggle()
-
-                                            // Open CSV file upload view here
+                                            
+                                            // set tag to open CSV Test view
+                                            self.action = 1
 
                                         }
                                     ]
