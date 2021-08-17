@@ -15,30 +15,6 @@ extension Date {
     }
 }
 
-struct Entry: Hashable {
-    var sgv: Int = 0
-    var direction: String = ""
-    
-    init(raw: [String]) {
-        sgv = Int(raw[0]) ?? -1
-        direction = raw[1]
-    }
-    
-    init(sgv: String, direction: String) {
-        self.sgv = Int(sgv) ?? -1
-        self.direction = direction
-    }
-    
-    func toString() -> String{
-        if(sgv == -1 && direction == "") {
-            return ""
-        }
-        else {
-            return String(self.sgv) + ", " + self.direction
-        }
-    }
-}
-
 class NightscoutController {
     
     private var debug = false
