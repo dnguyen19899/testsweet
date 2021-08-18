@@ -8,7 +8,7 @@
 import Foundation
 
 
-struct Entry: Hashable {
+struct Entry: Hashable, Codable {
     var sgv: Int = 0
     var direction: String = ""
     
@@ -33,14 +33,14 @@ struct Entry: Hashable {
 }
 
 
-class Test {
+class Test: Codable {
     
     var title: String
     var description: String
-    var expected_result: String = ""
+    var expected_result: String
     
     var filePath: String = ""
-    var entriesList: Array<Entry> = []
+    var entriesList: Array<Entry> = [Entry]()
     var action: Int // 1 for CSV method, 2 for manual method
     
     
@@ -65,17 +65,17 @@ class Test {
     // run function for CSV file method
     func run() -> Int64 {
         let NSController = NightscoutController(date: Date())
-        
+
         // if tag 1, run import via CSV
         if self.action == 1 {
             return NSController.importCSVData(date: NSController.getTimeStamp(), filePath: filePath)
         }
-        
+
         // if tag 2, run import via entries list
         else if self.action == 2 {
             return Int64(NSController.populateGraphWithEntryList(date: NSController.getTimeStamp(), entries: entriesList))
         }
-        
+
         else {
             return 0
         }

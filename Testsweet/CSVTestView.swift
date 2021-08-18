@@ -70,6 +70,11 @@ struct CSVTestView: View {
                                     }.padding()
                                     .textFieldStyle(RoundedBorderTextFieldStyle())
                                     
+                                    HStack{
+                                        Text("Description:")
+                                        TextField("description", text: $notes)
+                                    }.padding()
+                                    .textFieldStyle(RoundedBorderTextFieldStyle())
                                     
                                     VStack(spacing: 25) {
                                         
@@ -142,18 +147,18 @@ struct CSVTestView: View {
                                     }.padding()
                                     .textFieldStyle(RoundedBorderTextFieldStyle())
                                     
-                                    HStack{
-                                        Text("Notes:")
-                                        TextField("notes", text: $notes)
-                                    }.padding()
-                                    .textFieldStyle(RoundedBorderTextFieldStyle())
+//                                    HStack{
+//                                        Text("Notes:")
+//                                        TextField("notes", text: $notes)
+//                                    }.padding()
+//                                    .textFieldStyle(RoundedBorderTextFieldStyle())
                                     
                                     // CREATE button
                                     HStack {
                                         Spacer()
                                         Button(action: {
                                             vibrate()
-                                            testsList.append(Test(title: title, description: notes, expected_result: expectedResult, filePath: filePath, action: 1))
+                                            UserDefaults.standard.testsList.append(Test(title: title, description: notes, expected_result: expectedResult, filePath: filePath, action: 1))
                                             // go back home
                                             title = ""
                                             expectedResult = ""

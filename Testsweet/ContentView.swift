@@ -8,9 +8,7 @@
 import SwiftUI
 
 //Global Variables
-var testsList = [
-    Test(title: "Test1", description: "description for test1", expected_result: "expected result for test1", entriesList: [Entry(sgv: "120", direction: "FLAT"), Entry(sgv: "120", direction: "FLAT"), Entry(sgv: "120", direction: "FLAT")], action: 2)
-    ]
+// var testsList = UserDefaults.standard.testsList
 
 
 
@@ -40,14 +38,23 @@ extension UIColor {
    }
 }
 
+extension UserDefaults {
+    var testsList: [Test] {
+        get {
+            guard let data = UserDefaults.standard.data(forKey: "testsList") else { return [] }
+            return (try? PropertyListDecoder().decode([Test].self, from: data)) ?? []
+        }
+        set {
+            UserDefaults.standard.set(try? PropertyListEncoder().encode(newValue), forKey: "testsList")
+        }
+    }
+}
 
 struct ContentView: View {
     
     @State private var action: Int? = 0
     @State private var showAlert: Bool = false
     @State private var alertLabel: String = ""
-    
-    
     
     let headerHeight = CGFloat(50)
     
@@ -73,16 +80,18 @@ struct ContentView: View {
                                 
                                 Spacer().padding(5)
                                 
-                                ForEach(0..<testsList.count, id: \.self) { index in
+                                //Text("\(testsList.count)")
+                                
+                                ForEach(0..<UserDefaults.standard.testsList.count, id: \.self) { index in
                                     
-                                    NavigationLink(destination: TestView(title: testsList[index].title, description: testsList[index].description, expected_result: testsList[index].expected_result)) {
+                                    NavigationLink(destination: TestView(title: UserDefaults.standard.testsList[index].title, description: UserDefaults.standard.testsList[index].description, expected_result: UserDefaults.standard.testsList[index].expected_result)) {
                                         
                                         GeometryReader {
                                             
                                             geometry in
                                             VStack {
                                                 
-                                                Text(testsList[index].title)
+                                                Text(UserDefaults.standard.testsList[index].title)
                                                     .font(.system(size: 20, weight: .heavy, design: .default))
                                                     .foregroundColor(.white)
                                                 
@@ -149,7 +158,11 @@ struct ContentView: View {
                     .background(backgroundView())
                 }
             }
-        }
+        }.onAppear(perform: {
+            if (UserDefaults.standard.testsList.isEmpty) {
+                UserDefaults.standard.testsList = [Test]()
+            }
+        })
     }
 }
 

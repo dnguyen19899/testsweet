@@ -62,6 +62,12 @@ struct ManualTestView: View {
                                         }.padding()
                                         .textFieldStyle(RoundedBorderTextFieldStyle())
                                         
+                                        HStack{
+                                            Text("Description:")
+                                            TextField("description", text: $notes)
+                                        }.padding()
+                                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                                        
                                         VStack{
                                             
                                             VStack(spacing: 15){
@@ -159,7 +165,7 @@ struct ManualTestView: View {
                                             entriesShow = true
                                             
                                         }, label: {
-                                            Text("Check Entires")
+                                            Text("Check Entries")
                                                 .bold()
                                                 .font(Font.custom("Helvetica Neue", size: 20.0))
                                                 .padding(.top, 15)
@@ -177,18 +183,18 @@ struct ManualTestView: View {
                                         }.padding()
                                         .textFieldStyle(RoundedBorderTextFieldStyle())
                                         
-                                        HStack{
-                                            Text("Notes:")
-                                            TextField("notes", text: $notes)
-                                        }.padding()
-                                        .textFieldStyle(RoundedBorderTextFieldStyle())
+//                                        HStack{
+//                                            Text("Notes:")
+//                                            TextField("notes", text: $notes)
+//                                        }.padding()
+//                                        .textFieldStyle(RoundedBorderTextFieldStyle())
                                     
                                        
                                         
                                         HStack{
                                             Button(action: {
                                                 vibrate()
-                                                testsList.append(Test(title: title, description: notes, expected_result: expectedResult, entriesList: currentEntries, action: 2))
+                                                UserDefaults.standard.testsList.append(Test(title: title, description: notes, expected_result: expectedResult, entriesList: currentEntries, action: 2))
                                                 // GO home
                                                 title = ""
                                                 expectedResult = ""
