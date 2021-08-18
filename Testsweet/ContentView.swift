@@ -93,11 +93,12 @@ struct ContentView: View {
                                                 
                                                 Text(UserDefaults.standard.testsList[index].title)
                                                     .font(.system(size: 20, weight: .heavy, design: .default))
-                                                    .foregroundColor(.white)
+                                                    .foregroundColor(Color.white)
+                                                                
                                                 
                                             }
-                                            .frame(width: 300, height: 100)
-                                            .background(Color(hex: 0x1a759f))
+                                            .frame(width: 300, height: 75)
+                                            .background( LinearGradient(gradient: Gradient(colors: [Color(#colorLiteral(red: 0.09433246404, green: 0.3047628701, blue: 0.4649187326, alpha: 1)),Color(#colorLiteral(red: 0.1185745522, green: 0.3756733537, blue: 0.5679591298, alpha: 1)),Color(#colorLiteral(red: 0.1062038764, green: 0.4604464173, blue: 0.6242554784, alpha: 1)),Color(#colorLiteral(red: 0.1607481241, green: 0.5125916004, blue: 0.5261992216, alpha: 1)),Color(#colorLiteral(red: 0.162745297, green: 0.5202785134, blue: 0.5380410552, alpha: 1)),Color(#colorLiteral(red: 0.2764765024, green: 0.6270785928, blue: 0.5273578763, alpha: 1)),Color(#colorLiteral(red: 0.4004970789, green: 0.6831317544, blue: 0.5014337301, alpha: 1)),Color(#colorLiteral(red: 0.5550227761, green: 0.791927278, blue: 0.5073714256, alpha: 1)),Color(#colorLiteral(red: 0.6706730127, green: 0.845440805, blue: 0.5175511241, alpha: 1)),Color(#colorLiteral(red: 0.7970537543, green: 0.8742372394, blue: 0.5379388928, alpha: 1)),]), startPoint: .leading, endPoint: .trailing))
                                             .cornerRadius(25)
                                         }
                                         .frame(width:300, height: 100)
@@ -158,13 +159,18 @@ struct ContentView: View {
                     .background(backgroundView())
                 }
             }
+            GraphedView()
         }.onAppear(perform: {
             if (UserDefaults.standard.testsList.isEmpty) {
                 UserDefaults.standard.testsList = [Test]()
             }
         })
+
+            
+        }
+
     }
-}
+
 
 // helper struct for navigation styling
 struct NavigationBarModifier: ViewModifier {

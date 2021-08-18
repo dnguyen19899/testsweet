@@ -12,6 +12,14 @@ struct TestView: View {
     var title: String
     var description: String
     var expected_result: String
+    //var entriesList : Array<Entry>
+    //var action : Int
+   //var filePath: String
+    
+    func vibrate(){
+        let generator = UIImpactFeedbackGenerator(style: .heavy)
+        generator.impactOccurred()
+    }
     
     var body: some View {
             ZStack() {
@@ -22,6 +30,19 @@ struct TestView: View {
                     Text(title)
                     Text(description)
                     Text(expected_result)
+                    Button(action: {
+                        print("running test")
+                        //Delete First
+                        let NSController = NightscoutController(date: Date())
+                        vibrate()
+                        NSController.deleteEntryRequest()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                            print("Now adding points")
+                            //Adding a Point
+                        }
+                    }, label: {
+                        Text("RUN")
+                    })
                 }
                 
                 .navigationBarTitle(self.title, displayMode: .inline)
@@ -30,8 +51,10 @@ struct TestView: View {
     }
 }
 
+/*
 struct TestView_Previews: PreviewProvider {
     static var previews: some View {
-        TestView(title: "Test Title", description: "description", expected_result: "expected_result")
+        TestView(title: title, description: <#T##String#>, expected_result: <#T##String#>, entriesList: <#T##Array<Entry>#>, action: <#T##Int#>, filePath: <#T##String#>)
     }
 }
+*/
