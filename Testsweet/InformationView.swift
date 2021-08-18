@@ -281,7 +281,7 @@ struct InformationView: View {
                         .frame(height: 45, alignment: .center)
                         .font(Font.system(size: 23, weight: .semibold))
                         .foregroundColor(Color.white)
-                        .background(Color(hex: 0x212529))
+                        .background(Color(hex: 0x1e6091))
                     
                     //                    Rectangle()
                     //                        .fill(Color.white)
@@ -301,7 +301,7 @@ struct InformationView: View {
                             .frame(maxWidth: .infinity)
                             .frame(height: 54, alignment: .center)
                             .foregroundColor(Color.white)
-                            .background(Color(hex: 0x212529))
+                            .background(Color(hex: 0x1e6091))
                             .font(Font.system(size: 23, weight: .semibold))
                         
                     }

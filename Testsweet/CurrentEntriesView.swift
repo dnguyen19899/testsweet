@@ -17,7 +17,7 @@ struct CurrentEntriesView: View {
         _show = show
         self.NewCurrentEntries = currentEntries
     }
-
+    
     var body: some View {
         if show {
             Color.white.opacity(0.3).edgesIgnoringSafeArea(.all)
@@ -29,11 +29,11 @@ struct CurrentEntriesView: View {
                         .bold()
                         .padding()
                         .foregroundColor(Color(hex: 0x184e77))
-                        List {
-                            ForEach(NewCurrentEntries, id: \.self){ entry in
-                                Text(entry.toString())
-                            }
+                    List {
+                        ForEach(NewCurrentEntries, id: \.self){ entry in
+                            Text(entry.toString())
                         }
+                    }
                     Button(action: {
                         show = false
                     }, label: {
@@ -52,7 +52,7 @@ struct CurrentEntriesView: View {
                 }
             }.frame(maxWidth: 400)
             .clipShape(RoundedRectangle(cornerRadius: 25))
-               .overlay(
+            .overlay(
                 RoundedRectangle(cornerRadius: 25).stroke(Color.white, lineWidth: 4))
             //.border(Color.white, width: 2)
             .background(Color(.white))

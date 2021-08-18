@@ -9,12 +9,10 @@ import SwiftUI
 
 struct TestView: View {
     
-    var title: String
-    var description: String
-    var expected_result: String
-    //var entriesList : Array<Entry>
-    //var action : Int
-   //var filePath: String
+    var test: Test
+    @State var CGMPoints: Int64 = 0
+    @State var addScreen: Bool = false
+    @State var deleteScreen: Bool = false
     
     func vibrate(){
         let generator = UIImpactFeedbackGenerator(style: .heavy)
@@ -22,14 +20,25 @@ struct TestView: View {
     }
     
     var body: some View {
-            ZStack() {
+        ZStack(alignment: .top) {
                 //Color(hex:0xcaf0f8).ignoresSafeArea()
                 Color(.white).ignoresSafeArea()
                 
                 VStack {
-                    Text(title)
-                    Text(description)
-                    Text(expected_result)
+                    
+                    HStack {
+                        Text("Description:")
+                        Text(test.description)
+                    }
+                    .padding(.top)
+                    .padding(.bottom, 2)
+                    HStack {
+                        Text("Expected Result:")
+                        Text(test.expected_result)
+                    }
+                    
+                    Spacer()
+                    
                     Button(action: {
                         print("running test")
                         //Delete First
@@ -40,21 +49,38 @@ struct TestView: View {
                             print("Now adding points")
                             //Adding a Point
                         }
+                        
+                        CGMPoints = test.run()
+                        
+                        addScreen = true
+                        let secondsToDelay = (Double(CGMPoints) / 26) + 1
+                        DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
+                            print("The adding is truly done")
+                            addScreen = false
+                        }
                     }, label: {
                         Text("RUN")
+                            .font(.system(size: 20, weight: .bold, design: .default))
+                            .foregroundColor(Color.white)
                     })
+                    .frame(width: 100, height: 50)
+                    .background(Color(hex: 0x52b69a))
+                    .cornerRadius(10)
+                    
+                    Spacer()
                 }
                 
-                .navigationBarTitle(self.title, displayMode: .inline)
+                InformationView(showAdd: $addScreen, showDelete: $deleteScreen, CGMPoints: CGMPoints)
+                
+                .navigationBarTitle(test.title, displayMode: .inline)
                 .navigationBarColor(UIColor(hex: 0x52b69a))
             }
     }
 }
 
-/*
+
 struct TestView_Previews: PreviewProvider {
     static var previews: some View {
-        TestView(title: title, description: <#T##String#>, expected_result: <#T##String#>, entriesList: <#T##Array<Entry>#>, action: <#T##Int#>, filePath: <#T##String#>)
+        TestView(test: Test(title: "test1", description: "description", expected_result: "result", entriesList: [], action: 2))
     }
 }
-*/

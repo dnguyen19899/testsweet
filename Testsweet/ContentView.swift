@@ -13,29 +13,29 @@ import SwiftUI
 
 
 extension View {
-
+    
     func navigationBarColor(_ backgroundColor: UIColor?) -> some View {
         self.modifier(NavigationBarModifier(backgroundColor: backgroundColor))
     }
-
+    
 }
 
 extension UIColor {
-   convenience init(red: Int, green: Int, blue: Int) {
-       assert(red >= 0 && red <= 255, "Invalid red component")
-       assert(green >= 0 && green <= 255, "Invalid green component")
-       assert(blue >= 0 && blue <= 255, "Invalid blue component")
-
-       self.init(red: CGFloat(red) / 255.0, green: CGFloat(green) / 255.0, blue: CGFloat(blue) / 255.0, alpha: 1.0)
-   }
-
-   convenience init(hex: Int) {
-       self.init(
-           red: (hex >> 16) & 0xFF,
-           green: (hex >> 8) & 0xFF,
-           blue: hex & 0xFF
-       )
-   }
+    convenience init(red: Int, green: Int, blue: Int) {
+        assert(red >= 0 && red <= 255, "Invalid red component")
+        assert(green >= 0 && green <= 255, "Invalid green component")
+        assert(blue >= 0 && blue <= 255, "Invalid blue component")
+        
+        self.init(red: CGFloat(red) / 255.0, green: CGFloat(green) / 255.0, blue: CGFloat(blue) / 255.0, alpha: 1.0)
+    }
+    
+    convenience init(hex: Int) {
+        self.init(
+            red: (hex >> 16) & 0xFF,
+            green: (hex >> 8) & 0xFF,
+            blue: hex & 0xFF
+        )
+    }
 }
 
 extension UserDefaults {
@@ -53,23 +53,21 @@ extension UserDefaults {
 struct ContentView: View {
     
     @State private var action: Int? = 0
-    @State private var showAlert: Bool = false
-    @State private var alertLabel: String = ""
     
     let headerHeight = CGFloat(50)
     
     var body: some View {
         
         ZStack(alignment: .topLeading) {
-
+            
             Color(.white).ignoresSafeArea()
-
+            
             VStack{
-
+                
                 HeaderView().zIndex(1)
                     .frame(height: headerHeight)
                     .padding(.bottom, 25)
-
+                
                 NavigationView {
                     
                     ZStack {
@@ -80,11 +78,9 @@ struct ContentView: View {
                                 
                                 Spacer().padding(5)
                                 
-                                //Text("\(testsList.count)")
-                                
                                 ForEach(0..<UserDefaults.standard.testsList.count, id: \.self) { index in
                                     
-                                    NavigationLink(destination: TestView(title: UserDefaults.standard.testsList[index].title, description: UserDefaults.standard.testsList[index].description, expected_result: UserDefaults.standard.testsList[index].expected_result)) {
+                                    NavigationLink(destination: TestView(test: UserDefaults.standard.testsList[index])) {
                                         
                                         GeometryReader {
                                             
@@ -94,7 +90,7 @@ struct ContentView: View {
                                                 Text(UserDefaults.standard.testsList[index].title)
                                                     .font(.system(size: 20, weight: .heavy, design: .default))
                                                     .foregroundColor(Color.white)
-                                                                
+                                                
                                                 
                                             }
                                             .frame(width: 300, height: 75)
@@ -115,7 +111,7 @@ struct ContentView: View {
                         NavigationLink(destination: CSVTestView(), tag: 1, selection: $action)
                         {
                             EmptyView()
-        
+                            
                         }
                         
                         NavigationLink(destination: ManualTestView(), tag: 2, selection: $action)
@@ -125,6 +121,26 @@ struct ContentView: View {
                         }
                         
                         
+//                        VStack {
+//                            Spacer()
+//                            HStack {
+//                                Spacer()
+//                                ExpandableButtonPanel(
+//                                    primaryItem: ExpandableButtonItem(label: "plus"),
+//                                    secondaryItems: [
+//                                        ExpandableButtonItem(label: "pencil") {
+//                                            self.action = 2
+//                                            self.showAlert.toggle()
+//                                        },
+//                                        ExpandableButtonItem(label: "square.and.arrow.up") {
+//                                            self.action = 1
+//                                            self.showAlert.toggle()
+//                                        }
+//                                    ]
+//                                )
+//                                .padding()
+//                            }
+//                        }
                         VStack {
                             Spacer()
                             HStack {
@@ -133,20 +149,13 @@ struct ContentView: View {
                                     primaryItem: ExpandableButtonItem(label: "plus"),
                                     secondaryItems: [
                                         ExpandableButtonItem(label: "pencil") {
-                                            self.alertLabel = "pencil"
-                                            self.showAlert.toggle()
-
+                                            
                                             self.action = 2
-                                            // Open manual entries adding view here
-
+        
                                         },
                                         ExpandableButtonItem(label: "square.and.arrow.up") {
-                                            self.alertLabel = "square.and.arrow.up"
-                                            self.showAlert.toggle()
                                             
-                                            // set tag to open CSV Test view
                                             self.action = 1
-
                                         }
                                     ]
                                 )
@@ -165,18 +174,18 @@ struct ContentView: View {
                 UserDefaults.standard.testsList = [Test]()
             }
         })
-
-            
-        }
-
+        
+        
     }
+    
+}
 
 
 // helper struct for navigation styling
 struct NavigationBarModifier: ViewModifier {
-
+    
     var backgroundColor: UIColor?
-
+    
     init( backgroundColor: UIColor?) {
         self.backgroundColor = backgroundColor
         let coloredAppearance = UINavigationBarAppearance()
@@ -184,14 +193,14 @@ struct NavigationBarModifier: ViewModifier {
         coloredAppearance.backgroundColor = .clear
         coloredAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
         coloredAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
-
+        
         UINavigationBar.appearance().standardAppearance = coloredAppearance
         UINavigationBar.appearance().compactAppearance = coloredAppearance
         UINavigationBar.appearance().scrollEdgeAppearance = coloredAppearance
         UINavigationBar.appearance().tintColor = .white
-
+        
     }
-
+    
     func body(content: Content) -> some View {
         ZStack{
             content
@@ -215,10 +224,10 @@ struct ExpandableButtonItem: Identifiable {
 }
 
 struct ExpandableButtonPanel: View {
-    
+
     let primaryItem: ExpandableButtonItem
     let secondaryItems: [ExpandableButtonItem]
-    
+
     private let noop: () -> Void = {}
     private let size: CGFloat = 70
     private var cornerRadius: CGFloat {
@@ -227,23 +236,23 @@ struct ExpandableButtonPanel: View {
     private let shadowColor = Color.black.opacity(0.4)
     private let shadowPosition: (x: CGFloat, y: CGFloat) = (x: 2, y: 2)
     private let shadowRadius: CGFloat = 3
-    
+
     @State private var isExpanded = false
-    
+
     var body: some View {
         VStack {
             ForEach(secondaryItems) { item in
                 Button(action: item.action ?? self.noop)
                 {
                     Image(systemName: item.label)
-                        .font(.system(size: 30, weight: .bold))
+                        .font(.system(size: 25, weight: .bold))
                         .foregroundColor(Color(hex: 0x212529))
                 }
-                    .frame(
-                        width: self.isExpanded ? self.size : 0,
-                        height: self.isExpanded ? self.size : 0)
+                .frame(
+                    width: self.isExpanded ? self.size : 0,
+                    height: self.isExpanded ? self.size : 0)
             }
-            
+
             Button(action: {
                 withAnimation {
                     self.isExpanded.toggle()
@@ -252,7 +261,7 @@ struct ExpandableButtonPanel: View {
             })
             {
                 Image(systemName: primaryItem.label)
-                    .font(.system(size: 30, weight: .bold))
+                    .font(.system(size: 25, weight: .bold))
                     .foregroundColor(Color(hex: 0x212529))
             }
             .frame(width: size, height: size)
