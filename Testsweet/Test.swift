@@ -41,34 +41,43 @@ class Test {
     
     var filePath: String = ""
     var entriesList: Array<Entry> = []
+    var action: Int // 1 for CSV method, 2 for manual method
     
     
     // init for CSV file method
-    init(title: String, description: String, expected_result: String, filePath: String) {
+    init(title: String, description: String, expected_result: String, filePath: String, action: Int) {
         self.title = title
         self.description = description
         self.expected_result = expected_result
         self.filePath = filePath
+        self.action = action
     }
     
     // init for manual list method
-    init(title: String, description: String, expected_result: String, entriesList: [Entry]) {
+    init(title: String, description: String, expected_result: String, entriesList: [Entry], action: Int) {
         self.title = title
         self.description = description
         self.expected_result = expected_result
         self.entriesList = entriesList
+        self.action = action
     }
 
     // run function for CSV file method
-    func runFromCSV() -> Int64 {
+    func run() -> Int64 {
         let NSController = NightscoutController(date: Date())
-        return NSController.importCSVData(date: NSController.getTimeStamp(), filePath: filePath)
+        
+        // if tag 1, run import via CSV
+        if self.action == 1 {
+            return NSController.importCSVData(date: NSController.getTimeStamp(), filePath: filePath)
+        }
+        
+        // if tag 2, run import via entries list
+        else if self.action == 2 {
+            return Int64(NSController.populateGraphWithEntryList(date: NSController.getTimeStamp(), entries: entriesList))
+        }
+        
+        else {
+            return 0
+        }
     }
-    
-    // run function for entries list method
-    func runFromEntriesList() -> Int {
-        let NSController = NightscoutController(date: Date())
-        return NSController.populateGraphWithEntryList(date: NSController.getTimeStamp(), entries: entriesList)
-    }
-    
 }

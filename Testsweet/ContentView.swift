@@ -41,11 +41,10 @@ struct ContentView: View {
     @State private var alertLabel: String = ""
     
     
-    private var testsList = [
+    var testsList = [
         Test(title: "Test1", description: "description for test1", expected_result: "expected result for test1", entriesList: [Entry(sgv: "120", direction: "FLAT"), Entry(sgv: "120", direction: "FLAT"), Entry(sgv: "120", direction: "FLAT")]),
         Test(title: "Test2", description: "description for test2", expected_result: "expected result for test2", entriesList: [Entry(sgv: "120", direction: "FLAT"), Entry(sgv: "120", direction: "FLAT"), Entry(sgv: "120", direction: "FLAT")]),
-        Test(title: "Test3", description: "decription for test3", expected_result: "expected result for test3", entriesList: [Entry(sgv: "120", direction: "FLAT"), Entry(sgv: "120", direction: "FLAT"), Entry(sgv: "120", direction: "FLAT")])
-    ]
+        Test(title: "Test3", description: "decription for test3", expected_result: "expected result for test3", entriesList: [Entry(sgv: "120", direction: "FLAT"), Entry(sgv: "120", direction: "FLAT"), Entry(sgv: "120", direction: "FLAT")])    ]
     
     let headerHeight = CGFloat(50)
     
@@ -144,6 +143,7 @@ struct ContentView: View {
                     }
                     .navigationBarTitle("HOME", displayMode: .inline)
                     .navigationBarColor(UIColor(hex: 0x52b69a))
+                    //.background(backgroundView())
                 }
             }
         }
