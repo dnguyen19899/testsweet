@@ -20,7 +20,7 @@ struct ManualTestView: View {
     @State private var showAlert = false
     @State private var CGMPoints: Int64 = 0
     @State private var addScreen = false
-    
+    @State private var entriesShow: Bool = false
     @State private var title = ""
     @State private var expectedResult = ""
     @State private var notes = ""
@@ -43,8 +43,7 @@ struct ManualTestView: View {
         ZStack() {
             //Color(hex:0xcaf0f8).ignoresSafeArea()
             Color(.white).ignoresSafeArea()
-            
-            VStack {
+
                 ScrollView{
                     ZStack{
                         VStack{
@@ -154,20 +153,24 @@ struct ManualTestView: View {
                                                     .cornerRadius(12)
                                             }
                                         }
-                                        HStack{
-                                            NavigationView {
-                                                List {
-                                                    //ForEach(currentEntries, id: \.self){ entry in
-                                                    //    Text(entry.toString())
-                                                    //}
-                                                    //.onDelete(perform: delete)
-                                                    Text("empty")
-                                                    Text("why isn't this working")
-                                                        //.navigationBarTitle("Current Entries")
-                                                }
-                                                
-                                            }
-                                        }
+                                        
+                                        Button(action: {
+                                            vibrate()
+                                            entriesShow = true
+                                            
+                                        }, label: {
+                                            Text("Check Entires")
+                                                .bold()
+                                                .font(Font.custom("Helvetica Neue", size: 20.0))
+                                                .padding(.top, 15)
+                                                .padding(.bottom, 15)
+                                                .padding(.leading, 30)
+                                                .padding(.trailing, 30)
+                                                .foregroundColor(Color.white)
+                                                .background(Color(hex: 0x168aad))
+                                                .cornerRadius(12)
+                                        })
+                                        
                                         HStack{
                                             Text("Expected Result:")
                                             TextField("expected result", text: $expectedResult)
@@ -179,7 +182,7 @@ struct ManualTestView: View {
                                             TextField("notes", text: $notes)
                                         }.padding()
                                         .textFieldStyle(RoundedBorderTextFieldStyle())
-                                        
+                                    
                                        
                                         
                                         HStack{
@@ -234,20 +237,21 @@ struct ManualTestView: View {
                                         }
                                         Spacer()
                                     }
-                                    
+                                        CurrentEntriesView(show: $entriesShow, currentEntries: currentEntries)
                                     //InformationView(show: $showPopUp, showAdd: $addScreen, showDelete: $deleteScreen, CGMPoints: CGMPoints)
                                 }
                             }
                         }
                     }.padding([.leading, .trailing])
+                  
                 }
+
             }
-        }
-        
-        
         
         .navigationBarTitle("Create a Test Manually", displayMode: .inline)
         .navigationBarColor(UIColor(hex: 0x52b69a))
+
+       
     }
 }
 

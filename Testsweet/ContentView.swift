@@ -103,11 +103,13 @@ struct ContentView: View {
                         NavigationLink(destination: CSVTestView(), tag: 1, selection: $action)
                         {
                             EmptyView()
+        
                         }
                         
                         NavigationLink(destination: ManualTestView(), tag: 2, selection: $action)
                         {
                             EmptyView()
+                            
                         }
                         
                         
@@ -136,7 +138,7 @@ struct ContentView: View {
                                         }
                                     ]
                                 )
-                                .padding([.top, .leading, .trailing])
+                                .padding()
                             }
                         }
                     }
