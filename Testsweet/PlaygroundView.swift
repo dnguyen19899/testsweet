@@ -314,7 +314,6 @@ struct PlaygroundView: View {
                         }
                         //---------Create Your Own Test------------//
                         Section {
-                            
                             RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
                                 .fill(Color(hex: 0x168aad))
                                 .frame(height: 150)

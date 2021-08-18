@@ -137,11 +137,11 @@
 				AE79BC2626B9E287002D5DBE /* input.csv */,
 				AE3FE96026AF782B00DC980E /* Assets.xcassets */,
 				AE3FE96526AF782B00DC980E /* Info.plist */,
-				AE3FE96226AF782B00DC980E /* Preview Content */,
 				AE4B437026CB12E8005BD56C /* Test.swift */,
 				AE38D6C026CC4F3E001B25DE /* TestView.swift */,
 				AE38D6C226CC7E2D001B25DE /* CSVTestView.swift */,
 				AE38D6C426CC7EFB001B25DE /* ManualTestView.swift */,
+				AE3FE96226AF782B00DC980E /* Preview Content */,
 			);
 			path = Testsweet;
 			sourceTree = "<group>";

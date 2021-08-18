@@ -14,20 +14,19 @@ struct TestView: View {
     var expected_result: String
     
     var body: some View {
-        
-        ZStack() {
-            //Color(hex:0xcaf0f8).ignoresSafeArea()
-            Color(.white).ignoresSafeArea()
-            
-            VStack {
-                Text(title)
-                Text(description)
-                Text(expected_result)
+            ZStack() {
+                //Color(hex:0xcaf0f8).ignoresSafeArea()
+                Color(.white).ignoresSafeArea()
+                
+                VStack {
+                    Text(title)
+                    Text(description)
+                    Text(expected_result)
+                }
+                
+                .navigationBarTitle(self.title, displayMode: .inline)
+                .navigationBarColor(UIColor(hex: 0x52b69a))
             }
-            
-            .navigationBarTitle(self.title, displayMode: .inline)
-            .navigationBarColor(UIColor(hex: 0x52b69a))
-        }
     }
 }
 
