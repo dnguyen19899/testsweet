@@ -40,12 +40,12 @@ struct backgroundView: View {
                                 .foregroundColor(Color(getColor()))
                                 .frame(width: UIScreen.main.bounds.width/CGFloat(self.itemsPerRow), height: UIScreen.main.bounds.width/CGFloat(self.itemsPerRow))
                                 .opacity(self.isAnimating ? 1 : 0)
-                                .animation(
-                                    Animation
-                                        .linear(duration:Double.random(in:1.0...2.0))
-                                        .repeatForever(autoreverses: true)
-                                        .delay(Double.random(in: 0...1.5))
-                                )
+                                //.animation(
+                                   // Animation
+                                    //    .linear(duration:Double.random(in:1.0...2.0))
+                                    //    .repeatForever(autoreverses: true)
+                                    //    .delay(Double.random(in: 0...1.5))
+                                //)
                         }
                     }
                 }

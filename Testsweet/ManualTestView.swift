@@ -188,22 +188,11 @@ struct ManualTestView: View {
                                         HStack{
                                             Button(action: {
                                                 vibrate()
-                                                //pass in date3 for time
-                                                date3 = getDate()
-                                                let NSController = NightscoutController(date: date3)
-                                                CGMPoints = Int64(NSController.populateGraphWithEntryList(date: NSController.getTimeStamp(), entries: currentEntries))
-                                                if CGMPoints == 0 {
-                                                    self.showAlert = true
-                                                } else {
-                                                    addScreen = true
-                                                    createScreen = false
-                                                    currentEntries = []
-                                                    let secondsToDelay = (Double(CGMPoints) / 26) + 1
-                                                    DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
-                                                        print("The adding is truly done")
-                                                        addScreen = false
-                                                    }
-                                                }
+                                                testsList.append(Test(title: title, description: notes, expected_result: expectedResult, entriesList: currentEntries, action: 2))
+                                                // GO home
+                                                title = ""
+                                                expectedResult = ""
+                                                notes = ""
                                                 
                                             }){
                                                 Text("Done")

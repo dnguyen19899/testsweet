@@ -43,10 +43,6 @@ struct CSVTestView: View {
         let generator = UIImpactFeedbackGenerator(style: .heavy)
         generator.impactOccurred()
     }
-    func getDate() -> Date {
-        date = Date()
-        return date
-    }
     
     var body: some View {
         
@@ -157,29 +153,11 @@ struct CSVTestView: View {
                                         Spacer()
                                         Button(action: {
                                             vibrate()
-                                            print("CSV entires pressed")
-                                            // Initializer for backend
-                                            date = getDate()
-                                            let NSController = NightscoutController(date: date)
-                                            
-                                            CGMPoints = Int64(NSController.importCSVData(date: NSController.getTimeStamp(), filePath: filePath))
-                                            if CGMPoints == 0 {
-                                                self.showAlert = true
-                                            } else {
-                                                if isAccessing {
-                                                    fileURL.stopAccessingSecurityScopedResource()
-                                                }
-                                                addScreen = true
-                                                self.showCSVEntry = false
-                                                let secondsToDelay = (Double(CGMPoints) / 26) + 1
-                                                DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
-                                                    print("The adding is truly done")
-                                                    addScreen = false
-                                                }
-                                                fileName = "Add File"
-                                                filePath = ""
-                                                showTrash()
-                                            }
+                                            testsList.append(Test(title: title, description: notes, expected_result: expectedResult, filePath: filePath, action: 1))
+                                            // go back home
+                                            title = ""
+                                            expectedResult = ""
+                                            notes = ""
                                             
                                         }){
                                             Text("CREATE")
@@ -205,13 +183,6 @@ struct CSVTestView: View {
                         }
                         
                     }
-                    
-                    
-                    
-                    
-                    
-                    
-                    
                 }
                 
                 

@@ -7,6 +7,13 @@
 
 import SwiftUI
 
+//Global Variables
+var testsList = [
+    Test(title: "Test1", description: "description for test1", expected_result: "expected result for test1", entriesList: [Entry(sgv: "120", direction: "FLAT"), Entry(sgv: "120", direction: "FLAT"), Entry(sgv: "120", direction: "FLAT")], action: 2)
+    ]
+
+
+
 extension View {
 
     func navigationBarColor(_ backgroundColor: UIColor?) -> some View {
@@ -41,10 +48,6 @@ struct ContentView: View {
     @State private var alertLabel: String = ""
     
     
-    var testsList = [
-        Test(title: "Test1", description: "description for test1", expected_result: "expected result for test1", entriesList: [Entry(sgv: "120", direction: "FLAT"), Entry(sgv: "120", direction: "FLAT"), Entry(sgv: "120", direction: "FLAT")]),
-        Test(title: "Test2", description: "description for test2", expected_result: "expected result for test2", entriesList: [Entry(sgv: "120", direction: "FLAT"), Entry(sgv: "120", direction: "FLAT"), Entry(sgv: "120", direction: "FLAT")]),
-        Test(title: "Test3", description: "decription for test3", expected_result: "expected result for test3", entriesList: [Entry(sgv: "120", direction: "FLAT"), Entry(sgv: "120", direction: "FLAT"), Entry(sgv: "120", direction: "FLAT")])    ]
     
     let headerHeight = CGFloat(50)
     
@@ -70,7 +73,7 @@ struct ContentView: View {
                                 
                                 Spacer().padding(5)
                                 
-                                ForEach(0..<testsList.count) { index in
+                                ForEach(0..<testsList.count, id: \.self) { index in
                                     
                                     NavigationLink(destination: TestView(title: testsList[index].title, description: testsList[index].description, expected_result: testsList[index].expected_result)) {
                                         
@@ -143,7 +146,7 @@ struct ContentView: View {
                     }
                     .navigationBarTitle("HOME", displayMode: .inline)
                     .navigationBarColor(UIColor(hex: 0x52b69a))
-                    //.background(backgroundView())
+                    .background(backgroundView())
                 }
             }
         }
