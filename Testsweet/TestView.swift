@@ -14,7 +14,7 @@ struct TestView: View {
     @State var addScreen: Bool = false
     @State var deleteScreen: Bool = false
     @State var showSugarView: Bool = false
-    
+    @State var expectedResult = ""
     
     func vibrate(){
         let generator = UIImpactFeedbackGenerator(style: .heavy)
@@ -28,57 +28,72 @@ struct TestView: View {
                 
                 VStack {
                     
-                    HStack {
+                    VStack {
                         Text("Description:")
                         Text(test.description)
                     }
                     .padding(.top)
                     .padding(.bottom, 2)
-                    HStack {
+                    VStack {
                         Text("Expected Result:")
                         Text(test.expected_result)
                     }
                     
                     Spacer()
-                    
-                    Button(action: {
-                        print("running test")
-                        //Delete First
-                        let NSController = NightscoutController(date: Date())
-                        vibrate()
-                        deleteScreen = true
-                        NSController.deleteEntryRequest()
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-                            print("Now adding points")
-                            deleteScreen = false
-                            CGMPoints = test.run()
-                            
-                            addScreen = true
-                            let secondsToDelay = (Double(CGMPoints) / 26) + 1
-                            DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
-                                print("The adding is truly done")
-                                addScreen = false
-                                showSugarView = true
+                    HStack{
+                        Button(action: {
+                            print("running test")
+                            //Delete First
+                            let NSController = NightscoutController(date: Date())
+                            vibrate()
+                            deleteScreen = true
+                            NSController.deleteEntryRequest()
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                                print("Now adding points")
+                                deleteScreen = false
+                                let result = test.run()
+                                CGMPoints = result.0
+                                expectedResult = result.1
+                                addScreen = true
+                                let secondsToDelay = (Double(CGMPoints) / 26) + 1
+                                DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
+                                    print("The adding is truly done")
+                                    addScreen = false
+                                    showSugarView = true
+                                }
                             }
-                        }
+                            
+                            
+                            
+                        }, label: {
+                            Text("RUN")
+                                .font(.system(size: 20, weight: .bold, design: .default))
+                                .foregroundColor(Color.white)
+                                .frame(width: 100, height: 50)
+                                .background(Color(hex: 0x52b69a))
+                                .cornerRadius(10)
+                        })
                         
-                        
-                        
-                    }, label: {
-                        Text("RUN")
-                            .font(.system(size: 20, weight: .bold, design: .default))
-                            .foregroundColor(Color.white)
-                            .frame(width: 100, height: 50)
-                            .background(Color(hex: 0x52b69a))
-                            .cornerRadius(10)
-                    })
-                    
-                        
-                    
+                        //Button(action: {
+                        //    print("deleting test")
+                        //    let domain = Bundle.main.bundleIdentifier!
+                        //    UserDefaults.standard.removePersistentDomain(forName: domain)
+                        //    UserDefaults.standard.synchronize()
+                       //     print(Array(UserDefaults.standard.dictionaryRepresentation().keys).count)
+                       //}, label: {
+                       //     Image(systemName: "trash.fill")
+                       //        .foregroundColor(.red)
+                       //         .font(.system(size: 20, weight: .bold, design: .default))
+                       //         .frame(width: 100, height: 50)
+                       //         .background(Color(hex: 0x52b69a))
+                       //         .cornerRadius(10)
+                       // }).padding(.leading, 60)
+                            
+                    }
                     Spacer()
                 }
                 if showSugarView{
-                    checkSugarmateView(expectedResult: "this is the expected result", show: $showSugarView)
+                    checkSugarmateView(expectedResult: expectedResult , show: $showSugarView)
                 }
                 InformationView(showAdd: $addScreen, showDelete: $deleteScreen, CGMPoints: CGMPoints)
             

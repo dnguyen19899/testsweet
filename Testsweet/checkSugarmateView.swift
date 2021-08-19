@@ -48,6 +48,7 @@ struct checkSugarmateView: View {
                     ForEach(0..<self.items){_ in
                         Circle()
                             .fill(getColor())
+                            .opacity(0.4)
                             .frame(width: CGFloat(getsize()))
                             .offset(x: drawBubbles ? CGFloat(movex()): CGFloat(movex()), y: drawBubbles ? CGFloat(movey()) : CGFloat(movey()))
                             .animation(
@@ -72,6 +73,8 @@ struct checkSugarmateView: View {
                 Text(expectedResult)
                     .font(.system(size: 20))
                     .padding(.top , -200)
+                    .padding()
+                
                 Button(action: {
                     show = false
                     print("Done")

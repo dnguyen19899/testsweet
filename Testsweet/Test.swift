@@ -63,21 +63,21 @@ class Test: Codable {
     }
 
     // run function for CSV file method
-    func run() -> Int64 {
+    func run() -> (Int64, String) {
         let NSController = NightscoutController(date: Date())
 
         // if tag 1, run import via CSV
         if self.action == 1 {
-            return NSController.importCSVData(date: NSController.getTimeStamp(), filePath: filePath)
+            return (NSController.importCSVData(date: NSController.getTimeStamp(), filePath: filePath), expected_result)
         }
 
         // if tag 2, run import via entries list
         else if self.action == 2 {
-            return Int64(NSController.populateGraphWithEntryList(date: NSController.getTimeStamp(), entries: entriesList))
+            return (Int64(NSController.populateGraphWithEntryList(date: NSController.getTimeStamp(), entries: entriesList)), expected_result)
         }
 
         else {
-            return 0
+            return (0, "nothing")
         }
     }
 }

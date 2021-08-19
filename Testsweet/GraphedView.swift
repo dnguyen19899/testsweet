@@ -72,7 +72,7 @@ struct GraphedView: View {
                     Button(action: {
                         showGraphed.toggle()
                     }, label: {
-                        Image(systemName: "star.fill")
+                        Image(systemName: "info.circle")
                             .foregroundColor(.black)
                             .font(.title)
                     }).padding()

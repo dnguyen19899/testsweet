@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		1B3B7C8426BC20EB00DF75A3 /* MenuBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3B7C8326BC20EB00DF75A3 /* MenuBar.swift */; };
-		1B42C01E26C321EB009C97BE /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B42C01D26C321EB009C97BE /* NotificationView.swift */; };
 		1B8AE10626CA99AD004B5F0A /* backgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8AE10526CA99AD004B5F0A /* backgroundView.swift */; };
 		1B8AE10A26CAB94B004B5F0A /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1B8AE10926CAB94B004B5F0A /* Launch Screen.storyboard */; };
 		1B8AE10C26CD6013004B5F0A /* CurrentEntriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8AE10B26CD6013004B5F0A /* CurrentEntriesView.swift */; };
@@ -51,7 +50,6 @@
 
 /* Begin PBXFileReference section */
 		1B3B7C8326BC20EB00DF75A3 /* MenuBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBar.swift; sourceTree = "<group>"; };
-		1B42C01D26C321EB009C97BE /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		1B8AE10526CA99AD004B5F0A /* backgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = backgroundView.swift; sourceTree = "<group>"; };
 		1B8AE10926CAB94B004B5F0A /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		1B8AE10B26CD6013004B5F0A /* CurrentEntriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentEntriesView.swift; sourceTree = "<group>"; };
@@ -131,7 +129,6 @@
 			children = (
 				AE3FE95C26AF782800DC980E /* TestsweetApp.swift */,
 				AE1B262C26B49C3E007F1794 /* HeaderView.swift */,
-				1B42C01D26C321EB009C97BE /* NotificationView.swift */,
 				1B8AE10526CA99AD004B5F0A /* backgroundView.swift */,
 				1B8AE10B26CD6013004B5F0A /* CurrentEntriesView.swift */,
 				AE0AB5D826C4967800ACCA41 /* InformationView.swift */,
@@ -323,7 +320,6 @@
 				AE38D6C326CC7E2D001B25DE /* CSVTestView.swift in Sources */,
 				AE3FE95D26AF782800DC980E /* TestsweetApp.swift in Sources */,
 				AE4B437126CB12E8005BD56C /* Test.swift in Sources */,
-				1B42C01E26C321EB009C97BE /* NotificationView.swift in Sources */,
 				1B8AE10C26CD6013004B5F0A /* CurrentEntriesView.swift in Sources */,
 				1B3B7C8426BC20EB00DF75A3 /* MenuBar.swift in Sources */,
 				AE93232C26B0BE98006DD1FA /* NightscoutController.swift in Sources */,
