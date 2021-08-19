@@ -25,18 +25,25 @@ import SwiftUI
 //}
 
 struct HeaderView: View {
+    
+    @Binding var playgroundMode: Bool
+    
     var body: some View {
         ZStack {
             Color(hex:0x212529).ignoresSafeArea()
                 
             HStack {
-                Image(systemName: "circle.fill")
-                    .font(.system(size: 45, weight: .regular))
-                    .foregroundColor(Color(hex: 0x168aad))
-                    .overlay(
-                           RoundedRectangle(cornerRadius: 40)
-                            .strokeBorder(Color(hex: 0x797171), lineWidth: 6)
-                       )
+                    Button(action:{
+                        playgroundMode.toggle()
+                    }, label:{
+                        Image(systemName: "circle.fill")
+                            .font(.system(size: 45, weight: .regular))
+                            .foregroundColor(Color(hex: 0x168aad))
+                            .overlay(
+                                   RoundedRectangle(cornerRadius: 40)
+                                    .strokeBorder(Color(hex: 0x797171), lineWidth: 6)
+                               )
+                    })
                 Text("TESTSWEET")
                     .font(.system(size: 34, weight: .heavy))
                     .foregroundColor(.white)

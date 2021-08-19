@@ -73,7 +73,7 @@ struct GraphedView: View {
                         showGraphed.toggle()
                     }, label: {
                         Image(systemName: "info.circle")
-                            .foregroundColor(.black)
+                            .foregroundColor(Color(#colorLiteral(red: 0.1185745522, green: 0.3756733537, blue: 0.5679591298, alpha: 1)))
                             .font(.title)
                     }).padding()
                     Spacer()

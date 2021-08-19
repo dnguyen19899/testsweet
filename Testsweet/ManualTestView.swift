@@ -182,7 +182,7 @@ struct ManualTestView: View {
                                                 .bold()
                                                 .padding()
                                                 .foregroundColor(Color(hex: 0x184e77))
-                                            Text("\(currentEntries.count)")
+                                            Text("Number of Entries\(currentEntries.count)")
                                             List {
                                                 ForEach(currentEntries, id: \.self){ entry in
                                                     Text(entry.toString())

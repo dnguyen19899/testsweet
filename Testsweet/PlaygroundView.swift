@@ -94,6 +94,8 @@ struct PlaygroundView: View {
     @State private var fileURL: URL = URL(fileURLWithPath: "")
     @State private var isAccessing: Bool = false
     
+    @Binding var playgroundMode: Bool
+    
     var foreverAnimation: Animation {
         Animation.linear(duration: 2.0)
             .repeatForever(autoreverses: false)
@@ -131,7 +133,7 @@ struct PlaygroundView: View {
             Color(.white).ignoresSafeArea()
             backgroundView()
             
-            HeaderView().zIndex(1)
+            HeaderView(playgroundMode: $playgroundMode).zIndex(1)
                 .frame(height: headerHeight)
             
             ScrollView {
@@ -1414,8 +1416,3 @@ struct MyDatePicker: UIViewRepresentable {
 }
 
 
-struct PlaygroundView_Previews: PreviewProvider {
-    static var previews: some View {
-        PlaygroundView()
-    }
-}

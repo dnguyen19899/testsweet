@@ -54,6 +54,7 @@ extension UserDefaults {
 struct ContentView: View {
     
     @State private var action: Int? = 0
+    @State private var playgroundMode = false
     
     let headerHeight = CGFloat(50)
     
@@ -67,9 +68,10 @@ struct ContentView: View {
             
             VStack{
                 
-                HeaderView().zIndex(1)
+                HeaderView(playgroundMode: $playgroundMode).zIndex(1)
                     .frame(height: headerHeight)
                     .padding(.bottom, 25)
+                
                 
                 NavigationView {
                     
@@ -186,7 +188,11 @@ struct ContentView: View {
                     .background(backgroundView())
                 }
             }
+            
             GraphedView()
+            if playgroundMode {
+                PlaygroundView(playgroundMode: $playgroundMode)
+            }
         }.onAppear(perform: {
             if (UserDefaults.standard.testsList.isEmpty) {
                 UserDefaults.standard.testsList = [Test]()
