@@ -56,6 +56,8 @@ struct ContentView: View {
     
     let headerHeight = CGFloat(50)
     
+    
+    
     var body: some View {
         
         ZStack(alignment: .topLeading) {
@@ -86,10 +88,20 @@ struct ContentView: View {
                                             
                                             geometry in
                                             VStack {
-                                                
-                                                Text(UserDefaults.standard.testsList[index].title)
-                                                    .font(.system(size: 20, weight: .heavy, design: .default))
-                                                    .foregroundColor(Color.white)
+                                                HStack{
+                                                    Text(UserDefaults.standard.testsList[index].title)
+                                                        .font(.system(size: 20, weight: .heavy, design: .default))
+                                                        .foregroundColor(Color.white)
+                                                        .padding(.trailing)
+                                                    Button(action: {
+                                                        print("deleting test")
+                                                        UserDefaults.standard.reset()
+                                                    }, label: {
+                                                        Image(systemName: "trash.fill")
+                                                            .foregroundColor(.red)
+                                                    }).padding(.leading, 60)
+                                                    
+                                                }
                                                 
                                                 
                                             }
@@ -278,6 +290,22 @@ struct ExpandableButtonPanel: View {
     }
 }
 
+
+extension UserDefaults {
+
+    enum Keys: String, CaseIterable {
+
+        case unitsNotation
+        case temperatureNotation
+        case allowDownloadsOverCellular
+
+    }
+
+    func reset() {
+        Keys.allCases.forEach { removeObject(forKey: $0.rawValue) }
+    }
+
+}
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {

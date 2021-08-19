@@ -12,6 +12,7 @@
 		1B8AE10626CA99AD004B5F0A /* backgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8AE10526CA99AD004B5F0A /* backgroundView.swift */; };
 		1B8AE10A26CAB94B004B5F0A /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1B8AE10926CAB94B004B5F0A /* Launch Screen.storyboard */; };
 		1B8AE10C26CD6013004B5F0A /* CurrentEntriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8AE10B26CD6013004B5F0A /* CurrentEntriesView.swift */; };
+		1B9E432526CE959100737A76 /* checkSugarmateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9E432426CE959100737A76 /* checkSugarmateView.swift */; };
 		1BD044BE26CD9C1E006FE92E /* GraphedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD044BD26CD9C1E006FE92E /* GraphedView.swift */; };
 		AE0AB5D926C4967800ACCA41 /* InformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0AB5D826C4967800ACCA41 /* InformationView.swift */; };
 		AE1B262D26B49C3E007F1794 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE1B262C26B49C3E007F1794 /* HeaderView.swift */; };
@@ -54,6 +55,7 @@
 		1B8AE10526CA99AD004B5F0A /* backgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = backgroundView.swift; sourceTree = "<group>"; };
 		1B8AE10926CAB94B004B5F0A /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		1B8AE10B26CD6013004B5F0A /* CurrentEntriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentEntriesView.swift; sourceTree = "<group>"; };
+		1B9E432426CE959100737A76 /* checkSugarmateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = checkSugarmateView.swift; sourceTree = "<group>"; };
 		1BD044BD26CD9C1E006FE92E /* GraphedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphedView.swift; sourceTree = "<group>"; };
 		AE0AB5D826C4967800ACCA41 /* InformationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InformationView.swift; sourceTree = "<group>"; };
 		AE1B262C26B49C3E007F1794 /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
@@ -138,6 +140,7 @@
 				AE93232B26B0BE98006DD1FA /* NightscoutController.swift */,
 				AE1B262E26B4A853007F1794 /* NumbersOnly.swift */,
 				1BD044BD26CD9C1E006FE92E /* GraphedView.swift */,
+				1B9E432426CE959100737A76 /* checkSugarmateView.swift */,
 				1B3B7C8326BC20EB00DF75A3 /* MenuBar.swift */,
 				1B8AE10926CAB94B004B5F0A /* Launch Screen.storyboard */,
 				AE79BC2626B9E287002D5DBE /* input.csv */,
@@ -309,6 +312,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B9E432526CE959100737A76 /* checkSugarmateView.swift in Sources */,
 				AE38D6C526CC7EFB001B25DE /* ManualTestView.swift in Sources */,
 				AE38D6C126CC4F3E001B25DE /* TestView.swift in Sources */,
 				1BD044BE26CD9C1E006FE92E /* GraphedView.swift in Sources */,
@@ -483,7 +487,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Testsweet/Preview Content\"";
-				DEVELOPMENT_TEAM = GRZSRH5723;
+				DEVELOPMENT_TEAM = 2W25U2U8T6;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Testsweet/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -491,7 +495,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = .Testsweet;
+				PRODUCT_BUNDLE_IDENTIFIER = "Duy-Nguyen.Testsweet";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -505,7 +509,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Testsweet/Preview Content\"";
-				DEVELOPMENT_TEAM = GRZSRH5723;
+				DEVELOPMENT_TEAM = 2W25U2U8T6;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Testsweet/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -513,7 +517,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = .Testsweet;
+				PRODUCT_BUNDLE_IDENTIFIER = "Duy-Nguyen.Testsweet";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

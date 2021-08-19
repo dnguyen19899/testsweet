@@ -13,6 +13,8 @@ struct TestView: View {
     @State var CGMPoints: Int64 = 0
     @State var addScreen: Bool = false
     @State var deleteScreen: Bool = false
+    @State var showSugarView: Bool = false
+    
     
     func vibrate(){
         let generator = UIImpactFeedbackGenerator(style: .heavy)
@@ -44,34 +46,42 @@ struct TestView: View {
                         //Delete First
                         let NSController = NightscoutController(date: Date())
                         vibrate()
+                        deleteScreen = true
                         NSController.deleteEntryRequest()
                         DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
                             print("Now adding points")
-                            //Adding a Point
+                            deleteScreen = false
+                            CGMPoints = test.run()
+                            
+                            addScreen = true
+                            let secondsToDelay = (Double(CGMPoints) / 26) + 1
+                            DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
+                                print("The adding is truly done")
+                                addScreen = false
+                                showSugarView = true
+                            }
                         }
                         
-                        CGMPoints = test.run()
                         
-                        addScreen = true
-                        let secondsToDelay = (Double(CGMPoints) / 26) + 1
-                        DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
-                            print("The adding is truly done")
-                            addScreen = false
-                        }
+                        
                     }, label: {
                         Text("RUN")
                             .font(.system(size: 20, weight: .bold, design: .default))
                             .foregroundColor(Color.white)
+                            .frame(width: 100, height: 50)
+                            .background(Color(hex: 0x52b69a))
+                            .cornerRadius(10)
                     })
-                    .frame(width: 100, height: 50)
-                    .background(Color(hex: 0x52b69a))
-                    .cornerRadius(10)
+                    
+                        
                     
                     Spacer()
                 }
-                
+                if showSugarView{
+                    checkSugarmateView(expectedResult: "this is the expected result", show: $showSugarView)
+                }
                 InformationView(showAdd: $addScreen, showDelete: $deleteScreen, CGMPoints: CGMPoints)
-                
+            
                 .navigationBarTitle(test.title, displayMode: .inline)
                 .navigationBarColor(UIColor(hex: 0x52b69a))
             }
