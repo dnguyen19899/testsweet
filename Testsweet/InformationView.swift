@@ -18,6 +18,9 @@ struct InformationView: View {
     @State private var isAnimating = false
     @State private var showProgress = false
     @State private var showGetScreen = false
+    @State private var showProgress2 = false
+    @State private var isAnimating2 = false
+    
     
     var foreverAnimation: Animation {
         Animation.linear(duration: 2.0)
@@ -293,11 +296,11 @@ struct InformationView: View {
                             .padding(EdgeInsets(top: 20, leading: 25, bottom: 20, trailing: 25))
                             .foregroundColor(Color.black)
                         Image(systemName: "arrow.2.circlepath")
-                            .rotationEffect(Angle(degrees: self.isAnimating ? 360 : 0.0))
-                            .animation(self.isAnimating ? foreverAnimation : .default)
-                            .onAppear { self.isAnimating = true }
-                            .onDisappear { self.isAnimating = false }
-                            .onAppear { self.showProgress = true }
+                            .rotationEffect(Angle(degrees: self.isAnimating2 ? 360 : 0.0))
+                            .animation(self.isAnimating2 ? foreverAnimation : .default)
+                            .onAppear { self.isAnimating2 = true }
+                            .onDisappear { self.isAnimating2 = false }
+                            .onAppear { self.showProgress2 = true }
                             .frame(maxWidth: .infinity)
                             .frame(height: 54, alignment: .center)
                             .foregroundColor(Color.white)

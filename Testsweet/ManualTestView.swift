@@ -25,9 +25,7 @@ struct ManualTestView: View {
     @State private var expectedResult = ""
     @State private var notes = ""
     
-    func delete(at offsets: IndexSet){
-        currentEntries.remove(atOffsets: offsets)
-    }
+
     func vibrate(){
         let generator = UIImpactFeedbackGenerator(style: .heavy)
         generator.impactOccurred()
@@ -98,7 +96,7 @@ struct ManualTestView: View {
                                         }
                                         
                                         VStack{
-                                            DropdownPicker(title: "Directions", selection: $currentSelection, options: ["FLAT","NONE DOUBLE_UP", "SINGLE_UP", "FORTY_FIVE_UP", "FLAT FORTY_FIVE_DOWN", "SINGLE_DOWN", "DOUBLE_DOWN", "NOT_COMPUTABLE", "OUT_OF_RANGE", "None"])
+                                            DropdownPicker(title: "Directions", selection: $currentSelection, options: ["FLAT","DOUBLE_UP", "SINGLE_UP", "FORTY_FIVE_UP", "FORTY_FIVE_DOWN", "SINGLE_DOWN", "DOUBLE_DOWN", "NOT_COMPUTABLE", "OUT_OF_RANGE", "None"])
                                         }
                                     }
                                     HStack{
@@ -106,10 +104,10 @@ struct ManualTestView: View {
                                             vibrate()
                                             var newCurrentSelection = ""
                                             if currentSelection == 0{newCurrentSelection = "FLAT"}
-                                            else if currentSelection == 1 {newCurrentSelection = "NONE DOUBLE_UP"}
+                                            else if currentSelection == 1 {newCurrentSelection = "DOUBLE_UP"}
                                             else if currentSelection == 2 {newCurrentSelection = "SINGLE_UP"}
                                             else if currentSelection == 3 {newCurrentSelection = "FORTY_FIVE_UP"}
-                                            else if currentSelection == 4 {newCurrentSelection = "FLAT FORTY_FIVE_DOWN"}
+                                            else if currentSelection == 4 {newCurrentSelection = "FORTY_FIVE_DOWN"}
                                             else if currentSelection == 5 {newCurrentSelection = "SINGLE_DOWN"}
                                             else if currentSelection == 6 {newCurrentSelection = "DOUBLE_DOWN"}
                                             else if currentSelection == 7 {newCurrentSelection = "NOT_COMPUTABLE"}
@@ -127,6 +125,7 @@ struct ManualTestView: View {
                                             else{
                                                 sgvError = true
                                             }
+                            
                                             
                                         }){
                                             Text("Add")

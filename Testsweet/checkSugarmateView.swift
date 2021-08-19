@@ -10,8 +10,8 @@ import SwiftUI
 struct checkSugarmateView: View {
     
     @State var expectedResult: String
-    @State private var drawBubbles = true
-    @State private var items = 5
+    @State private var drawBubbles = false
+    @State private var items = 10
     
     @Binding var show: Bool
     
@@ -42,8 +42,7 @@ struct checkSugarmateView: View {
             RoundedRectangle(cornerRadius: 25.0)
                 .frame(width: UIScreen.main.bounds.width/1.2, height: UIScreen.main.bounds.height/1.3)
                 .foregroundColor(Color(#colorLiteral(red: 0.5550227761, green: 0.791927278, blue: 0.5073714256, alpha: 1)))
-            
-            if drawBubbles{
+
                 ZStack{
                     ForEach(0..<self.items){_ in
                         Circle()
@@ -59,7 +58,7 @@ struct checkSugarmateView: View {
                             )
                             
                         
-                    }
+                    
                 }.frame(width: UIScreen.main.bounds.width/1.2, height: UIScreen.main.bounds.height/1.3)
             }
             
@@ -67,13 +66,13 @@ struct checkSugarmateView: View {
                 Text("Success! Go Check Sugarmate for:")
                     .fontWeight(.bold)
                     .font(.title)
-                    .frame(width: UIScreen.main.bounds.width/1.3, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                    .frame(width: UIScreen.main.bounds.width/1.3, alignment: .center)
                     .padding(.bottom, 300)
                 
                 Text(expectedResult)
                     .font(.system(size: 20))
                     .padding(.top , -200)
-                    .padding()
+                    .padding(50)
                 
                 Button(action: {
                     show = false
@@ -86,6 +85,8 @@ struct checkSugarmateView: View {
                         .background(Color(hex: 0x52b69a))
                         .cornerRadius(10)
                 })
+            }.onAppear(){
+                drawBubbles = true
             }
             
         }

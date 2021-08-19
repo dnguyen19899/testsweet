@@ -38,7 +38,7 @@ struct TestView: View {
                         Text("Expected Result:")
                         Text(test.expected_result)
                     }
-                    
+                    .padding()
                     Spacer()
                     HStack{
                         Button(action: {
@@ -73,22 +73,7 @@ struct TestView: View {
                                 .background(Color(hex: 0x52b69a))
                                 .cornerRadius(10)
                         })
-                        
-                        //Button(action: {
-                        //    print("deleting test")
-                        //    let domain = Bundle.main.bundleIdentifier!
-                        //    UserDefaults.standard.removePersistentDomain(forName: domain)
-                        //    UserDefaults.standard.synchronize()
-                       //     print(Array(UserDefaults.standard.dictionaryRepresentation().keys).count)
-                       //}, label: {
-                       //     Image(systemName: "trash.fill")
-                       //        .foregroundColor(.red)
-                       //         .font(.system(size: 20, weight: .bold, design: .default))
-                       //         .frame(width: 100, height: 50)
-                       //         .background(Color(hex: 0x52b69a))
-                       //         .cornerRadius(10)
-                       // }).padding(.leading, 60)
-                            
+    
                     }
                     Spacer()
                 }
