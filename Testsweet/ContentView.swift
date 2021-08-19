@@ -55,10 +55,10 @@ struct ContentView: View {
     
     @State private var action: Int? = 0
     @State private var playgroundMode = false
-    
+
     let headerHeight = CGFloat(50)
-    
-    
+    @State private var indices: [Test] = []
+    //@State private var count: Int = UserDefaults.standard.testsList.count
     
     var body: some View {
         
@@ -83,43 +83,63 @@ struct ContentView: View {
                                 
                                 Spacer().padding(5)
                                 
-                                ForEach(0..<UserDefaults.standard.testsList.count, id: \.self) { index in
+                                ForEach(UserDefaults.standard.testsList, id: \.self) { test in
                                     
-                                    NavigationLink(destination: TestView(test: UserDefaults.standard.testsList[index])) {
+                                    if !indices.contains(test) {
                                         
-                                        GeometryReader {
-                            
-                                                geometry in
-                                                VStack {
-                                                    HStack{
-                                                   
-                                                        Text(UserDefaults.standard.testsList[index].title)
-                                                            .font(.system(size: 20, weight: .heavy, design: .default))
-                                                            .foregroundColor(Color.white)
-                                                            .padding(.trailing)
-                                                    
-                                                    Button(action: {
-                                                        print("deleting test")
-                                                        let domain = Bundle.main.bundleIdentifier!
-                                                        UserDefaults.standard.removePersistentDomain(forName: domain)
-                                                        UserDefaults.standard.synchronize()
-
-                                                    }, label: {
-                                                        Image(systemName: "trash.fill")
-                                                            .foregroundColor(.red)
-                                                            
-                                                    }).padding(.leading, 60)
-                                                    }
-                                                    
-                                                }
-                                                .frame(width: 300, height: 75)
-                                                .background( LinearGradient(gradient: Gradient(colors: [Color(#colorLiteral(red: 0.09433246404, green: 0.3047628701, blue: 0.4649187326, alpha: 1)),Color(#colorLiteral(red: 0.1185745522, green: 0.3756733537, blue: 0.5679591298, alpha: 1)),Color(#colorLiteral(red: 0.1062038764, green: 0.4604464173, blue: 0.6242554784, alpha: 1)),Color(#colorLiteral(red: 0.1607481241, green: 0.5125916004, blue: 0.5261992216, alpha: 1)),Color(#colorLiteral(red: 0.162745297, green: 0.5202785134, blue: 0.5380410552, alpha: 1)),Color(#colorLiteral(red: 0.2764765024, green: 0.6270785928, blue: 0.5273578763, alpha: 1)),Color(#colorLiteral(red: 0.4004970789, green: 0.6831317544, blue: 0.5014337301, alpha: 1)),Color(#colorLiteral(red: 0.5550227761, green: 0.791927278, blue: 0.5073714256, alpha: 1)),Color(#colorLiteral(red: 0.6706730127, green: 0.845440805, blue: 0.5175511241, alpha: 1)),Color(#colorLiteral(red: 0.7970537543, green: 0.8742372394, blue: 0.5379388928, alpha: 1)),]), startPoint: .leading, endPoint: .trailing))
-                                                .cornerRadius(25)
-                                                
-                                        }
-                                        .frame(width:300, height: 100)
-                                    }
+                                        RowContent(test: test, indices: $indices)
                                     
+//                                        HStack {
+//
+//                                            NavigationLink(destination: TestView(test: UserDefaults.standard.testsList[index])) {
+//
+//
+//                                                GeometryReader {
+//
+//                                                    geometry in
+//
+//                                                    VStack {
+//
+//                                                        Text(UserDefaults.standard.testsList[index].title)
+//                                                            .font(.system(size: 20, weight: .heavy, design: .default))
+//                                                            .foregroundColor(Color.white)
+//                                                            .padding(.trailing)
+//
+//                                                    }
+//                                                    .frame(width: 260, height: 75)
+//                                                    .background( LinearGradient(gradient: Gradient(colors: [Color(#colorLiteral(red: 0.09433246404, green: 0.3047628701, blue: 0.4649187326, alpha: 1)),Color(#colorLiteral(red: 0.1185745522, green: 0.3756733537, blue: 0.5679591298, alpha: 1)),Color(#colorLiteral(red: 0.1062038764, green: 0.4604464173, blue: 0.6242554784, alpha: 1)),Color(#colorLiteral(red: 0.1607481241, green: 0.5125916004, blue: 0.5261992216, alpha: 1)),Color(#colorLiteral(red: 0.162745297, green: 0.5202785134, blue: 0.5380410552, alpha: 1)),Color(#colorLiteral(red: 0.2764765024, green: 0.6270785928, blue: 0.5273578763, alpha: 1)),Color(#colorLiteral(red: 0.4004970789, green: 0.6831317544, blue: 0.5014337301, alpha: 1)),Color(#colorLiteral(red: 0.5550227761, green: 0.791927278, blue: 0.5073714256, alpha: 1)),Color(#colorLiteral(red: 0.6706730127, green: 0.845440805, blue: 0.5175511241, alpha: 1)),Color(#colorLiteral(red: 0.7970537543, green: 0.8742372394, blue: 0.5379388928, alpha: 1)),]), startPoint: .leading, endPoint: .trailing))
+//                                                    .cornerRadius(25)
+//                                                }
+//                                                .frame(width:260, height: 100)
+//
+//                                            }
+//
+//                                            GeometryReader {
+//
+//                                                geometry in
+//
+//                                                VStack {
+//
+//                                                    Button(action: {
+//                                                        print("delete \(UserDefaults.standard.testsList[index].title)")
+//
+//                                                        deleted.append(UserDefaults.standard.testsList[index].id)
+//
+//                                                        UserDefaults.standard.testsList.remove(at: index)
+//
+//                                                    }) {
+//                                                        Image(systemName: "trash")
+//                                                            .font(.system(size: 25, weight: .bold))
+//                                                            .foregroundColor(Color.white)
+//                                                    }
+//                                                }
+//                                                .frame(width: 60, height: 60)
+//                                                .background(Color.red)
+//                                                .cornerRadius(50)
+//                                            }
+//                                            .frame(width: 60, height: 90)
+//                                        }
+                                    }
                                 }
                                 
                             }
@@ -141,26 +161,6 @@ struct ContentView: View {
                         }
                         
                         
-//                        VStack {
-//                            Spacer()
-//                            HStack {
-//                                Spacer()
-//                                ExpandableButtonPanel(
-//                                    primaryItem: ExpandableButtonItem(label: "plus"),
-//                                    secondaryItems: [
-//                                        ExpandableButtonItem(label: "pencil") {
-//                                            self.action = 2
-//                                            self.showAlert.toggle()
-//                                        },
-//                                        ExpandableButtonItem(label: "square.and.arrow.up") {
-//                                            self.action = 1
-//                                            self.showAlert.toggle()
-//                                        }
-//                                    ]
-//                                )
-//                                .padding()
-//                            }
-//                        }
                         VStack {
                             Spacer()
                             HStack {
@@ -171,7 +171,7 @@ struct ContentView: View {
                                         ExpandableButtonItem(label: "pencil") {
                                             
                                             self.action = 2
-        
+                                            
                                         },
                                         ExpandableButtonItem(label: "square.and.arrow.up") {
                                             
@@ -194,9 +194,11 @@ struct ContentView: View {
                 PlaygroundView(playgroundMode: $playgroundMode)
             }
         }.onAppear(perform: {
-            if (UserDefaults.standard.testsList.isEmpty) {
+            if UserDefaults.standard.testsList.isEmpty {
                 UserDefaults.standard.testsList = [Test]()
             }
+            
+            print(UserDefaults.standard.testsList.count)
         })
         
         
@@ -248,10 +250,10 @@ struct ExpandableButtonItem: Identifiable {
 }
 
 struct ExpandableButtonPanel: View {
-
+    
     let primaryItem: ExpandableButtonItem
     let secondaryItems: [ExpandableButtonItem]
-
+    
     private let noop: () -> Void = {}
     private let size: CGFloat = 70
     private var cornerRadius: CGFloat {
@@ -260,9 +262,9 @@ struct ExpandableButtonPanel: View {
     private let shadowColor = Color.black.opacity(0.4)
     private let shadowPosition: (x: CGFloat, y: CGFloat) = (x: 2, y: 2)
     private let shadowRadius: CGFloat = 3
-
+    
     @State private var isExpanded = false
-
+    
     var body: some View {
         VStack {
             ForEach(secondaryItems) { item in
@@ -276,7 +278,7 @@ struct ExpandableButtonPanel: View {
                     width: self.isExpanded ? self.size : 0,
                     height: self.isExpanded ? self.size : 0)
             }
-
+            
             Button(action: {
                 withAnimation {
                     self.isExpanded.toggle()

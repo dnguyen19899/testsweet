@@ -29,6 +29,7 @@
 		AE4B437126CB12E8005BD56C /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE4B437026CB12E8005BD56C /* Test.swift */; };
 		AE79BC2726B9E287002D5DBE /* input.csv in Resources */ = {isa = PBXBuildFile; fileRef = AE79BC2626B9E287002D5DBE /* input.csv */; };
 		AE93232C26B0BE98006DD1FA /* NightscoutController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE93232B26B0BE98006DD1FA /* NightscoutController.swift */; };
+		AEED28FE26CF121C00B95C6E /* RowContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEED28FD26CF121C00B95C6E /* RowContent.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +78,7 @@
 		AE4B437026CB12E8005BD56C /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
 		AE79BC2626B9E287002D5DBE /* input.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = input.csv; sourceTree = SOURCE_ROOT; };
 		AE93232B26B0BE98006DD1FA /* NightscoutController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NightscoutController.swift; sourceTree = "<group>"; };
+		AEED28FD26CF121C00B95C6E /* RowContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowContent.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,6 +150,7 @@
 				AE38D6C226CC7E2D001B25DE /* CSVTestView.swift */,
 				AE38D6C426CC7EFB001B25DE /* ManualTestView.swift */,
 				AE3FE96226AF782B00DC980E /* Preview Content */,
+				AEED28FD26CF121C00B95C6E /* RowContent.swift */,
 			);
 			path = Testsweet;
 			sourceTree = "<group>";
@@ -315,6 +318,7 @@
 				1BD044BE26CD9C1E006FE92E /* GraphedView.swift in Sources */,
 				AE3FE95F26AF782800DC980E /* ContentView.swift in Sources */,
 				AE4B436F26CB112A005BD56C /* PlaygroundView.swift in Sources */,
+				AEED28FE26CF121C00B95C6E /* RowContent.swift in Sources */,
 				AE0AB5D926C4967800ACCA41 /* InformationView.swift in Sources */,
 				1B8AE10626CA99AD004B5F0A /* backgroundView.swift in Sources */,
 				AE38D6C326CC7E2D001B25DE /* CSVTestView.swift in Sources */,

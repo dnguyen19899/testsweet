@@ -9,6 +9,7 @@ import Foundation
 
 
 struct Entry: Hashable, Codable {
+    
     var sgv: Int = 0
     var direction: String = ""
     
@@ -33,8 +34,9 @@ struct Entry: Hashable, Codable {
 }
 
 
-class Test: Codable {
+class Test: Codable, Hashable {
     
+    var id: UUID
     var title: String
     var description: String
     var expected_result: String
@@ -46,6 +48,8 @@ class Test: Codable {
     
     // init for CSV file method
     init(title: String, description: String, expected_result: String, filePath: String, action: Int) {
+        
+        self.id = UUID()
         self.title = title
         self.description = description
         self.expected_result = expected_result
@@ -55,11 +59,21 @@ class Test: Codable {
     
     // init for manual list method
     init(title: String, description: String, expected_result: String, entriesList: [Entry], action: Int) {
+        
+        self.id = UUID()
         self.title = title
         self.description = description
         self.expected_result = expected_result
         self.entriesList = entriesList
         self.action = action
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(self.id)
+    }
+    
+    static func ==(lhs: Test, rhs: Test) -> Bool {
+        return lhs.id == rhs.id && lhs.title == rhs.title && lhs.description == rhs.description && lhs.expected_result == rhs.expected_result && lhs.action == rhs.action
     }
 
     // run function for CSV file method
