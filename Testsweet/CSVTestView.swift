@@ -107,10 +107,6 @@ struct CSVTestView: View {
                                             })
                                             .padding([.top, .bottom, .leading], 5)
                                             .padding(.trailing, 20)
-//                                            Text(fileName)
-//                                                .fontWeight(fileThere ? .bold : .semibold)
-//                                                .foregroundColor(fileThere ? .black : .gray)
-//                                                .padding()
                                             
                                             Button(action: {
                                                 
@@ -134,11 +130,23 @@ struct CSVTestView: View {
                                                     .padding([.top, .bottom], 5)
                                                     .padding(.trailing, 10)
                                                 
+                                            })
+                                            
+                                            Button(action: {
+                                                
+                                                vibrate()
+                                                fileName = "Add File"
+                                                filePath = ""
+                                                fileThere = false
+                                                
+                                            }, label: {
+                                                
                                                 Image(systemName: "trash")
                                                     .font(Font.system(size: 20, weight: .semibold))
                                                     .foregroundColor(fileThere ? .black : .clear)
                                                     .padding([.top, .bottom], 5)
                                                     .padding(.trailing, 20)
+                                                
                                             })
                                             
                                             Spacer()
@@ -188,12 +196,18 @@ struct CSVTestView: View {
                                         Spacer()
                                         Button(action: {
                                             vibrate()
-                                            UserDefaults.standard.testsList.append(Test(title: title, description: description, expected_result: expectedResult, filePath: filePath, action: 1))
-                                            // go back home
-                                            title = ""
-                                            expectedResult = ""
-                                            description = ""
                                             
+                                            if filePath == "" {
+                                                showAlert = true
+                                            }
+                                            else {
+                                                UserDefaults.standard.testsList.append(Test(title: title, description: description, expected_result: expectedResult, filePath: filePath, action: 1))
+                                                
+                                                // go back home
+                                                title = ""
+                                                expectedResult = ""
+                                                description = ""
+                                            }
                                         }){
                                             Text("CREATE")
                                                 .bold()
