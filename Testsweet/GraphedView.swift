@@ -12,6 +12,8 @@ struct GraphedView: View {
     @State private var showGraphed = false
     @State private var getArrayHere: [String] = ["Loading"]
     
+    @EnvironmentObject var theme: Themes
+    
     func populateGetArray(){
         let NSController = NightscoutController(date: Date())
         NSController.getEntryRequest{(data) in
@@ -57,7 +59,7 @@ struct GraphedView: View {
                                             .padding(.leading, 30)
                                             .padding(.trailing, 30)
                                             .foregroundColor(Color.white)
-                                            .background(Color(hex: 0x52b69a))
+                                            .background(theme.getAccent1())
                                             .cornerRadius(12)
                                     }.padding()
                                     
@@ -73,7 +75,7 @@ struct GraphedView: View {
                         showGraphed.toggle()
                     }, label: {
                         Image(systemName: "info.circle")
-                            .foregroundColor(Color(#colorLiteral(red: 0.1185745522, green: 0.3756733537, blue: 0.5679591298, alpha: 1)))
+                            .foregroundColor(theme.getAccent2())
                             .font(.title)
                     }).padding()
                     Spacer()

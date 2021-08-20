@@ -9,9 +9,10 @@ import SwiftUI
 
 @main
 struct TestsweetApp: App {
+    @StateObject private var theme = Themes()
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView().environmentObject(theme)
         }
     }
 }

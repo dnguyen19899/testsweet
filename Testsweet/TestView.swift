@@ -16,6 +16,8 @@ struct TestView: View {
     @State var showSugarView: Bool = false
     @State var expectedResult = ""
     
+    @EnvironmentObject var theme : Themes
+    
     func vibrate(){
         let generator = UIImpactFeedbackGenerator(style: .heavy)
         generator.impactOccurred()
@@ -86,8 +88,12 @@ struct TestView: View {
                                 .padding(.leading, 30)
                                 .padding(.trailing, 30)
                                 .foregroundColor(Color.white)
-                                .background(Color(hex: 0x52b69a))
+                                .background(theme.getSecondary())
                                 .cornerRadius(12)
+                                .frame(width: 200, height: 50)
+                                .background(theme.getSecondary())
+                                .cornerRadius(10)
+
                         })
                         Spacer()
                     }
@@ -100,7 +106,7 @@ struct TestView: View {
                 InformationView(showAdd: $addScreen, showDelete: $deleteScreen, CGMPoints: CGMPoints)
             
                 .navigationBarTitle(test.title, displayMode: .inline)
-                .navigationBarColor(UIColor(hex: 0x52b69a))
+                    .navigationBarColor(UIColor(theme.getPrimanry()))
             }
     }
 }

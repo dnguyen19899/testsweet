@@ -131,7 +131,7 @@ struct PlaygroundView: View {
         ZStack(alignment: .topLeading) {
             //Color(hex:0xcaf0f8).ignoresSafeArea()
             Color(.white).ignoresSafeArea()
-            backgroundView()
+            //backgroundView()
             
             HeaderView(playgroundMode: $playgroundMode).zIndex(1)
                 .frame(height: headerHeight)

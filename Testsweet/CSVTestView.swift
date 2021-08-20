@@ -9,7 +9,6 @@ import SwiftUI
 
 struct CSVTestView: View {
     
-    @State private var date = Date()
     @State private var CGMPoints: Int64 = 0
     
     @State private var title = ""
@@ -30,6 +29,8 @@ struct CSVTestView: View {
     @State private var showCSVEntry: Bool = false
     @State private var showPopUp: Bool = false
     @State private var deleteScreen = false
+    
+    @EnvironmentObject var theme: Themes
     
     func showTrash(){
         if fileName != "Add File"{
@@ -202,7 +203,7 @@ struct CSVTestView: View {
                                                 .padding(.leading, 30)
                                                 .padding(.trailing, 30)
                                                 .foregroundColor(Color.white)
-                                                .background(Color(hex: 0x52b69a))
+                                                .background(theme.getSecondary())
                                                 .cornerRadius(12)
                                         }.alert(isPresented: $showAlert) {
                                             Alert(title: Text("Error"), message: Text("Please open and select a file."), dismissButton: .default(Text("OK")))
@@ -222,7 +223,7 @@ struct CSVTestView: View {
                 
             }
             .navigationBarTitle("Create a Test from CSV", displayMode: .inline)
-            .navigationBarColor(UIColor(hex: 0x52b69a))
+            .navigationBarColor(UIColor(theme.getPrimanry()))
             
             InformationView(show: $showPopUp, showAdd: $addScreen, showDelete: $deleteScreen, CGMPoints: CGMPoints)
         }

@@ -25,6 +25,7 @@ struct ManualTestView: View {
     @State private var expectedResult = ""
     @State private var description = ""
     
+    @EnvironmentObject var theme : Themes
     
     func vibrate(){
         let generator = UIImpactFeedbackGenerator(style: .heavy)
@@ -80,7 +81,7 @@ struct ManualTestView: View {
                                 Spacer()
                                 TextField("BG Reading", text: $sgv3.value)
                                     .keyboardType(.numberPad)
-                                    .border(Color(hex: 0x212529))
+                                    .border(theme.getAccent2())
                                     .padding(.leading, 60)
                                 Button(action: {
                                     self.hideKeyboard()
@@ -91,7 +92,7 @@ struct ManualTestView: View {
                                         .padding([.top, .bottom], 8)
                                         .padding([.leading, .trailing], 30)
                                         .foregroundColor(Color.white)
-                                        .background(Color(hex: 0x212529))
+                                        .background(theme.getAccent2())
                                 }.padding(.trailing, 60)
                                 Spacer()
                             }.textFieldStyle(RoundedBorderTextFieldStyle())
@@ -140,7 +141,7 @@ struct ManualTestView: View {
                                 .padding([.top, .bottom], 15)
                                 .padding([.leading, .trailing], 30)
                                 .foregroundColor(Color.white)
-                                .background(Color(hex: 0x52b69a))
+                                .background(theme.getSecondary())
                                 .cornerRadius(12)
                         }.alert(isPresented: $sgvError) {
                             Alert(title: Text("Error"), message: Text("Please enter a value between 0 and 500"), dismissButton: .default(Text("OK")))
@@ -156,7 +157,7 @@ struct ManualTestView: View {
                                 .padding([.top, .bottom], 15)
                                 .padding([.leading, .trailing], 30)
                                 .foregroundColor(Color.white)
-                                .background(Color(hex: 0x212529))
+                                .background(theme.getAccent2())
                                 .cornerRadius(12)
                         }
                     }
@@ -172,12 +173,8 @@ struct ManualTestView: View {
                             .font(Font.custom("Helvetica Neue", size: 20.0))
                             .padding([.top, .bottom], 15)
                             .padding([.leading, .trailing], 30)
-//                            .padding(.top, 15)
-//                            .padding(.bottom, 15)
-//                            .padding(.leading, 30)
-//                            .padding(.trailing, 30)
                             .foregroundColor(Color.white)
-                            .background(Color(hex: 0x168aad))
+                            .background(theme.getAccent1())
                             .cornerRadius(12)
                     }).sheet(isPresented: $entriesShow) {
                         VStack{
@@ -226,7 +223,7 @@ struct ManualTestView: View {
                                 .padding(.leading, 30)
                                 .padding(.trailing, 30)
                                 .foregroundColor(Color.white)
-                                .background(Color(hex: 0x52b69a))
+                                .background(theme.getSecondary())
                                 .cornerRadius(12)
                         }.alert(isPresented: $showAlert) {
                             Alert(title: Text("Error"), message: Text("Please add at least one entry before proceeding."), dismissButton: .default(Text("OK")))
@@ -254,7 +251,7 @@ struct ManualTestView: View {
         }
         
         .navigationBarTitle("Create a Test Manually", displayMode: .inline)
-        .navigationBarColor(UIColor(hex: 0x52b69a))
+        .navigationBarColor(UIColor(theme.getPrimanry()))
         
         
     }
@@ -267,4 +264,5 @@ struct ManualTestView_Previews: PreviewProvider {
         ManualTestView()
     }
 }
+
 
