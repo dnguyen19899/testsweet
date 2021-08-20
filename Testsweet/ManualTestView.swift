@@ -23,9 +23,9 @@ struct ManualTestView: View {
     @State private var entriesShow: Bool = false
     @State private var title = ""
     @State private var expectedResult = ""
-    @State private var notes = ""
+    @State private var description = ""
     
-
+    
     func vibrate(){
         let generator = UIImpactFeedbackGenerator(style: .heavy)
         generator.impactOccurred()
@@ -43,210 +43,212 @@ struct ManualTestView: View {
             Color(.white).ignoresSafeArea()
             
             ScrollView{
-                ZStack{
+                
+                VStack{
+//                    Text("Create your own tests:")
+//                        .font(.system(size: 30, weight: .heavy, design: .default))
+//                        .bold()
+//                        .padding()
+//                        .foregroundColor(Color(hex: 0x168aad))
+                    
+                    VStack(alignment: .leading) {
+                        Text("TITLE")
+                            .font(.headline)
+                        TextField("Please fill in the title", text: $title)
+                            .padding(.all)
+                            .background(Color(red: 239.0/255.0, green: 243.0/255.0, blue: 244.0/255.0, opacity: 1.0))
+                            .cornerRadius(5.0)
+                    }
+                    .padding(.top, 25)
+                    .padding(.horizontal, 15)
+                    
+                    VStack(alignment: .leading) {
+                        Text("DESCRIPTION")
+                            .font(.headline)
+                        TextField("Please provide a description of your test", text: $description)
+                            .padding(.all)
+                            .background(Color(red: 239.0/255.0, green: 243.0/255.0, blue: 244.0/255.0, opacity: 1.0))
+                            .cornerRadius(5.0)
+                    }
+                    .padding([.horizontal, .bottom], 15)
+                    
                     VStack{
-                        Section {
-                            ZStack{
-                                VStack{
-                                    Text("Create your own tests:")
-                                        .font(.system(size: 30, weight: .heavy, design: .default))
-                                        .bold()
-                                        .padding()
-                                        .foregroundColor(Color(hex: 0x168aad))
-                                    
-                                    HStack{
-                                        Text("Title:")
-                                        TextField("title", text: $title)
-                                    }.padding()
-                                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                                    
-                                    HStack{
-                                        Text("Description:")
-                                        TextField("description", text: $notes)
-                                    }.padding()
-                                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                                    
-                                    VStack{
-                                        
-                                        VStack(spacing: 15){
-                                            
-                                            HStack(spacing: 0) {
-                                                Spacer()
-                                                TextField("BG Reading", text: $sgv3.value)
-                                                    .keyboardType(.numberPad)
-                                                    .border(Color(hex: 0x212529))
-                                                    .padding(.leading, 60)
-                                                Button(action: {
-                                                    self.hideKeyboard()
-                                                }){
-                                                    Text("Done")
-                                                        .bold()
-                                                        .font(Font.custom("Helvetica Neue", size: 15.0))
-                                                        .padding([.top, .bottom], 8)
-                                                        .padding([.leading, .trailing], 30)
-                                                        .foregroundColor(Color.white)
-                                                        .background(Color(hex: 0x212529))
-                                                }.padding(.trailing, 60)
-                                                Spacer()
-                                            }.textFieldStyle(RoundedBorderTextFieldStyle())
-                                        }
-                                        .onTapGesture {
-                                            print("Tapped to hide keyboard")
-                                            self.hideKeyboard()
-                                        }
-                                        
-                                        VStack{
-                                            DropdownPicker(title: "Directions", selection: $currentSelection, options: ["FLAT","DOUBLE_UP", "SINGLE_UP", "FORTY_FIVE_UP", "FORTY_FIVE_DOWN", "SINGLE_DOWN", "DOUBLE_DOWN", "NOT_COMPUTABLE", "OUT_OF_RANGE", "None"])
-                                        }
-                                    }
-                                    HStack{
-                                        Button(action: {
-                                            vibrate()
-                                            var newCurrentSelection = ""
-                                            if currentSelection == 0{newCurrentSelection = "FLAT"}
-                                            else if currentSelection == 1 {newCurrentSelection = "DOUBLE_UP"}
-                                            else if currentSelection == 2 {newCurrentSelection = "SINGLE_UP"}
-                                            else if currentSelection == 3 {newCurrentSelection = "FORTY_FIVE_UP"}
-                                            else if currentSelection == 4 {newCurrentSelection = "FORTY_FIVE_DOWN"}
-                                            else if currentSelection == 5 {newCurrentSelection = "SINGLE_DOWN"}
-                                            else if currentSelection == 6 {newCurrentSelection = "DOUBLE_DOWN"}
-                                            else if currentSelection == 7 {newCurrentSelection = "NOT_COMPUTABLE"}
-                                            else if currentSelection == 8 {newCurrentSelection = "OUT_OF_RANGE"}
-                                            else {newCurrentSelection = ""}
-                                            if sgv3.value != "" {
-                                                if (Int(sgv3.value)!) >= 0 && (Int(sgv3.value)!) <= 500 {
-                                                    let entry = Entry(sgv: sgv3.value, direction: newCurrentSelection)
-                                                    currentEntries.append(entry)
-                                                }
-                                                else{
-                                                    sgvError = true
-                                                }
-                                            }
-                                            else{
-                                                sgvError = true
-                                            }
+                        
+                        VStack(spacing: 15){
                             
-                                            
-                                        }){
-                                            Text("Add")
-                                                .bold()
-                                                .font(Font.custom("Helvetica Neue", size: 20.0))
-                                                .padding(.top, 15)
-                                                .padding(.bottom, 15)
-                                                .padding(.leading, 30)
-                                                .padding(.trailing, 30)
-                                                .foregroundColor(Color.white)
-                                                .background(Color(hex: 0x52b69a))
-                                                .cornerRadius(12)
-                                        }.alert(isPresented: $sgvError) {
-                                            Alert(title: Text("Error"), message: Text("Please enter a value between 0 and 500"), dismissButton: .default(Text("OK")))
-                                        }
-                                        
-                                        Button(action: {
-                                            vibrate()
-                                            currentEntries.append(Entry(sgv: "-1", direction: ""))
-                                        }){
-                                            Text("Add Empty")
-                                                .bold()
-                                                .font(Font.custom("Helvetica Neue", size: 20.0))
-                                                .padding(.top, 15)
-                                                .padding(.bottom, 15)
-                                                .padding(.leading, 30)
-                                                .padding(.trailing, 30)
-                                                .foregroundColor(Color.white)
-                                                .background(Color(hex: 0x212529))
-                                                .cornerRadius(12)
-                                        }
-                                    }
-
-                                    
-                                    Button(action: {
-                                        vibrate()
-                                        entriesShow = true
-                                        
-                                    }, label: {
-                                        Text("Check Entries")
-                                            .bold()
-                                            .font(Font.custom("Helvetica Neue", size: 20.0))
-                                            .padding(.top, 15)
-                                            .padding(.bottom, 15)
-                                            .padding(.leading, 30)
-                                            .padding(.trailing, 30)
-                                            .foregroundColor(Color.white)
-                                            .background(Color(hex: 0x168aad))
-                                            .cornerRadius(12)
-                                    }).sheet(isPresented: $entriesShow) {
-                                        VStack{
-                                            Text("Current Entires")
-                                                .font(.system(size: 30, weight: .heavy, design: .default))
-                                                .bold()
-                                                .padding()
-                                                .foregroundColor(Color(hex: 0x184e77))
-                                            Text("Number of Entries\(currentEntries.count)")
-                                            List {
-                                                ForEach(currentEntries, id: \.self){ entry in
-                                                    Text(entry.toString())
-                                                }
-                                            }
-                                        }
-                                    }
-                                    
-                                    HStack{
-                                        Text("Expected Result:")
-                                        TextField("expected result", text: $expectedResult)
-                                    }.padding()
-                                    .textFieldStyle(RoundedBorderTextFieldStyle())
-
-                                    
-                                    
-                                    HStack{
-                                        Button(action: {
-                                            vibrate()
-                                            UserDefaults.standard.testsList.append(Test(title: title, description: notes, expected_result: expectedResult, entriesList: currentEntries, action: 2))
-                                            // GO home
-                                            title = ""
-                                            expectedResult = ""
-                                            notes = ""
-                                            
-                                        }){
-                                            Text("Done")
-                                                .bold()
-                                                .font(Font.custom("Helvetica Neue", size: 20.0))
-                                                .padding(.top, 15)
-                                                .padding(.bottom, 15)
-                                                .padding(.leading, 30)
-                                                .padding(.trailing, 30)
-                                                .foregroundColor(Color.white)
-                                                .background(Color.black)
-                                                .cornerRadius(12)
-                                        }.alert(isPresented: $showAlert) {
-                                            Alert(title: Text("Error"), message: Text("Please add at least one entry before proceeding."), dismissButton: .default(Text("OK")))
-                                        }
-                                        Button(action: {
-                                            vibrate()
-                                            currentEntries = []
-                                        }){
-                                            Image(systemName: "trash.fill")
-                                                .font(.system(size: 20))
-                                                .foregroundColor(.red)
-                                                .font(Font.custom("Helvetica Neue", size: 20.0))
-                                                .padding(.top, 15)
-                                                .padding(.bottom, 15)
-                                                .padding(.leading, 30)
-                                                .padding(.trailing, 30)
-                                                .background(Color.black)
-                                                .cornerRadius(12)
-                                        }
-                                    }
-                                    Spacer()
+                            HStack(spacing: 0) {
+                                Spacer()
+                                TextField("BG Reading", text: $sgv3.value)
+                                    .keyboardType(.numberPad)
+                                    .border(Color(hex: 0x212529))
+                                    .padding(.leading, 60)
+                                Button(action: {
+                                    self.hideKeyboard()
+                                }){
+                                    Text("Done")
+                                        .bold()
+                                        .font(Font.custom("Helvetica Neue", size: 15.0))
+                                        .padding([.top, .bottom], 8)
+                                        .padding([.leading, .trailing], 30)
+                                        .foregroundColor(Color.white)
+                                        .background(Color(hex: 0x212529))
+                                }.padding(.trailing, 60)
+                                Spacer()
+                            }.textFieldStyle(RoundedBorderTextFieldStyle())
+                        }
+                        .onTapGesture {
+                            print("Tapped to hide keyboard")
+                            self.hideKeyboard()
+                        }
+                        
+                        VStack{
+                            DropdownPicker(title: "Directions", selection: $currentSelection, options: ["FLAT","DOUBLE_UP", "SINGLE_UP", "FORTY_FIVE_UP", "FORTY_FIVE_DOWN", "SINGLE_DOWN", "DOUBLE_DOWN", "NOT_COMPUTABLE", "OUT_OF_RANGE", "None"])
+                        }
+                    }
+                    HStack{
+                        Button(action: {
+                            vibrate()
+                            var newCurrentSelection = ""
+                            if currentSelection == 0{newCurrentSelection = "FLAT"}
+                            else if currentSelection == 1 {newCurrentSelection = "DOUBLE_UP"}
+                            else if currentSelection == 2 {newCurrentSelection = "SINGLE_UP"}
+                            else if currentSelection == 3 {newCurrentSelection = "FORTY_FIVE_UP"}
+                            else if currentSelection == 4 {newCurrentSelection = "FORTY_FIVE_DOWN"}
+                            else if currentSelection == 5 {newCurrentSelection = "SINGLE_DOWN"}
+                            else if currentSelection == 6 {newCurrentSelection = "DOUBLE_DOWN"}
+                            else if currentSelection == 7 {newCurrentSelection = "NOT_COMPUTABLE"}
+                            else if currentSelection == 8 {newCurrentSelection = "OUT_OF_RANGE"}
+                            else {newCurrentSelection = ""}
+                            if sgv3.value != "" {
+                                if (Int(sgv3.value)!) >= 0 && (Int(sgv3.value)!) <= 500 {
+                                    let entry = Entry(sgv: sgv3.value, direction: newCurrentSelection)
+                                    currentEntries.append(entry)
                                 }
-                                // CurrentEntriesView(show: $entriesShow, currentEntries: currentEntries)
-                                //InformationView(show: $showPopUp, showAdd: $addScreen, showDelete: $deleteScreen, CGMPoints: CGMPoints)
+                                else{
+                                    sgvError = true
+                                }
+                            }
+                            else{
+                                sgvError = true
+                            }
+                            
+                            
+                        }){
+                            Text("Add")
+                                .bold()
+                                .font(Font.custom("Helvetica Neue", size: 20.0))
+                                .padding([.top, .bottom], 15)
+                                .padding([.leading, .trailing], 30)
+                                .foregroundColor(Color.white)
+                                .background(Color(hex: 0x52b69a))
+                                .cornerRadius(12)
+                        }.alert(isPresented: $sgvError) {
+                            Alert(title: Text("Error"), message: Text("Please enter a value between 0 and 500"), dismissButton: .default(Text("OK")))
+                        }
+                        
+                        Button(action: {
+                            vibrate()
+                            currentEntries.append(Entry(sgv: "-1", direction: ""))
+                        }){
+                            Text("Add Empty")
+                                .bold()
+                                .font(Font.custom("Helvetica Neue", size: 20.0))
+                                .padding([.top, .bottom], 15)
+                                .padding([.leading, .trailing], 30)
+                                .foregroundColor(Color.white)
+                                .background(Color(hex: 0x212529))
+                                .cornerRadius(12)
+                        }
+                    }
+                    
+                    
+                    Button(action: {
+                        vibrate()
+                        entriesShow = true
+                        
+                    }, label: {
+                        Text("Check Entries")
+                            .bold()
+                            .font(Font.custom("Helvetica Neue", size: 20.0))
+                            .padding([.top, .bottom], 15)
+                            .padding([.leading, .trailing], 30)
+//                            .padding(.top, 15)
+//                            .padding(.bottom, 15)
+//                            .padding(.leading, 30)
+//                            .padding(.trailing, 30)
+                            .foregroundColor(Color.white)
+                            .background(Color(hex: 0x168aad))
+                            .cornerRadius(12)
+                    }).sheet(isPresented: $entriesShow) {
+                        VStack{
+                            Text("Current Entires")
+                                .font(.system(size: 30, weight: .heavy, design: .default))
+                                .bold()
+                                .padding()
+                                .foregroundColor(Color(hex: 0x184e77))
+                            Text("Number of Entries\(currentEntries.count)")
+                            List {
+                                ForEach(currentEntries, id: \.self){ entry in
+                                    Text(entry.toString())
+                                }
                             }
                         }
                     }
-                }.padding([.leading, .trailing])
-                
+                    
+                    VStack(alignment: .leading) {
+                        Text("EXPECTED RESULT")
+                            .font(.headline)
+                        TextField("Briefly describe the expected result", text: $expectedResult)
+                            .padding(.all)
+                            .background(Color(red: 239.0/255.0, green: 243.0/255.0, blue: 244.0/255.0, opacity: 1.0))
+                            .cornerRadius(5.0)
+                    }
+                    .padding([.top])
+                    .padding([.horizontal, .bottom], 15)
+                    
+                    
+                    
+                    HStack{
+                        Button(action: {
+                            vibrate()
+                            UserDefaults.standard.testsList.append(Test(title: title, description: description, expected_result: expectedResult, entriesList: currentEntries, action: 2))
+                            // GO home
+                            title = ""
+                            expectedResult = ""
+                            description = ""
+                            
+                        }){
+                            Text("CREATE")
+                                .bold()
+                                .font(Font.custom("Helvetica Neue", size: 20.0))
+                                .padding(.top, 15)
+                                .padding(.bottom, 15)
+                                .padding(.leading, 30)
+                                .padding(.trailing, 30)
+                                .foregroundColor(Color.white)
+                                .background(Color(hex: 0x52b69a))
+                                .cornerRadius(12)
+                        }.alert(isPresented: $showAlert) {
+                            Alert(title: Text("Error"), message: Text("Please add at least one entry before proceeding."), dismissButton: .default(Text("OK")))
+                        }
+                        Button(action: {
+                            vibrate()
+                            currentEntries = []
+                        }){
+                            Image(systemName: "trash.fill")
+                                .font(.system(size: 20))
+                                .foregroundColor(.white)
+                                .font(Font.custom("Helvetica Neue", size: 20.0))
+                                .padding(.top, 15)
+                                .padding(.bottom, 15)
+                                .padding(.leading, 30)
+                                .padding(.trailing, 30)
+                                .background(Color.red)
+                                .cornerRadius(12)
+                        }
+                    }
+                    Spacer()
+                }
             }
             
         }

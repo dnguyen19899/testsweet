@@ -58,7 +58,6 @@ struct ContentView: View {
 
     let headerHeight = CGFloat(50)
     @State private var indices: [Test] = []
-    //@State private var count: Int = UserDefaults.standard.testsList.count
     
     var body: some View {
         

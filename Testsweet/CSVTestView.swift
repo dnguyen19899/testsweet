@@ -14,7 +14,7 @@ struct CSVTestView: View {
     
     @State private var title = ""
     @State private var expectedResult = ""
-    @State private var notes = ""
+    @State private var description = ""
     
     @State var fileName = "Add File"
     @State var openFile = false
@@ -58,28 +58,40 @@ struct CSVTestView: View {
                             
                             ZStack {
                                 VStack {
-                                    Text("Add Your Own CSV Files")
-                                        .bold()
-                                        .padding()
-                                        .padding(.top, 20)
-                                        .font(Font.custom("Helvetica Neue", size: 30.0))
+//                                    Text("Add Your Own CSV Files")
+//                                        .bold()
+//                                        .padding()
+//                                        .padding(.top, 20)
+//                                        .font(Font.custom("Helvetica Neue", size: 30.0))
                                     
-                                    HStack{
-                                        Text("Title:")
-                                        TextField("title", text: $title)
-                                    }.padding()
-                                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                                    VStack(alignment: .leading) {
+                                        Text("TITLE")
+                                            .font(.headline)
+                                        TextField("Please fill in the title", text: $title)
+                                            .padding(.all)
+                                            .background(Color(red: 239.0/255.0, green: 243.0/255.0, blue: 244.0/255.0, opacity: 1.0))
+                                            .cornerRadius(5.0)
+                                    }
+                                    .padding(.top, 30)
+                                    .padding(.horizontal, 15)
                                     
-                                    HStack{
-                                        Text("Description:")
-                                        TextField("description", text: $notes)
-                                    }.padding()
-                                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                                    VStack(alignment: .leading) {
+                                        Text("DESCRIPTION")
+                                            .font(.headline)
+                                        TextField("Please provide a description of your test", text: $description)
+                                            .padding(.all)
+                                            .background(Color(red: 239.0/255.0, green: 243.0/255.0, blue: 244.0/255.0, opacity: 1.0))
+                                            .cornerRadius(5.0)
+                                    }
+                                    .padding(.horizontal, 15)
                                     
                                     VStack(spacing: 25) {
                                         
                                         
                                         HStack{
+                                            
+                                            Spacer()
+                                            
                                             Button(action: {
                                                 vibrate()
                                                 print("info")
@@ -88,37 +100,56 @@ struct CSVTestView: View {
                                                 
                                             }, label: {
                                                 Image(systemName: "info.circle")
-                                                    .foregroundColor(.black)
+                                                    .font(Font.system(size: 20, weight: .semibold))
+                                                    .foregroundColor(Color(hex:0x212529))
                                                 
-                                            }).padding(.leading, -30)
+                                            })
+                                            .padding([.top, .bottom, .leading], 5)
+                                            .padding(.trailing, 20)
+//                                            Text(fileName)
+//                                                .fontWeight(fileThere ? .bold : .semibold)
+//                                                .foregroundColor(fileThere ? .black : .gray)
+//                                                .padding()
                                             
-                                            Text(fileName)
-                                                .fontWeight(fileThere ? .bold : .semibold)
-                                                .foregroundColor(fileThere ? .black : .gray)
-                                                .padding()
                                             Button(action: {
+                                                
                                                 vibrate()
                                                 fileName = "Add File"
                                                 filePath = ""
                                                 showTrash()
+                                                openFile.toggle()
+                                                
                                             }, label: {
+                                                
+                                                Text(fileName)
+                                                    .font(Font.system(size: 20))
+                                                    .fontWeight(fileThere ? .bold : .semibold)
+                                                    .foregroundColor(fileThere ? .black : Color(hex:0x212529))
+                                                    .padding([.top, .bottom], 5)
+                                                
+                                                Image(systemName: "square.and.arrow.down")
+                                                    .font(Font.system(size: 20, weight: .semibold))
+                                                    .foregroundColor(Color(hex:0x212529))
+                                                    .padding([.top, .bottom], 5)
+                                                    .padding(.trailing, 10)
+                                                
                                                 Image(systemName: "trash")
+                                                    .font(Font.system(size: 20, weight: .semibold))
                                                     .foregroundColor(fileThere ? .black : .clear)
+                                                    .padding([.top, .bottom], 5)
+                                                    .padding(.trailing, 20)
                                             })
                                             
-                                        }
-                                        
-                                        Button(action: {openFile.toggle()}, label: {
+                                            Spacer()
                                             
-                                            Text("Open")
-                                                .bold()
-                                                .font(Font.custom("Helvetica Neue", size: 20.0))
-                                            Image(systemName: "square.and.arrow.down").font(Font.custom("Helvetica Neue", size: 25))
-                                        })
+                                        }
                                         .padding()
-                                        .foregroundColor(Color.white)
-                                        .background(Color.black)
-                                        .cornerRadius(12)
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 10.0)
+                                                .strokeBorder(style: StrokeStyle(lineWidth: 4, dash: [10]))
+                                                .foregroundColor(Color.gray)
+                                        )
+                                        .padding()
                                         
                                     }.fileImporter(isPresented: $openFile, allowedContentTypes: [.data]) { (res) in
                                         
@@ -141,28 +172,26 @@ struct CSVTestView: View {
                                         }
                                     }
                                     
-                                    HStack{
-                                        Text("Expected Result:")
-                                        TextField("expected result", text: $expectedResult)
-                                    }.padding()
-                                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                                    
-//                                    HStack{
-//                                        Text("Notes:")
-//                                        TextField("notes", text: $notes)
-//                                    }.padding()
-//                                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                                    VStack(alignment: .leading) {
+                                        Text("EXPECTED RESULT")
+                                            .font(.headline)
+                                        TextField("Briefly describe the expected result", text: $expectedResult)
+                                            .padding(.all)
+                                            .background(Color(red: 239.0/255.0, green: 243.0/255.0, blue: 244.0/255.0, opacity: 1.0))
+                                            .cornerRadius(5.0)
+                                    }
+                                    .padding([.horizontal, .bottom], 15)
                                     
                                     // CREATE button
                                     HStack {
                                         Spacer()
                                         Button(action: {
                                             vibrate()
-                                            UserDefaults.standard.testsList.append(Test(title: title, description: notes, expected_result: expectedResult, filePath: filePath, action: 1))
+                                            UserDefaults.standard.testsList.append(Test(title: title, description: description, expected_result: expectedResult, filePath: filePath, action: 1))
                                             // go back home
                                             title = ""
                                             expectedResult = ""
-                                            notes = ""
+                                            description = ""
                                             
                                         }){
                                             Text("CREATE")
@@ -173,7 +202,7 @@ struct CSVTestView: View {
                                                 .padding(.leading, 30)
                                                 .padding(.trailing, 30)
                                                 .foregroundColor(Color.white)
-                                                .background(Color.black)
+                                                .background(Color(hex: 0x52b69a))
                                                 .cornerRadius(12)
                                         }.alert(isPresented: $showAlert) {
                                             Alert(title: Text("Error"), message: Text("Please open and select a file."), dismissButton: .default(Text("OK")))

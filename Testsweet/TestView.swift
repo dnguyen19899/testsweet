@@ -26,21 +26,33 @@ struct TestView: View {
                 //Color(hex:0xcaf0f8).ignoresSafeArea()
                 Color(.white).ignoresSafeArea()
                 
-                VStack {
+            VStack(alignment: .leading) {
                     
-                    VStack {
-                        Text("Description:")
+                    VStack(alignment: .leading) {
+                        Text("TITLE")
+                            .font(.headline)
+                        Text(test.title)
+                    }
+                    .padding(.top, 25)
+                    .padding([.horizontal, .bottom], 15)
+                    
+                    VStack(alignment: .leading) {
+                        Text("DESCRIPTION")
+                            .font(.headline)
                         Text(test.description)
                     }
-                    .padding(.top)
-                    .padding(.bottom, 2)
-                    VStack {
-                        Text("Expected Result:")
+                    .padding([.horizontal, .bottom], 15)
+                    
+                    VStack(alignment: .leading) {
+                        Text("EXPECTED RESULT")
+                            .font(.headline)
                         Text(test.expected_result)
                     }
-                    .padding()
-                    Spacer()
+                    .padding(.horizontal, 15)
+                    .padding([.bottom], 50)
+                    
                     HStack{
+                        Spacer()
                         Button(action: {
                             print("running test")
                             //Delete First
@@ -66,17 +78,22 @@ struct TestView: View {
                             
                             
                         }, label: {
-                            Text("RUN")
-                                .font(.system(size: 20, weight: .bold, design: .default))
+                            Text("RUN TEST")
+                                .bold()
+                                .font(Font.custom("Helvetica Neue", size: 20.0))
+                                .padding(.top, 15)
+                                .padding(.bottom, 15)
+                                .padding(.leading, 30)
+                                .padding(.trailing, 30)
                                 .foregroundColor(Color.white)
-                                .frame(width: 100, height: 50)
                                 .background(Color(hex: 0x52b69a))
-                                .cornerRadius(10)
+                                .cornerRadius(12)
                         })
-    
+                        Spacer()
                     }
                     Spacer()
-                }
+            }
+            
                 if showSugarView{
                     checkSugarmateView(expectedResult: expectedResult , show: $showSugarView)
                 }

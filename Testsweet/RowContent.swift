@@ -10,8 +10,6 @@ import SwiftUI
 struct RowContent: View {
     
     let test: Test
-    //let title : String
-    // let index : Int
     @Binding var indices : [Test]
     
     
@@ -47,7 +45,7 @@ struct RowContent: View {
                     Button(action: {
                         
                         indices.append(test)
-                        if let index = UserDefaults.standard.testsList.index(of: test) {
+                        if let index = UserDefaults.standard.testsList.firstIndex(of: test) {
                             UserDefaults.standard.testsList.remove(at: index)
                         }
                     }) {
