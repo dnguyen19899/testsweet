@@ -27,6 +27,8 @@ struct ManualTestView: View {
     
     @EnvironmentObject var theme : Themes
     
+    let regex = try! NSRegularExpression(pattern: "\\A[ ]+\\Z")
+    
     func vibrate(){
         let generator = UIImpactFeedbackGenerator(style: .heavy)
         generator.impactOccurred()
@@ -208,11 +210,28 @@ struct ManualTestView: View {
                     HStack{
                         Button(action: {
                             vibrate()
-                            UserDefaults.standard.testsList.append(Test(title: title, description: description, expected_result: expectedResult, entriesList: currentEntries, action: 2))
-                            // GO home
-                            title = ""
-                            expectedResult = ""
-                            description = ""
+                            
+                            if currentEntries.count == 0 {
+                                showAlert = true
+                            }
+                            
+                            else if regex.firstMatch(in: title, options: [], range: NSRange(location: 0, length: title.utf16.count)) != nil || title == "" {
+                                showAlert = true
+                            }
+                            else if regex.firstMatch(in: description, options: [], range: NSRange(location: 0, length: description.utf16.count)) != nil || description == "" {
+                                showAlert = true
+                            }
+                            else if regex.firstMatch(in: expectedResult, options: [], range: NSRange(location: 0, length: expectedResult.utf16.count)) != nil || expectedResult == "" {
+                                showAlert = true
+                            }
+                            else {
+                                UserDefaults.standard.testsList.append(Test(title: title, description: description, expected_result: expectedResult, entriesList: currentEntries, action: 2))
+                                // GO home
+                                title = ""
+                                expectedResult = ""
+                                description = ""
+                                currentEntries = []
+                            }
                             
                         }){
                             Text("CREATE")
@@ -226,7 +245,7 @@ struct ManualTestView: View {
                                 .background(theme.getSecondary())
                                 .cornerRadius(12)
                         }.alert(isPresented: $showAlert) {
-                            Alert(title: Text("Error"), message: Text("Please add at least one entry before proceeding."), dismissButton: .default(Text("OK")))
+                            Alert(title: Text("Error"), message: Text("Please add at least one entry before proceeding and make sure all fields are filled in"), dismissButton: .default(Text("OK")))
                         }
                         Button(action: {
                             vibrate()

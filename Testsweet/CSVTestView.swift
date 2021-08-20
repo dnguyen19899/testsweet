@@ -32,6 +32,8 @@ struct CSVTestView: View {
     
     @EnvironmentObject var theme: Themes
     
+    let regex = try! NSRegularExpression(pattern: "\\A[ ]+\\Z")
+    
     func showTrash(){
         if fileName != "Add File"{
             fileThere = true
@@ -113,7 +115,6 @@ struct CSVTestView: View {
                                                 vibrate()
                                                 fileName = "Add File"
                                                 filePath = ""
-                                                showTrash()
                                                 openFile.toggle()
                                                 
                                             }, label: {
@@ -133,11 +134,12 @@ struct CSVTestView: View {
                                             })
                                             
                                             Button(action: {
-                                                
+                                                print("clicked on trash")
                                                 vibrate()
                                                 fileName = "Add File"
                                                 filePath = ""
                                                 fileThere = false
+                                                showTrash()
                                                 
                                             }, label: {
                                                 
@@ -200,6 +202,15 @@ struct CSVTestView: View {
                                             if filePath == "" {
                                                 showAlert = true
                                             }
+                                            else if regex.firstMatch(in: title, options: [], range: NSRange(location: 0, length: title.utf16.count)) != nil || title == "" {
+                                                showAlert = true
+                                            }
+                                            else if regex.firstMatch(in: description, options: [], range: NSRange(location: 0, length: description.utf16.count)) != nil || description == "" {
+                                                showAlert = true
+                                            }
+                                            else if regex.firstMatch(in: expectedResult, options: [], range: NSRange(location: 0, length: expectedResult.utf16.count)) != nil || expectedResult == "" {
+                                                showAlert = true
+                                            }
                                             else {
                                                 UserDefaults.standard.testsList.append(Test(title: title, description: description, expected_result: expectedResult, filePath: filePath, action: 1))
                                                 
@@ -207,6 +218,9 @@ struct CSVTestView: View {
                                                 title = ""
                                                 expectedResult = ""
                                                 description = ""
+                                                fileName = "Add File"
+                                                filePath = ""
+                                                showTrash()
                                             }
                                         }){
                                             Text("CREATE")
@@ -220,7 +234,7 @@ struct CSVTestView: View {
                                                 .background(theme.getSecondary())
                                                 .cornerRadius(12)
                                         }.alert(isPresented: $showAlert) {
-                                            Alert(title: Text("Error"), message: Text("Please open and select a file."), dismissButton: .default(Text("OK")))
+                                            Alert(title: Text("Error"), message: Text("Please open and select a file and make sure all fields are filled in."), dismissButton: .default(Text("OK")))
                                         }
                                         Spacer()
                                     }
