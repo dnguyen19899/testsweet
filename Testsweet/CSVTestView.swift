@@ -26,6 +26,7 @@ struct CSVTestView: View {
     @State private var deleteAlert = false
     @State private var showAlert = false
     @State private var addScreen = false
+    @State private var showCreate = false
     @State private var showCSVEntry: Bool = false
     @State private var showPopUp: Bool = false
     @State private var deleteScreen = false
@@ -221,6 +222,8 @@ struct CSVTestView: View {
                                                 fileName = "Add File"
                                                 filePath = ""
                                                 showTrash()
+                                                
+                                                showCreate = true
                                             }
                                         }){
                                             Text("CREATE")
@@ -254,6 +257,7 @@ struct CSVTestView: View {
             .navigationBarColor(UIColor(theme.getPrimanry()))
             
             InformationView(show: $showPopUp, showAdd: $addScreen, showDelete: $deleteScreen, CGMPoints: CGMPoints)
+            InformationView(showCreate: $showCreate)
         }
         
     }

@@ -10,6 +10,7 @@ import SwiftUI
 struct InformationView: View {
     
     @Binding var show: Bool
+    @Binding var showCreate: Bool
     @Binding var showAdd: Bool
     @Binding var showDelete: Bool
     
@@ -39,13 +40,23 @@ struct InformationView: View {
     
     init(showAdd: Binding<Bool>, showDelete: Binding<Bool>, CGMPoints: Int64) {
         _show = .constant(false)
+        _showCreate = .constant(false)
         _showAdd = showAdd
         _showDelete = showDelete
         self.CGMPoints = CGMPoints
     }
     
+    init(showCreate: Binding<Bool>) {
+        _show = .constant(false)
+        _showCreate = showCreate
+        _showAdd = .constant(false)
+        _showDelete = .constant(false)
+        self.CGMPoints = 0
+    }
+    
     init(show: Binding<Bool>, showAdd: Binding<Bool>, showDelete: Binding<Bool>, CGMPoints: Int64) {
         _show = show
+        _showCreate = .constant(false)
         _showAdd = showAdd
         _showDelete = showDelete
         self.CGMPoints = CGMPoints
@@ -286,9 +297,6 @@ struct InformationView: View {
                         .foregroundColor(Color.white)
                         .background(Color(hex: 0x1e6091))
                     
-                    //                    Rectangle()
-                    //                        .fill(Color.white)
-                    //                        .frame(width: 1000, height: 1000)
                     VStack{
                         Text("Adding \(CGMPoints) points")
                             .multilineTextAlignment(.center)
@@ -351,6 +359,50 @@ struct InformationView: View {
                             .background(Color(hex: 0x212529))
                             .font(Font.system(size: 23, weight: .semibold))
                     }
+                }
+                .frame(maxWidth: 300)
+                .clipShape(RoundedRectangle(cornerRadius: 25))
+                   .overlay(
+                    RoundedRectangle(cornerRadius: 25).stroke(Color.white, lineWidth: 4))
+                //.border(Color.white, width: 2)
+                .background(Color(.white))
+                .cornerRadius(25)
+            }
+            
+            if showCreate {
+                
+                Color.black.opacity(showCreate ? 0.3 : 0).edgesIgnoringSafeArea(.all)
+                
+                // PopUp Window
+                VStack(alignment: .center, spacing: 0) {
+                    
+                    Text("Test Created")
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 45, alignment: .center)
+                        .font(Font.system(size: 23, weight: .semibold))
+                        .foregroundColor(Color.white)
+                        .background(Color(hex: 0x212529))
+                    
+                    Text("Your test has been successfully created.")
+                        .multilineTextAlignment(.center)
+                        .font(Font.system(size: 16, weight: .semibold))
+                        .padding(EdgeInsets(top: 20, leading: 25, bottom: 20, trailing: 25))
+                        .foregroundColor(Color.black)
+                    
+                    
+                    Button(action: {
+                        // Dismiss the PopUp
+                        withAnimation(.linear(duration: 0.3)) {
+                            showCreate = false
+                        }
+                    }, label: {
+                        Text("OK")
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 54, alignment: .center)
+                            .foregroundColor(Color.white)
+                            .background(Color(hex: 0x212529))
+                            .font(Font.system(size: 23, weight: .semibold))
+                    }).buttonStyle(PlainButtonStyle())
                 }
                 .frame(maxWidth: 300)
                 .clipShape(RoundedRectangle(cornerRadius: 25))

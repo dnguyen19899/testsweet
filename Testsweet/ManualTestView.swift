@@ -19,7 +19,7 @@ struct ManualTestView: View {
     @State private var sgvError = false
     @State private var showAlert = false
     @State private var CGMPoints: Int64 = 0
-    @State private var addScreen = false
+    @State private var showCreate = false
     @State private var entriesShow: Bool = false
     @State private var title = ""
     @State private var expectedResult = ""
@@ -231,6 +231,8 @@ struct ManualTestView: View {
                                 expectedResult = ""
                                 description = ""
                                 currentEntries = []
+                                
+                                showCreate = true
                             }
                             
                         }){
@@ -267,12 +269,11 @@ struct ManualTestView: View {
                 }
             }
             
+            InformationView(showCreate: $showCreate)
         }
         
         .navigationBarTitle("Create a Test Manually", displayMode: .inline)
         .navigationBarColor(UIColor(theme.getPrimanry()))
-        
-        
     }
 }
 
