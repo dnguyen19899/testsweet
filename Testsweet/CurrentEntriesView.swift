@@ -20,6 +20,7 @@ struct CurrentEntriesView: View {
         self.NewCurrentEntries = currentEntries
     }
     
+
     var body: some View {
             ZStack{
                 if show {
@@ -42,7 +43,9 @@ struct CurrentEntriesView: View {
                         .frame(height: 450)
                         
                         Button(action: {
-                            show = false
+                            withAnimation{
+                                show = false
+                            }
                         }, label: {
                             Text("OK")
                                 .frame(maxWidth: .infinity)

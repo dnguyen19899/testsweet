@@ -151,8 +151,9 @@ struct ManualTestView: View {
                     
                     Button(action: {
                         vibrate()
-                        entriesShow = true
-                        
+                        withAnimation{
+                            entriesShow = true
+                        }
                     }, label: {
                         Text("Check Entries")
                             .bold()
@@ -241,6 +242,7 @@ struct ManualTestView: View {
             
             InformationView(showCreate: $showCreate)
             CurrentEntriesView(show: $entriesShow, currentEntries: currentEntries)
+                
         }
             
             .navigationBarTitle("Create a Test Manually", displayMode: .inline)

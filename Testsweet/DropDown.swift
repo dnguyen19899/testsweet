@@ -21,13 +21,20 @@ struct DropdownButton: View {
         ZStack{
             VStack{
                 Button(action: {
-                    shouldShowDropdown.toggle()
+                    withAnimation{
+                        shouldShowDropdown.toggle()
+                    }
                     
                 }, label: {
                     Text(displayText)
                         .foregroundColor(.black)
-                    Image(systemName: shouldShowDropdown ? "chevron.up" : "chevron.down")
+                    Image(systemName: "chevron.right")
                         .foregroundColor(.black)
+                        .imageScale(.large)
+                        .rotationEffect(.degrees(shouldShowDropdown ? 90 : 0))
+                        .scaleEffect(shouldShowDropdown ? 1.5 : 1)
+                        .padding(.leading)
+
                 })
                 .padding([.leading, .trailing],45)
                 .padding([.top,.bottom] , 10)
@@ -39,63 +46,92 @@ struct DropdownButton: View {
                     ZStack{
                         VStack(spacing: 5){
                             Button(action: {
-                                displayText = "FLAT"
-                                shouldShowDropdown = false
+                                
+                                withAnimation{
+                                    displayText = "FLAT"
+                                    shouldShowDropdown = false
+                                }
                             }, label: {
                                 Text("FLAT")
                                     .foregroundColor(.black)
                             })
                             Button(action: {
-                                displayText = "DOUBLE_UP"
-                                shouldShowDropdown = false
+                                
+                                withAnimation{
+                                    displayText = "DOUBLE_UP"
+                                    shouldShowDropdown = false
+                                }
                             }, label: {
                                 Text("DOUBLE_UP").foregroundColor(.black)
                             })
                             Button(action: {
-                                displayText = "SINGLE_UP"
-                                shouldShowDropdown = false
+                                
+                                withAnimation{
+                                    displayText = "SINGLE_UP"
+                                    shouldShowDropdown = false
+                                }
                             }, label: {
                                 Text("SINGLE_UP").foregroundColor(.black)
                             })
                             Button(action: {
-                                displayText = "FORTY_FIVE_UP"
-                                shouldShowDropdown = false
+                                
+                                withAnimation{
+                                    displayText = "FORTY_FIVE_UP"
+                                    shouldShowDropdown = false
+                                }
                             }, label: {
                                 Text("FORTY_FIVE_UP").foregroundColor(.black)
                             })
                             Button(action: {
-                                displayText = "FORTY_FIVE_DOWN"
-                                shouldShowDropdown = false
+                                
+                                withAnimation{
+                                    displayText = "FORTY_FIVE_DOWN"
+                                    shouldShowDropdown = false
+                                }
                             }, label: {
                                 Text("FORTY_FIVE_DOWN").foregroundColor(.black)
                             })
                             Button(action: {
-                                displayText = "SINGLE_DOWN"
-                                shouldShowDropdown = false
+                               
+                                withAnimation{
+                                    displayText = "SINGLE_DOWN"
+                                    shouldShowDropdown = false
+                                }
                             }, label: {
                                 Text("SINGLE_DOWN").foregroundColor(.black)
                             })
                             Button(action: {
-                                displayText = "DOUBLE_DOWN"
-                                shouldShowDropdown = false
+                                
+                                withAnimation{
+                                    displayText = "DOUBLE_DOWN"
+                                    shouldShowDropdown = false
+                                }
                             }, label: {
                                 Text("DOUBLE_DOWN").foregroundColor(.black)
                             })
                             Button(action: {
-                                displayText = "NOT_COMPUTABLE"
-                                shouldShowDropdown = false
+                                
+                                withAnimation{
+                                    displayText = "NOT_COMPUTABLE"
+                                    shouldShowDropdown = false
+                                }
                             }, label: {
                                 Text("NOT_COMPUTABLE").foregroundColor(.black)
                             })
                             Button(action: {
-                                displayText = "OUT_OF_RANGE"
-                                shouldShowDropdown = false
+                                
+                                withAnimation{
+                                    displayText = "OUT_OF_RANGE"
+                                    shouldShowDropdown = false
+                                }
                             }, label: {
                                 Text("OUT_OF_RANGE").foregroundColor(.black)
                             })
                             Button(action: {
-                                displayText = "None"
-                                shouldShowDropdown = false
+                                withAnimation{
+                                    displayText = "None"
+                                    shouldShowDropdown = false
+                                }
                             }, label: {
                                 Text("None").foregroundColor(.black)
                             })

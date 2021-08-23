@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+
+
 struct GraphedView: View {
     
     @State private var showGraphed = false
@@ -18,7 +20,6 @@ struct GraphedView: View {
         let NSController = NightscoutController(date: Date())
         NSController.getEntryRequest{(data) in
             getArrayHere = data
-            //print(getArrayHere)
         }
     }
     
@@ -65,14 +66,16 @@ struct GraphedView: View {
                                     
                                 }
                             }
-                        }
+                        }.transition(.moveAndFade)
                 }
             VStack{
                 
                 Spacer()
                 HStack{
                     Button(action: {
-                        showGraphed.toggle()
+                        withAnimation{
+                            showGraphed.toggle()
+                        }
                     }, label: {
                         Image(systemName: "info.circle")
                             .foregroundColor(theme.getAccent2())
