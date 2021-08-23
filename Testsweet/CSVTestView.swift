@@ -31,6 +31,10 @@ struct CSVTestView: View {
     @State private var showPopUp: Bool = false
     @State private var deleteScreen = false
     
+    @State private var editingTitle = false
+    @State private var editingDescription = false
+    @State private var editingResult = false
+    
     @EnvironmentObject var theme: Themes
     
     let regex = try! NSRegularExpression(pattern: "\\A[ ]+\\Z")
@@ -71,10 +75,9 @@ struct CSVTestView: View {
                                     VStack(alignment: .leading) {
                                         Text("TITLE")
                                             .font(.headline)
-                                        TextField("Please fill in the title", text: $title)
-                                            .padding(.all)
-                                            .background(Color(red: 239.0/255.0, green: 243.0/255.0, blue: 244.0/255.0, opacity: 1.0))
-                                            .cornerRadius(5.0)
+                                        TextField("Please fill in the title", text: $title, onEditingChanged: { edit in
+                                                    self.editingTitle = edit })
+                                            .textFieldStyle(MyTextFieldStyle(focused: $editingTitle))
                                     }
                                     .padding(.top, 30)
                                     .padding(.horizontal, 15)
@@ -82,10 +85,9 @@ struct CSVTestView: View {
                                     VStack(alignment: .leading) {
                                         Text("DESCRIPTION")
                                             .font(.headline)
-                                        TextField("Please provide a description of your test", text: $description)
-                                            .padding(.all)
-                                            .background(Color(red: 239.0/255.0, green: 243.0/255.0, blue: 244.0/255.0, opacity: 1.0))
-                                            .cornerRadius(5.0)
+                                        TextField("Please provide a description of your test", text: $description, onEditingChanged: { edit in
+                                                    self.editingDescription = edit })
+                                            .textFieldStyle(MyTextFieldStyle(focused: $editingDescription))
                                     }
                                     .padding(.horizontal, 15)
                                     
@@ -187,10 +189,9 @@ struct CSVTestView: View {
                                     VStack(alignment: .leading) {
                                         Text("EXPECTED RESULT")
                                             .font(.headline)
-                                        TextField("Briefly describe the expected result", text: $expectedResult)
-                                            .padding(.all)
-                                            .background(Color(red: 239.0/255.0, green: 243.0/255.0, blue: 244.0/255.0, opacity: 1.0))
-                                            .cornerRadius(5.0)
+                                        TextField("Briefly describe the expected result", text: $expectedResult, onEditingChanged: { edit in
+                                                    self.editingResult = edit })
+                                            .textFieldStyle(MyTextFieldStyle(focused: $editingResult))
                                     }
                                     .padding([.horizontal, .bottom], 15)
                                     

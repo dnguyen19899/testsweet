@@ -24,7 +24,10 @@ struct ManualTestView: View {
     @State private var expectedResult = ""
     @State private var description = ""
     @State private var showAlert = false
- 
+    
+    @State private var editingTitle = false
+    @State private var editingDescription = false
+    @State private var editingResult = false
     
     @EnvironmentObject var theme : Themes
     
@@ -53,10 +56,9 @@ struct ManualTestView: View {
                     VStack(alignment: .leading) {
                         Text("TITLE")
                             .font(.headline)
-                        TextField("Please fill in the title", text: $title)
-                            .padding(.all)
-                            .background(Color(red: 239.0/255.0, green: 243.0/255.0, blue: 244.0/255.0, opacity: 1.0))
-                            .cornerRadius(5.0)
+                        TextField("Please fill in the title", text: $title, onEditingChanged: { edit in
+                                    self.editingTitle = edit })
+                            .textFieldStyle(MyTextFieldStyle(focused: $editingTitle))
                     }
                     .padding(.top, 25)
                     .padding(.horizontal, 15)
@@ -64,10 +66,9 @@ struct ManualTestView: View {
                     VStack(alignment: .leading) {
                         Text("DESCRIPTION")
                             .font(.headline)
-                        TextField("Please provide a description of your test", text: $description)
-                            .padding(.all)
-                            .background(Color(red: 239.0/255.0, green: 243.0/255.0, blue: 244.0/255.0, opacity: 1.0))
-                            .cornerRadius(5.0)
+                        TextField("Please provide a description of your test", text: $description, onEditingChanged: { edit in
+                                    self.editingDescription = edit })
+                            .textFieldStyle(MyTextFieldStyle(focused: $editingDescription))
                     }
                     .padding([.horizontal, .bottom], 15)
                     
@@ -168,10 +169,9 @@ struct ManualTestView: View {
                     VStack(alignment: .leading) {
                         Text("EXPECTED RESULT")
                             .font(.headline)
-                        TextField("Briefly describe the expected result", text: $expectedResult)
-                            .padding(.all)
-                            .background(Color(red: 239.0/255.0, green: 243.0/255.0, blue: 244.0/255.0, opacity: 1.0))
-                            .cornerRadius(5.0)
+                        TextField("Briefly describe the expected result", text: $expectedResult, onEditingChanged: { edit in
+                                    self.editingResult = edit })
+                            .textFieldStyle(MyTextFieldStyle(focused: $editingResult))
                     }
                     .padding([.top])
                     .padding([.horizontal, .bottom], 15)
@@ -250,6 +250,17 @@ struct ManualTestView: View {
     }
 }
 
+
+struct MyTextFieldStyle: TextFieldStyle {
+    @Binding var focused: Bool
+    func _body(configuration: TextField<Self._Label>) -> some View {
+        configuration
+        .padding(.all)
+        .background(Color(red: 239.0/255.0, green: 243.0/255.0, blue: 244.0/255.0, opacity: 1.0))
+            .border(focused ? Color(hex: 0x212529) : Color.clear, width: 3.0)
+        .cornerRadius(5.0)
+    }
+}
 
 
 struct ManualTestView_Previews: PreviewProvider {
