@@ -22,36 +22,46 @@ struct CurrentEntriesView: View {
     
     var body: some View {
             ZStack{
-                theme.getAccent3().opacity(0.3).edgesIgnoringSafeArea(.all)
-                VStack{
-                    Text("Current Entires")
-                        .font(.system(size: 30, weight: .heavy, design: .default))
-                        .bold()
-                        .padding()
-                        .foregroundColor(Color(hex: 0x184e77))
-                    List {
-                        ForEach(NewCurrentEntries, id: \.self){ entry in
-                            Text(entry.toString())
-                        }
-                    }
-                    Button(action: {
-                        show = false
-                    }, label: {
-                        Text("Dismiss")
-                            .bold()
-                            .font(Font.custom("Helvetica Neue", size: 20.0))
-                            .padding(.top, 15)
-                            .padding(.bottom, 15)
-                            .padding(.leading, 30)
-                            .padding(.trailing, 30)
+                if show {
+                    
+                    // theme.getAccent3().opacity(0.3).edgesIgnoringSafeArea(.all)
+                    Color.black.opacity(show ? 0.3 : 0).edgesIgnoringSafeArea(.all)
+                    
+                    VStack{
+                        Text("Current Entires")
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 45, alignment: .center)
+                            .font(Font.system(size: 30, weight: .semibold))
                             .foregroundColor(Color.white)
                             .background(theme.getPrimanry())
-                            .cornerRadius(12)
-                    }).padding()
+                        List {
+                            ForEach(NewCurrentEntries, id: \.self){ entry in
+                                Text(entry.toString())
+                            }
+                        }
+                        .frame(height: 450)
+                        
+                        Button(action: {
+                            show = false
+                        }, label: {
+                            Text("OK")
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 54, alignment: .center)
+                                .foregroundColor(Color.white)
+                                .background(theme.getSecondary())
+                                .font(Font.system(size: 30, weight: .semibold))
+                        }).buttonStyle(PlainButtonStyle())
+                    }
+                    .frame(maxWidth: 300)
+                    .clipShape(RoundedRectangle(cornerRadius: 25))
+                       .overlay(
+                        RoundedRectangle(cornerRadius: 25).stroke(Color.white, lineWidth: 4))
+                    //.border(Color.white, width: 2)
+                    .background(Color(.white))
+                    .cornerRadius(25)
+                    
                 }
             }
-            .frame(width: UIScreen.main.bounds.width/1.1, height: UIScreen.main.bounds.height/2)
-            .cornerRadius(12)
     }
 }
 
