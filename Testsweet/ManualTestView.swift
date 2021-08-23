@@ -105,13 +105,11 @@ struct ManualTestView: View {
                             self.hideKeyboard()
                         }
                         
-                           DropdownButton(displayText: $currentSelectionText, options: ["FLAT","DOUBLE_UP","SINGLE_UP", "FORTY_FIVE_UP","FORTY_FIVE_DOWN","SINGLE_DOWN","DOUBLE_DOWN","NOT_COMPUTABLE","OUT_OF_RANGE", "None",
-                           ])
+                        DropdownButton(displayText: $currentSelectionText)
     
                     }.zIndex(1)
                     HStack{
                         Button(action: {
-                            print(currentSelectionText)
                             vibrate()
                             if sgv3.value != "" {
                                 if (Int(sgv3.value)!) >= 0 && (Int(sgv3.value)!) <= 500 {

@@ -31,7 +31,7 @@ struct RowContent: View {
                         
                     }
                     .frame(width: 260, height: 75)
-                    .background( LinearGradient(gradient: Gradient(colors: theme.getArray()), startPoint: .leading, endPoint: .trailing))
+                    .background( LinearGradient(gradient: Gradient(colors: theme.getGradient()), startPoint: .leading, endPoint: .trailing))
                     .cornerRadius(25)
                 }
                 .frame(width:260, height: 100)
