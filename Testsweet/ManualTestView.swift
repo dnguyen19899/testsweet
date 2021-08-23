@@ -15,6 +15,7 @@ struct ManualTestView: View {
     @State private var date3 = Date()
     @State private var currentEntries = [Entry]()
     @State private var currentSelection = 0
+    @State private var currentSelectionText = "Direction"
     @ObservedObject var sgv3 = NumbersOnly()
     @State private var sgvError = false
     @State private var showAlert = false
@@ -104,27 +105,17 @@ struct ManualTestView: View {
                             self.hideKeyboard()
                         }
                         
-                        VStack{
-                            DropdownPicker(title: "Directions", selection: $currentSelection, options: ["FLAT","DOUBLE_UP", "SINGLE_UP", "FORTY_FIVE_UP", "FORTY_FIVE_DOWN", "SINGLE_DOWN", "DOUBLE_DOWN", "NOT_COMPUTABLE", "OUT_OF_RANGE", "None"])
-                        }
-                    }
+                           DropdownButton(displayText: $currentSelectionText, options: ["FLAT","DOUBLE_UP","SINGLE_UP", "FORTY_FIVE_UP","FORTY_FIVE_DOWN","SINGLE_DOWN","DOUBLE_DOWN","NOT_COMPUTABLE","OUT_OF_RANGE", "None",
+                           ])
+    
+                    }.zIndex(1)
                     HStack{
                         Button(action: {
+                            print(currentSelectionText)
                             vibrate()
-                            var newCurrentSelection = ""
-                            if currentSelection == 0{newCurrentSelection = "FLAT"}
-                            else if currentSelection == 1 {newCurrentSelection = "DOUBLE_UP"}
-                            else if currentSelection == 2 {newCurrentSelection = "SINGLE_UP"}
-                            else if currentSelection == 3 {newCurrentSelection = "FORTY_FIVE_UP"}
-                            else if currentSelection == 4 {newCurrentSelection = "FORTY_FIVE_DOWN"}
-                            else if currentSelection == 5 {newCurrentSelection = "SINGLE_DOWN"}
-                            else if currentSelection == 6 {newCurrentSelection = "DOUBLE_DOWN"}
-                            else if currentSelection == 7 {newCurrentSelection = "NOT_COMPUTABLE"}
-                            else if currentSelection == 8 {newCurrentSelection = "OUT_OF_RANGE"}
-                            else {newCurrentSelection = ""}
                             if sgv3.value != "" {
                                 if (Int(sgv3.value)!) >= 0 && (Int(sgv3.value)!) <= 500 {
-                                    let entry = Entry(sgv: sgv3.value, direction: newCurrentSelection)
+                                    let entry = Entry(sgv: sgv3.value, direction: currentSelectionText)
                                     currentEntries.append(entry)
                                 }
                                 else{

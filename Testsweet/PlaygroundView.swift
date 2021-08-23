@@ -374,7 +374,7 @@ struct PlaygroundView: View {
                                                 }
                                                 
                                                 VStack{
-                                                    DropdownPicker(title: "Directions", selection: $currentSelection, options: ["FLAT","NONE DOUBLE_UP", "SINGLE_UP", "FORTY_FIVE_UP", "FLAT FORTY_FIVE_DOWN", "SINGLE_DOWN", "DOUBLE_DOWN", "NOT_COMPUTABLE", "OUT_OF_RANGE", "None"])
+                                               
                                                 }
                                             }
                                             HStack{

@@ -15,9 +15,11 @@ struct checkSugarmateView: View {
     
     @Binding var show: Bool
     
+    @EnvironmentObject var theme : Themes
+    
     func getColor() -> Color{
-        let colors = [Color(#colorLiteral(red: 0.1607481241, green: 0.5125916004, blue: 0.5261992216, alpha: 1)),Color(#colorLiteral(red: 0.6706730127, green: 0.845440805, blue: 0.5175511241, alpha: 1)),Color(#colorLiteral(red: 0.4004970789, green: 0.6831317544, blue: 0.5014337301, alpha: 1)),Color(#colorLiteral(red: 0.2764765024, green: 0.6270785928, blue: 0.5273578763, alpha: 1)),Color(#colorLiteral(red: 0.1185745522, green: 0.3756733537, blue: 0.5679591298, alpha: 1)),Color(#colorLiteral(red: 0.09433246404, green: 0.3047628701, blue: 0.4649187326, alpha: 1)),Color(#colorLiteral(red: 0.7970537543, green: 0.8742372394, blue: 0.5379388928, alpha: 1))]
-        let randInt = Int.random(in: 0...6)
+        let colors = theme.getArray()
+        let randInt = Int.random(in: 0...colors.count-1)
         return colors[randInt]
     }
     func getsize() -> Int{
@@ -41,7 +43,7 @@ struct checkSugarmateView: View {
             Color(#colorLiteral(red: 0.129445374, green: 0.1432131827, blue: 0.1591491401, alpha: 1))
             RoundedRectangle(cornerRadius: 25.0)
                 .frame(width: UIScreen.main.bounds.width/1.2, height: UIScreen.main.bounds.height/1.3)
-                .foregroundColor(Color(#colorLiteral(red: 0.5550227761, green: 0.791927278, blue: 0.5073714256, alpha: 1)))
+                .foregroundColor(theme.getAccent3())
 
                 ZStack{
                     ForEach(0..<self.items){_ in
@@ -82,7 +84,7 @@ struct checkSugarmateView: View {
                         .font(.system(size: 20, weight: .bold, design: .default))
                         .foregroundColor(Color.white)
                         .frame(width: 100, height: 50)
-                        .background(Color(hex: 0x52b69a))
+                        .background(theme.getAccent2())
                         .cornerRadius(10)
                 })
             }.onAppear(){

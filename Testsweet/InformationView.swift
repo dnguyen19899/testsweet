@@ -22,6 +22,7 @@ struct InformationView: View {
     @State private var showProgress2 = false
     @State private var isAnimating2 = false
     
+    @EnvironmentObject var theme : Themes
     
     var foreverAnimation: Animation {
         Animation.linear(duration: 2.0)
@@ -181,7 +182,7 @@ struct InformationView: View {
                         .frame(height: 45, alignment: .center)
                         .font(Font.system(size: 23, weight: .semibold))
                         .foregroundColor(Color.white)
-                        .background(Color(hex: 0x212529))
+                        .background(theme.getPrimanry())
                     
                     Text(message)
                         .multilineTextAlignment(.center)
@@ -271,7 +272,7 @@ struct InformationView: View {
                             .frame(maxWidth: .infinity)
                             .frame(height: 54, alignment: .center)
                             .foregroundColor(Color.white)
-                            .background(Color(hex: 0x212529))
+                            .background(theme.getSecondary())
                             .font(Font.system(size: 23, weight: .semibold))
                     }).buttonStyle(PlainButtonStyle())
                 }
@@ -295,7 +296,7 @@ struct InformationView: View {
                         .frame(height: 45, alignment: .center)
                         .font(Font.system(size: 23, weight: .semibold))
                         .foregroundColor(Color.white)
-                        .background(Color(hex: 0x1e6091))
+                        .background(theme.getSecondary())
                     
                     VStack{
                         Text("Adding \(CGMPoints) points")
@@ -312,7 +313,7 @@ struct InformationView: View {
                             .frame(maxWidth: .infinity)
                             .frame(height: 54, alignment: .center)
                             .foregroundColor(Color.white)
-                            .background(Color(hex: 0x1e6091))
+                            .background(theme.getSecondary())
                             .font(Font.system(size: 23, weight: .semibold))
                         
                     }
@@ -336,7 +337,7 @@ struct InformationView: View {
                         .frame(height: 45, alignment: .center)
                         .font(Font.system(size: 23, weight: .semibold))
                         .foregroundColor(Color.white)
-                        .background(Color(hex: 0x212529))
+                        .background(theme.getSecondary())
                     
                     //                    Rectangle()
                     //                        .fill(Color.white)
@@ -356,7 +357,7 @@ struct InformationView: View {
                             .frame(maxWidth: .infinity)
                             .frame(height: 54, alignment: .center)
                             .foregroundColor(Color.white)
-                            .background(Color(hex: 0x212529))
+                            .background(theme.getSecondary())
                             .font(Font.system(size: 23, weight: .semibold))
                     }
                 }
@@ -381,7 +382,7 @@ struct InformationView: View {
                         .frame(height: 45, alignment: .center)
                         .font(Font.system(size: 23, weight: .semibold))
                         .foregroundColor(Color.white)
-                        .background(Color(hex: 0x212529))
+                        .background(theme.getSecondary())
                     
                     Text("Your test has been successfully created.")
                         .multilineTextAlignment(.center)
@@ -400,7 +401,7 @@ struct InformationView: View {
                             .frame(maxWidth: .infinity)
                             .frame(height: 54, alignment: .center)
                             .foregroundColor(Color.white)
-                            .background(Color(hex: 0x212529))
+                            .background(theme.getSecondary())
                             .font(Font.system(size: 23, weight: .semibold))
                     }).buttonStyle(PlainButtonStyle())
                 }
