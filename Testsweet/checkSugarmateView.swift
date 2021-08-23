@@ -40,7 +40,7 @@ struct checkSugarmateView: View {
     var body: some View {
         
         ZStack{
-            Color(#colorLiteral(red: 0.129445374, green: 0.1432131827, blue: 0.1591491401, alpha: 1))
+            Color(#colorLiteral(red: 0.129445374, green: 0.1432131827, blue: 0.1591491401, alpha: 1)).ignoresSafeArea(.all)
             RoundedRectangle(cornerRadius: 25.0)
                 .frame(width: UIScreen.main.bounds.width/1.2, height: UIScreen.main.bounds.height/1.3)
                 .foregroundColor(theme.getAccent3())

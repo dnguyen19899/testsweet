@@ -25,7 +25,7 @@ struct GraphedView: View {
     var body: some View {
         ZStack{
             if showGraphed{
-                Color.white
+                Color.white.ignoresSafeArea(.all)
                 Section() {
                             ZStack{
                                 VStack{

@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-import SwiftUI
 
 struct ManualTestView: View {
     
@@ -15,16 +14,17 @@ struct ManualTestView: View {
     @State private var date3 = Date()
     @State private var currentEntries = [Entry]()
     @State private var currentSelection = 0
-    @State private var currentSelectionText = "Direction"
+    @State private var currentSelectionText = "FLAT"
     @ObservedObject var sgv3 = NumbersOnly()
     @State private var sgvError = false
-    @State private var showAlert = false
     @State private var CGMPoints: Int64 = 0
     @State private var showCreate = false
     @State private var entriesShow: Bool = false
     @State private var title = ""
     @State private var expectedResult = ""
     @State private var description = ""
+    @State private var showAlert = false
+ 
     
     @EnvironmentObject var theme : Themes
     
@@ -39,7 +39,7 @@ struct ManualTestView: View {
         return date3
     }
     
-    
+
     var body: some View {
         
         ZStack() {
