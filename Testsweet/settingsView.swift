@@ -62,17 +62,17 @@ struct settingsView: View {
                     })
 
                     Button(action: {
-                        print("cozy Theme")
+                        print("Rustic Theme")
                         theme.currentTheme = 2
                         print(theme.currentTheme)
                         UserDefaults.standard.set(theme.currentTheme, forKey: "currentTheme")
                     }, label: {
-                        Text("Cozy")
+                        Text("Rustic")
                             .padding()
                             .foregroundColor(.white)
                             .frame(width: 200, height: 50)
                             .background(
-                                    LinearGradient(gradient: Gradient(colors:[Color(#colorLiteral(red: 0.5884678364, green: 0.4203606844, blue: 0.6142408252, alpha: 1)),Color(#colorLiteral(red: 0.7894214988, green: 0.526325345, blue: 0.525459826, alpha: 1)),Color(#colorLiteral(red: 0.9488562942, green: 0.7211748958, blue: 0.5038855672, alpha: 1)),Color(#colorLiteral(red: 0.9050268531, green: 0.8116474152, blue: 0.7356891036, alpha: 1)),Color(#colorLiteral(red: 0.2171717172, green: 0.2092127124, blue: 0.2028890489, alpha: 1))] ), startPoint: .leading, endPoint: .trailing)
+                                    LinearGradient(gradient: Gradient(colors:[Color(#colorLiteral(red: 0.5884678364, green: 0.4203606844, blue: 0.6142408252, alpha: 1)),Color(#colorLiteral(red: 0.7894214988, green: 0.526325345, blue: 0.525459826, alpha: 1)),Color(#colorLiteral(red: 0.9488562942, green: 0.7211748958, blue: 0.5038855672, alpha: 1)),Color(#colorLiteral(red: 0.9050268531, green: 0.8116474152, blue: 0.7356891036, alpha: 1))] ), startPoint: .leading, endPoint: .trailing)
                                 )
                             .cornerRadius(10)
                     })
@@ -99,12 +99,12 @@ struct settingsView: View {
                         print(theme.currentTheme)
                         UserDefaults.standard.set(theme.currentTheme, forKey: "currentTheme")
                     }, label: {
-                        Text("Gumdrop")
+                        Text("Watermelon")
                             .padding()
                             .foregroundColor(.white)
                             .frame(width: 200, height: 50)
                             .background(
-                                    LinearGradient(gradient: Gradient(colors:[Color(#colorLiteral(red: 0.9553784728, green: 0.09136072546, blue: 0.3287055492, alpha: 1)),Color(#colorLiteral(red: 0.9666003585, green: 0.2778905332, blue: 0.4963815808, alpha: 1)),Color(#colorLiteral(red: 0.968077004, green: 0.3583317697, blue: 0.543836534, alpha: 1)),Color(#colorLiteral(red: 0.9766011834, green: 0.7450146079, blue: 0.7800876498, alpha: 1)),Color(#colorLiteral(red: 0.9803705812, green: 0.6950640678, blue: 0.7403133512, alpha: 1))] ), startPoint: .leading, endPoint: .trailing)
+                                    LinearGradient(gradient: Gradient(colors:[Color(#colorLiteral(red: 0.9624200463, green: 0.3862091601, blue: 0.5307485461, alpha: 1)),Color(#colorLiteral(red: 0.1496931911, green: 0.5210923553, blue: 0.3988147676, alpha: 1))]), startPoint: .leading, endPoint: .trailing)
                                 )
                             .cornerRadius(10)
                     })
@@ -120,7 +120,23 @@ struct settingsView: View {
                             .foregroundColor(.white)
                             .frame(width: 200, height: 50)
                             .background(
-                                    LinearGradient(gradient: Gradient(colors:[Color(#colorLiteral(red: 0.8489733934, green: 0.07412941009, blue: 0.3481240273, alpha: 1)),Color(#colorLiteral(red: 0.5600893497, green: 0.1756859124, blue: 0.3387384415, alpha: 1)),Color(#colorLiteral(red: 0.1402911842, green: 0.5127117038, blue: 0.5016019344, alpha: 1)),Color(#colorLiteral(red: 0.9836252332, green: 0.6937811971, blue: 0.2365075946, alpha: 1)),Color(#colorLiteral(red: 0.4497362375, green: 0.8245891929, blue: 0.8723714948, alpha: 1))]), startPoint: .leading, endPoint: .trailing)
+                                    LinearGradient(gradient: Gradient(colors:[Color(#colorLiteral(red: 0.1598591506, green: 0.195246309, blue: 0.2541981637, alpha: 1)),Color(#colorLiteral(red: 0.2165521979, green: 0.3225908279, blue: 0.4596990943, alpha: 1)),Color(#colorLiteral(red: 0.5972244143, green: 0.7581434846, blue: 0.8521771431, alpha: 1)),Color(#colorLiteral(red: 0.9321789742, green: 0.4224380553, blue: 0.301848799, alpha: 1))]), startPoint: .leading, endPoint: .trailing)
+                                )
+                            .cornerRadius(10)
+                    })
+                    
+                    Button(action: {
+                        print("hot pink Theme")
+                        theme.currentTheme = 6
+                        print(theme.currentTheme)
+                        UserDefaults.standard.set(theme.currentTheme, forKey: "currentTheme")
+                    }, label: {
+                        Text("Hot Pink")
+                            .padding()
+                            .foregroundColor(.white)
+                            .frame(width: 200, height: 50)
+                            .background(
+                                    LinearGradient(gradient: Gradient(colors:[Color(#colorLiteral(red: 0.129445374, green: 0.1432131827, blue: 0.1591491401, alpha: 1)),Color(#colorLiteral(red: 0.9582391381, green: 0.3540472686, blue: 0.5360499024, alpha: 1)),Color(#colorLiteral(red: 0.9582391381, green: 0.3540472686, blue: 0.5360499024, alpha: 1))]), startPoint: .leading, endPoint: .trailing)
                                 )
                             .cornerRadius(10)
                     })

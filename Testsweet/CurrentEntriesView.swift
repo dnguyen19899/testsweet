@@ -27,7 +27,7 @@ struct CurrentEntriesView: View {
                     
                     // theme.getAccent3().opacity(0.3).edgesIgnoringSafeArea(.all)
                     Color.black.opacity(show ? 0.3 : 0).edgesIgnoringSafeArea(.all)
-                    
+                    Section{
                     VStack{
                         Text("Current Entires")
                             .frame(maxWidth: .infinity)
@@ -62,7 +62,7 @@ struct CurrentEntriesView: View {
                     //.border(Color.white, width: 2)
                     .background(Color(.white))
                     .cornerRadius(25)
-                    
+                    }.transition(.moveAndFade)
                 }
             }
     }

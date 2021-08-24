@@ -78,7 +78,7 @@ struct GraphedView: View {
                         }
                     }, label: {
                         Image(systemName: "info.circle")
-                            .foregroundColor(theme.getAccent2())
+                            .foregroundColor(theme.getAccent3())
                             .font(.title)
                     }).padding()
                     Spacer()

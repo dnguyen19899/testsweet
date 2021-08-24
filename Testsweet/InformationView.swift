@@ -173,7 +173,7 @@ struct InformationView: View {
             if show {
                 // PopUp background color
                 Color.black.opacity(show ? 0.3 : 0).edgesIgnoringSafeArea(.all)
-                
+                Section{
                 // PopUp Window
                 VStack(alignment: .center, spacing: 0) {
                     
@@ -283,11 +283,12 @@ struct InformationView: View {
                 //.border(Color.white, width: 2)
                 .background(Color(.white))
                 .cornerRadius(25)
+                }.transition(.moveAndFade)
             }
             if showAdd {
                 
                 Color.black.opacity(showAdd ? 0.3 : 0).edgesIgnoringSafeArea(.all)
-                
+                Section{
                 // PopUp Window
                 VStack(alignment: .center, spacing: 0) {
                     
@@ -325,11 +326,12 @@ struct InformationView: View {
                 //.border(Color.white, width: 2)
                 .background(Color(.white))
                 .cornerRadius(25)
+                }.transition(.moveAndFade)
             }
             if showDelete {
                 
                 Color.black.opacity(showDelete ? 0.3 : 0).edgesIgnoringSafeArea(.all)
-                
+                Section{
                 VStack(alignment: .center, spacing: 0) {
                     
                     Text("Delete")
@@ -368,12 +370,13 @@ struct InformationView: View {
                 //.border(Color.white, width: 2)
                 .background(Color(.white))
                 .cornerRadius(25)
+                }.transition(.moveAndFade)
             }
             
             if showCreate {
                 
                 Color.black.opacity(showCreate ? 0.3 : 0).edgesIgnoringSafeArea(.all)
-                
+                Section{
                 // PopUp Window
                 VStack(alignment: .center, spacing: 0) {
                     
@@ -412,7 +415,8 @@ struct InformationView: View {
                 //.border(Color.white, width: 2)
                 .background(Color(.white))
                 .cornerRadius(25)
-            }
+            }.transition(.moveAndFade)
+        }
         }
         
     }

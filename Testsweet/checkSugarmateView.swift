@@ -42,7 +42,7 @@ struct checkSugarmateView: View {
         ZStack{
             Color(#colorLiteral(red: 0.129445374, green: 0.1432131827, blue: 0.1591491401, alpha: 1)).ignoresSafeArea(.all)
             RoundedRectangle(cornerRadius: 25.0)
-                .frame(width: UIScreen.main.bounds.width/1.2, height: UIScreen.main.bounds.height/1.3)
+                .frame(width: UIScreen.main.bounds.width/1.2, height: UIScreen.main.bounds.height/1.4)
                 .foregroundColor(theme.getAccent3())
 
                 ZStack{
@@ -69,16 +69,17 @@ struct checkSugarmateView: View {
                     .fontWeight(.bold)
                     .font(.title)
                     .frame(width: UIScreen.main.bounds.width/1.3, alignment: .center)
-                    .padding(.bottom, 300)
+                    .padding(.bottom, 270)
                 
                 Text(expectedResult)
                     .font(.system(size: 20))
-                    .padding(.top , -200)
+                    .padding(.top , -160)
                     .padding(50)
                 
                 Button(action: {
-                    show = false
-                    print("Done")
+                    withAnimation{
+                        show = false
+                    }
                 }, label: {
                     Text("Done")
                         .font(.system(size: 20, weight: .bold, design: .default))
@@ -91,7 +92,7 @@ struct checkSugarmateView: View {
                 drawBubbles = true
             }
             
-        }
+        }.transition(.moveAndFade)
     }
 }
 

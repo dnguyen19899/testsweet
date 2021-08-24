@@ -223,8 +223,9 @@ struct CSVTestView: View {
                                                 fileName = "Add File"
                                                 filePath = ""
                                                 showTrash()
-                                                
-                                                showCreate = true
+                                                withAnimation{
+                                                    showCreate = true
+                                                }
                                             }
                                         }){
                                             Text("CREATE")

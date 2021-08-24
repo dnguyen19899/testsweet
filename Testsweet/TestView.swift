@@ -60,20 +60,28 @@ struct TestView: View {
                             //Delete First
                             let NSController = NightscoutController(date: Date())
                             vibrate()
-                            deleteScreen = true
+                            withAnimation{
+                                deleteScreen = true
+                            }
                             NSController.deleteEntryRequest()
                             DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
                                 print("Now adding points")
-                                deleteScreen = false
+                                withAnimation{
+                                    deleteScreen = false
+                                }
                                 let result = test.run()
                                 CGMPoints = result.0
                                 expectedResult = result.1
-                                addScreen = true
+                                withAnimation{
+                                    addScreen = true
+                                }
                                 let secondsToDelay = (Double(CGMPoints) / 26) + 1
                                 DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
                                     print("The adding is truly done")
-                                    addScreen = false
-                                    showSugarView = true
+                                    withAnimation{
+                                        addScreen = false
+                                        showSugarView = true
+                                    }
                                 }
                             }
                             
@@ -90,9 +98,7 @@ struct TestView: View {
                                 .foregroundColor(Color.white)
                                 .background(theme.getSecondary())
                                 .cornerRadius(12)
-                                .frame(width: 200, height: 50)
-                                .background(theme.getSecondary())
-                                .cornerRadius(10)
+                                
 
                         })
                         Spacer()

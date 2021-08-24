@@ -33,6 +33,7 @@ struct RowContent: View {
                     .frame(width: 260, height: 75)
                     .background( LinearGradient(gradient: Gradient(colors: theme.getGradient()), startPoint: .leading, endPoint: .trailing))
                     .cornerRadius(25)
+                    .shadow(radius: 5)
                 }
                 .frame(width:260, height: 100)
             }
@@ -53,11 +54,13 @@ struct RowContent: View {
                         Image(systemName: "trash")
                             .font(.system(size: 25, weight: .bold))
                             .foregroundColor(Color.white)
+                            
                     }
                 }
                 .frame(width: 60, height: 60)
                 .background(Color.red)
                 .cornerRadius(50)
+                .shadow(radius: 5)
             }
             .frame(width: 60, height: 90)
         }

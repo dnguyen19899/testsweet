@@ -202,8 +202,9 @@ struct ManualTestView: View {
                                 expectedResult = ""
                                 description = ""
                                 currentEntries = []
-                                
-                                showCreate = true
+                                withAnimation{
+                                    showCreate = true
+                                }
                             }
                             
                         }){
